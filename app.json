@@ -20,13 +20,19 @@
         "foregroundImage": "./assets/vapping-app-logo.jpg",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.avinashdod15.vapingjoint"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "99657649-4dfa-4df5-9780-71d0ed260cfa"
+      }
+    }
   }
 }

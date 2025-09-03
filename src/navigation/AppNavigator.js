@@ -23,7 +23,7 @@ const preloadCache = {
 
 export default function AppNavigator() {
   const isAuthenticated = true;
-  const isFirstLaunch = true;
+  const isFirstLaunch = false;
 
   const [fontsLoaded] = useFonts({
     KaiseiOpti_400Regular,
