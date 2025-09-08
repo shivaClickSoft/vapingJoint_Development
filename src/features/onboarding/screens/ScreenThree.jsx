@@ -1,27 +1,37 @@
-import { 
-  View, 
+import {
+  View,
   Text,
   StyleSheet,
   SafeAreaView,
   StatusBar,
   Platform,
   Dimensions,
-  Pressable
-} from 'react-native'
-import React from 'react'
-import colors from '../../../constants/colors'
-import ScreenWrapper from '../../../components/ScreenWrapper'
+  Pressable,
+  Modal,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
+import React, { useState } from "react";
+import colors from "../../../constants/colors";
+import ScreenWrapper from "../../../components/ScreenWrapper";
 import { Ionicons } from "@expo/vector-icons";
-import { LinearGradient } from 'expo-linear-gradient';
+import { LinearGradient } from "expo-linear-gradient";
 
-const { width, height } = Dimensions.get('window')
-
-const ScreenThree = ({navigation}) => {
+const { width, height } = Dimensions.get("window");
+// Calculate responsive sizes based on screen dimensions
+const buttonWidth = Math.min(160, width * 0.45);
+const buttonHeight = Math.max(44, height * 0.06);
+const fontSize = Math.max(14, width * 0.04);
+const iconSize = Math.max(18, width * 0.045);
+const ScreenThree = ({ navigation }) => {
+  const [modalVisible, setModalVisible] = useState(false);
 
   const handleSkipPress = () => {
     navigation.replace("Auth");
   };
 
+  const ageVerify = ({}) => {};
   return (
     <SafeAreaView style={styles.constainer}>
       <StatusBar
@@ -30,50 +40,76 @@ const ScreenThree = ({navigation}) => {
         translucent={false}
       />
 
-      <ScreenWrapper edges={['top', 'bottom']}>
+      <ScreenWrapper edges={["top", "bottom"]}>
         <View style={styles.content}>
           <Text style={styles.title}>Why Choose Vaping Joint?</Text>
-          <Text style={styles.subtitle}>Experience the difference with our premium selection and service</Text>
+          <Text style={styles.subtitle}>
+            Experience the difference with our premium selection and service
+          </Text>
         </View>
-       
+
         <View style={styles.checkedSection}>
           <View style={styles.checkedBox}>
             <View style={styles.iconContainer}>
-              <Ionicons name="checkmark-circle" size={Math.min(width, height) * 0.1} color={colors.primary} />
+              <Ionicons
+                name="checkmark-circle"
+                size={Math.min(width, height) * 0.1}
+                color={colors.primary}
+              />
             </View>
             <View style={styles.textContainer}>
               <Text style={styles.featureTitle}>Premium Vapes</Text>
-              <Text style={styles.featureDesc}>Top-quality devices from leading brands</Text>
+              <Text style={styles.featureDesc}>
+                Top-quality devices from leading brands
+              </Text>
             </View>
           </View>
-          
+
           <View style={styles.checkedBox}>
             <View style={styles.iconContainer}>
-              <Ionicons name="cash-outline" size={Math.min(width, height) * 0.1} color={colors.primary} />
+              <Ionicons
+                name="cash-outline"
+                size={Math.min(width, height) * 0.1}
+                color={colors.primary}
+              />
             </View>
             <View style={styles.textContainer}>
               <Text style={styles.featureTitle}>Cost Effective</Text>
-              <Text style={styles.featureDesc}>Great value without compromising quality</Text>
+              <Text style={styles.featureDesc}>
+                Great value without compromising quality
+              </Text>
             </View>
           </View>
-          
+
           <View style={styles.checkedBox}>
             <View style={styles.iconContainer}>
-              <Ionicons name="flask-outline" size={Math.min(width, height) * 0.1} color={colors.primary} />
+              <Ionicons
+                name="flask-outline"
+                size={Math.min(width, height) * 0.1}
+                color={colors.primary}
+              />
             </View>
             <View style={styles.textContainer}>
               <Text style={styles.featureTitle}>Lab Tested Products</Text>
-              <Text style={styles.featureDesc}>Verified purity and safety standards</Text>
+              <Text style={styles.featureDesc}>
+                Verified purity and safety standards
+              </Text>
             </View>
           </View>
-          
+
           <View style={styles.checkedBox}>
             <View style={styles.iconContainer}>
-              <Ionicons name="shield-checkmark-outline" size={Math.min(width, height) * 0.1} color={colors.primary} />
+              <Ionicons
+                name="shield-checkmark-outline"
+                size={Math.min(width, height) * 0.1}
+                color={colors.primary}
+              />
             </View>
             <View style={styles.textContainer}>
               <Text style={styles.featureTitle}>Clean & Discreet</Text>
-              <Text style={styles.featureDesc}>Professional packaging for privacy</Text>
+              <Text style={styles.featureDesc}>
+                Professional packaging for privacy
+              </Text>
             </View>
           </View>
         </View>
@@ -86,17 +122,204 @@ const ScreenThree = ({navigation}) => {
         </View>
 
         <LinearGradient
-          colors={['transparent', colors.dark + 'EE', colors.dark]}
+          colors={["transparent", colors.dark + "EE", colors.dark]}
           style={styles.gradientOverlay}
         />
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            console.log("age Verification dialog is closed");
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <Pressable
+            onPress={() => {
+              setModalVisible(false);
+            }}
+            style={styles.modalBackdrop}
+          >
+            <Pressable onPress={() => {}}>
+              <View
+                style={[styles.modalView, { marginHorizontal: width * 0.05 }]}
+              >
+                <Text
+                  style={{
+                    color: colors.dark,
+                    fontSize: width * 0.055,
+                    marginBottom: 5,
+                    lineHeight: height * 0.035,
+                    fontFamily: "KaiseiOpti_700Bold",
+                  }}
+                >
+                  Sign Up to
+                </Text>
+                <Image
+                  source={require("../../../../assets/vapingJoint.png")}
+                  style={[{ height: height * 0.04, width: width * 0.5 }]}
+                ></Image>
+                <View style={{ flexDirection: "row" }}>
+                  <Text
+                    style={{
+                      color: colors.dark,
+                      fontSize: width * 0.055,
+                      marginBottom: 10,
+                      // fontStyle: "bold",
+                      fontWeight: "800",
+                      marginRight: 10,
+                    }}
+                  >
+                    AGE
+                  </Text>
+                  <Text
+                    style={{
+                      color: colors.dark,
+                      fontSize: width * 0.055,
+                      marginBottom: 10,
+                      fontStyle: "bold",
+                      fontWeight: "700",
+                      color: colors.secondary,
+                    }}
+                  >
+                    VERIFICATION
+                  </Text>
+                </View>
+                <Text
+                  style={{
+                    fontSize: width * 0.045,
+                    marginTop: height * 0.02,
+                    textAlign: "center",
+                  }}
+                >
+                  The products available on Vapingjoint are age-restricted and
+                  intended for adults of legal smoking age only. By entering our
+                  website, you affirm that you are of legal smoking age, and you
+                  agree to be Age Verified.
+                </Text>
+
+                <View style={{ flexDirection: "row" }}>
+                  {/* <checkedBox></checkedBox> */}
+                </View>
+
+                <View
+                  style={
+                    // ({ pressed }) =>
+                    [
+                      styles.btnContainer,
+                      {
+                        // marginHorizontal: 10,
+                        width: "90%",
+                        marginTop: 20,
+                        height: buttonHeight,
+                        // opacity: pressed && Platform.OS === "ios" ? 0.7 : 1,
+                        transform: [
+                          // { scale: pressed && Platform.OS === "ios" ? 0.98 : 1 },
+                        ],
+                      },
+                    ]
+                  }
+                  // onPress={onPress}
+                  android_ripple={{
+                    color:
+                      Platform.OS === "android"
+                        ? colors.primary + "80"
+                        : undefined,
+                    borderless: false,
+                    radius: buttonHeight / 2,
+                  }}
+                >
+                  {/* Left side with text */}
+                  <TouchableOpacity
+                    style={[styles.left, { backgroundColor: colors.secondary }]}
+                    onPress={() => {
+                      setModalVisible(false);
+                      navigation.navigate("Auth");
+                      console.log("I am 18");
+                    }}
+                  >
+                    <View
+                    // style={[
+                    //   styles.left,
+                    //   { backgroundColor: colors.secondary },
+                    // ]}
+                    >
+                      <Text
+                        style={[
+                          styles.text,
+                          {
+                            fontSize: width * 0.055,
+                            // Adjust text alignment for RTL
+                            // textAlign: isRTL ? "right" : "left",
+                          },
+                        ]}
+                        numberOfLines={1}
+                        adjustsFontSizeToFit
+                      >
+                        I am 18+
+                        {/* {text} */}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                  {/* Right side with icon */}
+                  <TouchableOpacity
+                    style={[
+                      styles.right,
+                      {
+                        backgroundColor: colors.white,
+                      },
+                    ]}
+                    onPress={() => {
+                      Alert.alert(
+                        "Not Allowed",
+                        "You are not authorised to use this app. Please exit manually."
+                      );
+                      console.log("I am not 18");
+                    }}
+                  >
+                    <View
+                    // style={[
+                    //   styles.right,
+                    //   {
+                    //     backgroundColor: colors.white,
+                    //   },
+                    // ]}
+                    >
+                      {/* <Ionicons
+                      name={iconName}
+                      size={iconSize}
+                      color={colors.white}
+                    /> */}
+                      <Text
+                        style={{
+                          fontSize: width * 0.05,
+                          // fontStyle: "normal",
+                          fontWeight: "900",
+                          // fontFamily: "KaiseiOpti_700Bold",
+                          // lineHeight: height * 0.035,
+                        }}
+                      >
+                        {" "}
+                        No I'm not
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Pressable>
+          </Pressable>
+        </Modal>
 
         <View style={styles.getStartedSection}>
-          <Pressable 
-            style={({pressed}) => [
+          <Pressable
+            style={({ pressed }) => [
               styles.getStartedButton,
-              { opacity: pressed ? 0.7 : 1 }
+              { opacity: pressed ? 0.7 : 1 },
             ]}
-            onPress={handleSkipPress}
+            // onPress={handleSkipPress}
+            onPress={() => {
+              setModalVisible(true);
+            }}
           >
             <Text style={styles.getStartedText}>Get Started</Text>
             <Ionicons name="chevron-forward" size={20} color={colors.white} />
@@ -104,19 +327,32 @@ const ScreenThree = ({navigation}) => {
         </View>
       </ScreenWrapper>
     </SafeAreaView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   constainer: {
     flex: 1,
-    backgroundColor: colors.dark
+    backgroundColor: colors.dark,
+  },
+  modalBackdrop: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)", // dark overlay
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContent: {
+    backgroundColor: colors.white,
+    borderRadius: 12,
+    padding: 20,
+    width: "80%",
+    elevation: 5, // shadow for Android
   },
   content: {
     alignItems: "center",
     paddingHorizontal: width * 0.05,
-    marginTop: Platform.OS === 'ios' ? height * 0.05 : height * 0.03,
-    marginBottom: height * 0.02
+    marginTop: Platform.OS === "ios" ? height * 0.05 : height * 0.03,
+    marginBottom: height * 0.02,
   },
   title: {
     fontSize: width * 0.07,
@@ -128,81 +364,81 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: width * 0.04,
-    color: colors.white + 'CC',
+    color: colors.white + "CC",
     textAlign: "center",
     marginBottom: height * 0.02,
-    fontFamily: 'KaiseiOpti_400Regular',
+    fontFamily: "KaiseiOpti_400Regular",
     maxWidth: width * 0.8,
     lineHeight: height * 0.025,
   },
   checkedSection: {
     flex: 1,
-    justifyContent: Platform.OS === 'ios' ? 'center' : 'flex-start',
+    justifyContent: Platform.OS === "ios" ? "center" : "flex-start",
     paddingHorizontal: width * 0.08,
-    marginTop: Platform.OS === 'ios' ? 0 : height * 0.02,
-    marginBottom: height * 0.02
+    marginTop: Platform.OS === "ios" ? 0 : height * 0.02,
+    marginBottom: height * 0.02,
   },
   checkedBox: {
     flexDirection: "row",
     alignItems: "center",
     marginVertical: height * 0.015,
-    backgroundColor: colors.dark + '99',
+    backgroundColor: colors.dark + "99",
     padding: width * 0.04,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: colors.primary + '33',
+    borderColor: colors.primary + "33",
     minHeight: height * 0.1,
   },
   iconContainer: {
     width: width * 0.12,
-    alignItems: 'center',
-    marginRight: width * 0.04
+    alignItems: "center",
+    marginRight: width * 0.04,
   },
   textContainer: {
-    flex: 1
+    flex: 1,
   },
   featureTitle: {
     fontSize: width * 0.045,
     color: colors.white,
     fontWeight: "600",
-    marginBottom: 4
+    marginBottom: 4,
   },
   featureDesc: {
     fontSize: width * 0.035,
-    color: colors.white + '99',
-    fontFamily: 'KaiseiOpti_400Regular',
+    color: colors.white + "99",
+    fontFamily: "KaiseiOpti_400Regular",
     lineHeight: height * 0.02,
   },
   dotContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     gap: 8,
     marginBottom: height * 0.02,
-    zIndex: 2
+    zIndex: 2,
   },
   dot: {
     width: width * 0.02,
     height: width * 0.02,
-    backgroundColor: colors.white + '4D',
-    borderRadius: width * 0.01
+    backgroundColor: colors.white + "4D",
+    borderRadius: width * 0.01,
   },
   dotActive: {
     backgroundColor: colors.white,
     // width: width * 0.04,
   },
   gradientOverlay: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
     height: height * 0.2,
-    zIndex: 1
+    zIndex: 1,
   },
   getStartedSection: {
     alignItems: "center",
-    marginBottom: Platform.OS === 'ios' ? height * 0.04 : height * 0.03,
-    zIndex: 2
+    marginBottom: Platform.OS === "ios" ? height * 0.04 : height * 0.03,
+    zIndex: 2,
   },
   getStartedButton: {
     flexDirection: "row",
@@ -218,8 +454,54 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: width * 0.045,
     marginRight: 8,
-    fontWeight: '600'
-  }
-})
+    fontWeight: "600",
+  },
+  modalView: {
+    margin: 5,
+    backgroundColor: colors.white,
+    borderRadius: 15,
+    padding: 15,
+    alignItems: "center",
+    justifyContent: "center",
+  },
 
-export default ScreenThree
+  btnContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: 100,
+    overflow: "hidden",
+    borderWidth: 1,
+    borderColor: colors.secondary,
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+      },
+      android: { elevation: 4 },
+    }),
+  },
+  left: {
+    flex: 1,
+    height: "100%",
+    width: "50%",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 10,
+  },
+  right: {
+    width: "50%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  text: {
+    color: colors.white,
+    fontWeight: "600",
+    // Better text scaling
+    includeFontPadding: false,
+  },
+});
+
+export default ScreenThree;

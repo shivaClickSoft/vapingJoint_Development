@@ -1,14 +1,24 @@
-import React from 'react';
-import { View, Text, StatusBar, StyleSheet, SafeAreaView, Dimensions } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import colors from '../../../constants/colors';
+import React from "react";
+import {
+  View,
+  Text,
+  StatusBar,
+  StyleSheet,
+  SafeAreaView,
+  Dimensions,
+  Image,
+} from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import colors from "../../../constants/colors";
+// import {Ionicons} form "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 
 const HomePage = () => {
   const insets = useSafeAreaInsets();
-  const HEADER_HEIGHT = height * 0.2; 
+  const HEADER_HEIGHT = height * 0.2;
 
   return (
     <View style={styles.container}>
@@ -20,18 +30,30 @@ const HomePage = () => {
       />
 
       {/* Dark header background (status bar + header area) */}
-      <View style={[styles.header, { paddingTop: insets.top, height: HEADER_HEIGHT + insets.top }]}>
+      <View
+        style={[
+          styles.header,
+          { paddingTop: insets.top, height: HEADER_HEIGHT + insets.top },
+        ]}
+      >
+        <Image
+          style={{ height: height * 0.048, width: width * 0.5 , marginStart:15}}
+          source={require("../../../../assets/vapingJoint.png")}
+        />
         <View style={styles.headerTop}>
-
+          <Ionicons name="person-circle-outline" color={colors.white} size={35}></Ionicons>
         </View>
 
-        <View style={styles.headerBottom}>
-
-        </View>
+        <View style={styles.headerBottom}></View>
       </View>
       {/* Gradient background for rest of screen */}
       <LinearGradient
-        colors={[colors.gradient1, colors.gradient2, colors.gradient3, colors.gradient4]}
+        colors={[
+          colors.gradient1,
+          colors.gradient2,
+          colors.gradient3,
+          colors.gradient4,
+        ]}
         start={{ x: 0, y: 0 }}
         end={{ x: 0, y: 1 }}
         style={styles.gradient}
@@ -52,14 +74,15 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: colors.dark,
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: "100%",
+    // justifyContent: "center",
+    alignItems: "start",
+    
   },
   headerText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: height * 0.028,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   gradient: {
     flex: 1,
@@ -71,8 +94,8 @@ const styles = StyleSheet.create({
   text: {
     color: colors.dark,
     fontSize: height * 0.025,
-    fontWeight: '600',
-    textAlign: 'center',
+    fontWeight: "600",
+    textAlign: "center",
     marginTop: height * 0.02,
   },
 });
