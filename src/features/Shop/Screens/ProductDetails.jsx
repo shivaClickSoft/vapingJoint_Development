@@ -13,7 +13,7 @@ import {
   Pressable,
   Platform,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 // import { StatusBar } from "expo-status-bar";
@@ -25,6 +25,14 @@ const { width, height } = Dimensions.get("window");
 const ProductDetails = () => {
   const insets = useSafeAreaInsets();
   const HEADER_HEIGHT = height * 0.2;
+
+  const images = [
+    require("../../../../assets/vapeDevice.png"),
+    require("../../../../assets/vapeDevice.png"),
+    require("../../../../assets/vapeDevice.png"),
+  ];
+
+  const [activeIndex, setActiveIndex] = useState(0);
 
   return (
     <View style={styles.container}>
@@ -89,7 +97,7 @@ const ProductDetails = () => {
               }}
             >
               {/* Image */}
-              <Image
+              {/* <Image
                 style={{
                   height: "85%",
                   width: "70%",
@@ -98,8 +106,55 @@ const ProductDetails = () => {
                   marginTop: 15,
                 }}
                 source={require("../../../../assets/vapeDevice.png")}
+              /> */}
+
+              <FlatList
+                data={images}
+                keyExtractor={(_, index) => index.toString()}
+                horizontal
+                pagingEnabled
+                showsHorizontalScrollIndicator={false}
+                renderItem={({ item }) => (
+                  <Image
+                    source={item}
+                    style={{
+                      height: height * 0.2,
+                      width: width * 0.9,
+                      resizeMode: "contain",
+                      borderRadius: 10,
+                      marginTop: 15,
+                    }}
+                  />
+                )}
+                onScroll={(e) => {
+                  const slide = Math.round(
+                    e.nativeEvent.contentOffset.x / width
+                  );
+                  setActiveIndex(slide);
+                }}
               />
 
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  // marginTop: ,
+                }}
+              >
+                {images.map((_, index) => (
+                  <View
+                    key={index}
+                    style={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: 4,
+                      backgroundColor:
+                        activeIndex === index ? colors.primary : "#ccc",
+                      margin: 4,
+                    }}
+                  />
+                ))}
+              </View>
               {/* Overlay icons */}
               <View
                 style={{
@@ -139,7 +194,41 @@ const ProductDetails = () => {
               </View>
             </View>
           </View>
-          <View style={[styles.card, { flex: 1 }]}></View>
+          {/* product part end */}
+
+          <View style={[styles.card, { flex: 1 }]}>
+            {/* <View
+              style={[
+                {
+                  // flex: 1,
+                  // height:height*0.05,
+                  flexDirection: "row",
+                  justifyContent: "flex-start",
+                  alignItems: "flex-start",
+                  width:"95%",
+                  marginLeft: width * 0.05,
+                  marginRight: width * 0.05,
+                  marginTop:height*0.01,
+                  backgroundColor: colors.dark,
+                },
+              ]}
+            >
+              <Text
+                style={[
+                  {
+                    fontSize: width * 0.055,
+                    marginTop: 5,
+                    color: colors.white,
+                  },
+                ]}
+              >
+                Zeus dodoberry\ 20mg e liq
+              </Text>
+              <View></View>
+            </View> */}
+          </View>
+
+          {/* Bottom buttons add to cart and buy at price part  */}
           <View
             style={[
               { margin: 15, justifyContent: "center", flexDirection: "row" },
