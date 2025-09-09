@@ -226,6 +226,58 @@ const ProductDetails = () => {
               </Text>
               <View></View>
             </View> */}
+            {/* Title + Stock */}
+            <View style={styles.rowBetween}>
+              <Text numberOfLines={1} ellipsizeMode="tail" style={styles.title}>
+                zeus dodoberry 20mg e liq super long title testing for overflow
+              </Text>
+              <View style={[{ flexDirection: "column" }]}>
+                <Text style={styles.stock}>In Stock: 5</Text>
+                <Text style={styles.sku}>SKU: 1749228414</Text>
+              </View>
+            </View>
+
+            {/* Description */}
+            <Text style={styles.description}>
+              Dark forest berries picked from the garden of Zeus, with a subtle
+              fresh mint that will leave your mouth watering{" "}
+              <Text style={styles.readMore}>Read More...</Text>
+            </Text>
+
+            {/* Price + Discount */}
+            <View style={styles.rowAlign}>
+              <Text style={styles.discount}>↓ 50%</Text>
+              <Text style={styles.oldPrice}>£6.99</Text>
+              <Text style={styles.newPrice}>£3.99</Text>
+            </View>
+
+            {/* Rating */}
+            <Text style={styles.rating}>⭐⭐⭐⭐⭐</Text>
+
+            {/* Example Offer Section */}
+            <View style={styles.offerBox}>
+              <Text style={styles.offerTitle}>GRAB THIS DEAL</Text>
+              <View style={styles.rowBetween}>
+                <View style={styles.offerCard}>
+                  <Text>Buy 3 for £2.01 Off</Text>
+                  <Text>Total £9.96</Text>
+                </View>
+                <View style={styles.offerCard}>
+                  <Text>Buy 6 for £4.05 Off</Text>
+                  <Text>Total £19.86</Text>
+                </View>
+              </View>
+            </View>
+
+            {/* Buttons */}
+            <View style={styles.rowBetween}>
+              <TouchableOpacity style={styles.addCartBtn}>
+                <Text style={styles.btnText}>Add to Cart</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.buyBtn}>
+                <Text style={styles.btnText}>Buy at £3.99</Text>
+              </TouchableOpacity>
+            </View>
           </View>
 
           {/* Bottom buttons add to cart and buy at price part  */}
@@ -509,6 +561,81 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#333",
   },
+
+  rowBetween: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginHorizontal: width * 0.05,
+    marginTop: 10,
+  },
+
+  rowAlign: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginHorizontal: width * 0.05,
+    marginTop: 10,
+  },
+
+  title: {
+    fontSize: width * 0.05,
+    fontWeight: "bold",
+    color: "#000",
+    maxWidth: width * 0.6, // ✅ max width for ellipsis
+  },
+
+  stock: { fontSize: width * 0.03, color: "green" },
+  sku: { fontSize: width * 0.03, color: "#666", marginLeft: width * 0.05 },
+
+  description: {
+    marginHorizontal: width * 0.05,
+    marginTop: 10,
+    color: "#333",
+    fontSize: width * 0.04,
+  },
+
+  readMore: { color: "blue" },
+
+  discount: { color: "green", fontWeight: "bold", marginRight: 8 },
+  oldPrice: { textDecorationLine: "line-through", marginRight: 8 },
+  newPrice: { fontWeight: "bold", fontSize: width * 0.05, color: "#000" },
+
+  rating: { marginHorizontal: width * 0.05, marginTop: 5, fontSize: 20 },
+
+  offerBox: {
+    backgroundColor: "#f3f3f3",
+    margin: width * 0.05,
+    borderRadius: 8,
+    padding: 10,
+  },
+  offerTitle: { fontWeight: "bold", marginBottom: 10 },
+  offerCard: {
+    flex: 1,
+    backgroundColor: "#fff",
+    margin: 5,
+    padding: 10,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#ddd",
+  },
+
+  // addCartBtn: {
+  //   flex: 1,
+  //   backgroundColor: "#ddd",
+  //   margin: 5,
+  //   padding: 15,
+  //   borderRadius: 8,
+  //   alignItems: "center",
+  // },
+  // buyBtn: {
+  //   flex: 1,
+  //   backgroundColor: "green",
+  //   margin: 5,
+  //   padding: 15,
+  //   borderRadius: 8,
+  //   alignItems: "center",
+  // },
+  // btnText: { color: "#fff", fontWeight: "bold" },
 });
 
 export default ProductDetails;
