@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   ScrollView,
   KeyboardAvoidingView,
-  Platform
+  Platform,
 } from "react-native";
 import { Image } from "expo-image";
 import colors from "../../../constants/colors";
@@ -21,14 +21,15 @@ import { LinearGradient } from "expo-linear-gradient";
 
 const { width, height } = Dimensions.get("window");
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
-    console.log("Email:", email);
-    console.log("Password:", password);
+    // console.log("Email:", email);
+    // console.log("Password:", password);
+    navigation.navigate("Tabs");
   };
 
   return (
@@ -49,12 +50,12 @@ const LoginScreen = ({navigation}) => {
 
       {/* Foreground content */}
       <ScreenWrapper edges={["top", "bottom"]}>
-        <KeyboardAvoidingView 
+        <KeyboardAvoidingView
           style={styles.keyboardAvoid}
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
         >
-          <ScrollView 
+          <ScrollView
             contentContainerStyle={styles.scrollContent}
             keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}
@@ -92,12 +93,13 @@ const LoginScreen = ({navigation}) => {
                     placeholder="Email address"
                   />
                 </View>
-         
+
                 <View style={styles.erroIndicatorConatainer}>
-                  {false && <Text style={styles.errorIndicator}>Error Indicator</Text>}
+                  {false && (
+                    <Text style={styles.errorIndicator}>Error Indicator</Text>
+                  )}
                 </View>
               </View>
-            
 
               <View style={styles.inputFormSection}>
                 <View style={styles.oneInputForm}>
@@ -111,29 +113,44 @@ const LoginScreen = ({navigation}) => {
                     placeholder="Password"
                   />
                 </View>
-      
+
                 <View style={styles.erroIndicatorConatainer}>
-                  {false && <Text style={styles.errorIndicator}>Error Indicator</Text>}
+                  {false && (
+                    <Text style={styles.errorIndicator}>Error Indicator</Text>
+                  )}
                 </View>
               </View>
 
-              <TouchableOpacity style={styles.forgotPasswordContainer} onPress={() => navigation.navigate("ForgetEmailVerification")}>
+              <TouchableOpacity
+                style={styles.forgotPasswordContainer}
+                onPress={() => navigation.navigate("ForgetEmailVerification")}
+              >
                 <Text style={styles.forgotPassword}>Forgot Password</Text>
               </TouchableOpacity>
 
               <LoginSignUpButton label="Sign In" onPress={handleLogin} />
 
-              <TouchableOpacity style={styles.switchRegister} onPress={() => navigation.navigate("Register")}>
+              <TouchableOpacity
+                style={styles.switchRegister}
+                onPress={() => navigation.navigate("Register")}
+              >
                 <LinearGradient
                   colors={[colors.secondary, colors.primary]}
                   start={{ x: 0.5, y: 0 }}
-                  end={{ x: 0.5, y: 1 }} 
+                  end={{ x: 0.5, y: 1 }}
                   style={styles.switchRegisterButton}
                 >
                   <Text style={styles.switchRegisterButtonText}>Sign in</Text>
                 </LinearGradient>
                 <View style={styles.switchRegisterButton}>
-                  <Text style={[styles.switchRegisterButtonText, { color: colors.primary}]}>Sign Up</Text>
+                  <Text
+                    style={[
+                      styles.switchRegisterButtonText,
+                      { color: colors.primary },
+                    ]}
+                  >
+                    Sign Up
+                  </Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -158,7 +175,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     flexGrow: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   content: {
     flex: 1,
@@ -203,11 +220,11 @@ const styles = StyleSheet.create({
     textAlign: "left",
     marginBottom: height * 0.005,
   },
-  erroIndicatorConatainer:{
+  erroIndicatorConatainer: {
     height: height * 0.02,
     width: "100%",
     marginTop: height * 0.005,
-    marginBottom: height * 0.01
+    marginBottom: height * 0.01,
   },
   errorIndicator: {
     color: colors.red,
@@ -240,7 +257,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  switchRegisterButton:{
+  switchRegisterButton: {
     width: "50%",
     height: "100%",
     justifyContent: "center",

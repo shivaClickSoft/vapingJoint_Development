@@ -4,7 +4,7 @@ export default {
   white: "#F4F4F4",        // Light Grey
   dark: "#0E1514",         // Dark Charcoal
   red: "#FF0000",          // Red
-
+grey:"#acacacff",
   // Gradient colors
   gradient1: "#F2FBFF", 
   gradient2: "#FFFEE4",
