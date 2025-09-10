@@ -1,77 +1,87 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { 
-  View, 
-  Text, 
-  StatusBar, 
-  StyleSheet, 
-  SafeAreaView, 
+import React, { useRef, useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  StatusBar,
+  StyleSheet,
+  SafeAreaView,
   Dimensions,
   Image,
   Pressable,
   Animated,
   ScrollView,
   Platform,
-  FlatList
-} from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import colors from '../../../constants/colors';
+  FlatList,
+} from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import colors from "../../../constants/colors";
 import { Ionicons } from "@expo/vector-icons";
-import OneProduct from '../components/oneProduct';
+import OneProduct from "../components/oneProduct";
+import CustomDropdown from "../components/customDropdown";
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 const MAX_HEADER_HEIGHT = height * 0.18;
-const MIN_HEADER_HEIGHT = height * 0.10;
+const MIN_HEADER_HEIGHT = height * 0.1;
+
+const cateList = Array.from({ length: 5 }).map((_, j) => ({
+  id: j,
+  catName: ``,
+}));
 
 const HomePage = () => {
   const insets = useSafeAreaInsets();
   const scrollY = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef(null);
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState(0);
-  
+
   const carisol = [
-    { 
-      id: 1, 
+    {
+      id: 1,
       name: "MASSiVE OFFER LIMITED SALE",
-      image: require('../../../../assets/carisolImage.png')
+      image: require("../../../../assets/carisolImage.png"),
     },
     {
-      id: 2, 
+      id: 2,
       name: "BIG DISCOUNT ON ALL VAPES",
-      image: require('../../../../assets/carisolImage.png')
-    }
+      image: require("../../../../assets/carisolImage.png"),
+    },
   ];
-  
-  const statusBarHeight = Platform.OS === 'ios' ? insets.top : StatusBar.currentHeight || 0;
-  
+
+  const statusBarHeight =
+    Platform.OS === "ios" ? insets.top : StatusBar.currentHeight || 0;
+
   const headerHeight = scrollY.interpolate({
     inputRange: [0, MAX_HEADER_HEIGHT - MIN_HEADER_HEIGHT],
-    outputRange: [MAX_HEADER_HEIGHT + statusBarHeight, MIN_HEADER_HEIGHT + statusBarHeight],
-    extrapolate: 'clamp',
+    outputRange: [
+      MAX_HEADER_HEIGHT + statusBarHeight,
+      MIN_HEADER_HEIGHT + statusBarHeight,
+    ],
+    extrapolate: "clamp",
   });
 
   const topSectionOpacity = scrollY.interpolate({
     inputRange: [0, (MAX_HEADER_HEIGHT - MIN_HEADER_HEIGHT) * 0.5],
     outputRange: [1, 0],
-    extrapolate: 'clamp',
+    extrapolate: "clamp",
   });
 
   const topSectionScale = scrollY.interpolate({
     inputRange: [0, (MAX_HEADER_HEIGHT - MIN_HEADER_HEIGHT) * 0.5],
     outputRange: [1, 0.8],
-    extrapolate: 'clamp',
+    extrapolate: "clamp",
   });
 
   const topSectionTranslateY = scrollY.interpolate({
     inputRange: [0, (MAX_HEADER_HEIGHT - MIN_HEADER_HEIGHT) * 0.5],
     outputRange: [0, -10],
-    extrapolate: 'clamp',
+    extrapolate: "clamp",
   });
 
   const searchBarTranslateY = scrollY.interpolate({
     inputRange: [0, MAX_HEADER_HEIGHT - MIN_HEADER_HEIGHT],
     outputRange: [0, 5],
-    extrapolate: 'clamp',
+    extrapolate: "clamp",
   });
 
   const handleScroll = Animated.event(
@@ -84,7 +94,7 @@ const HomePage = () => {
       if (carisol.length > 1) {
         const nextIndex = (currentCarouselIndex + 1) % carisol.length;
         setCurrentCarouselIndex(nextIndex);
-        
+
         if (flatListRef.current) {
           flatListRef.current.scrollToIndex({
             index: nextIndex,
@@ -97,10 +107,100 @@ const HomePage = () => {
     return () => clearInterval(interval);
   }, [currentCarouselIndex, carisol.length]);
 
+  const flavours = [
+    {
+      id: 1,
+      name: "Menthol E-Liquid",
+      icon: require("../../../../assets/flavours/image1.png"),
+    },
+    {
+      id: 2,
+      name: "BlueBerry E-Liquid",
+      icon: require("../../../../assets/flavours/image2.png"),
+    },
+    {
+      id: 3,
+      name: "BlueBerry E-Liquid",
+      icon: require("../../../../assets/flavours/image3.png"),
+    },
+    {
+      id: 4,
+      name: "BlueBerry E-Liquid",
+      icon: require("../../../../assets/flavours/image4.png"),
+    },
+    {
+      id: 5,
+      name: "BlueBerry E-Liquid",
+      icon: require("../../../../assets/flavours/image5.png"),
+    },
+    ,
+    {
+      id: 6,
+      name: "BlueBerry E-Liquid",
+      icon: require("../../../../assets/flavours/image6.png"),
+    },
+  ];
+  const blogs = [
+    {
+      id: 1,
+      name: "Important Pod Safety Tips",
+      icon: require("../../../../assets/blog/imgg1.png"),
+      description:
+        " Lorem Impsum a demo text written to desribe the content in the style",
+    },
+    {
+      id: 2,
+      name: "10 facts about vaping",
+      icon: require("../../../../assets/blog/imgg2.png"),
+      description:
+        " Lorem Impsum a demo text written to desribe the content in the style",
+    },
+    {
+      id: 3,
+      name: "The best E-Liquid Prices",
+      icon: require("../../../../assets/blog/imgg3.png"),
+      description:
+        " Lorem Impsum a demo text written to desribe the content in the style",
+    },
+    {
+      id: 4,
+      name: "Top 5 Best Pod System",
+      icon: require("../../../../assets/blog/imgg4.png"),
+      description:
+        " Lorem Impsum a demo text written to desribe the content in the style",
+    },
+  ];
+  const explore = [
+    {
+      id: 1,
+      name: "Menthol E-Liquid",
+      icon: require("../../../../assets/explore/img1.png"),
+    },
+    {
+      id: 2,
+      name: "BlueBerry E-Liquid",
+      icon: require("../../../../assets/explore/img2.png"),
+    },
+    {
+      id: 3,
+      name: "BlueBerry E-Liquid",
+      icon: require("../../../../assets/explore/img3.png"),
+    },
+    {
+      id: 4,
+      name: "BlueBerry E-Liquid",
+      icon: require("../../../../assets/explore/img4.png"),
+    },
+    {
+      id: 5,
+      name: "BlueBerry E-Liquid",
+      icon: require("../../../../assets/explore/img5.png"),
+    },
+  ];
   const categories = [
-    { id: 1, name: "E-LIQUID", icon: "flask" },
-    { id: 2, name: "VAPE KITS", icon: "cube" },
-    { id: 3, name: "VAPE COILS", icon: "sync" },
+    { id: 1, name: "E-LIQUID", icon: require("../../../../assets/icC1.png") },
+    { id: 2, name: "VAPE KITS", icon: require("../../../../assets/icC2.png") },
+    { id: 3, name: "VAPE COILS", icon: require("../../../../assets/icC3.png") },
     { id: 4, name: "ACCESSORIES", icon: "cog" },
     { id: 5, name: "DISPOSABLE VAPES", icon: "trash-bin" },
     { id: 6, name: "MULTIBUYS", icon: "cart" },
@@ -113,18 +213,20 @@ const HomePage = () => {
       <LinearGradient
         colors={[colors.primary, colors.dark]}
         start={{ x: 0, y: 0 }}
-        end={{ x: 0., y: 1 }}
+        end={{ x: 0, y: 1 }}
         style={styles.carouselGradient}
       >
         <View style={styles.carouselTextContainer}>
-          <Text style={styles.carouselText}>{item.name}</Text>
+          <Text style={[styles.carouselText, { fontSize: width * 0.06 }]}>
+            {item.name}
+          </Text>
           <Pressable style={styles.carouselButton}>
             <Text style={styles.carouselButtonText}>SHOP NOW</Text>
           </Pressable>
         </View>
 
-        <Image 
-          source={item.image} 
+        <Image
+          source={item.image}
           style={styles.carouselImage}
           resizeMode="cover"
         />
@@ -135,12 +237,14 @@ const HomePage = () => {
   const renderCarouselIndicators = () => (
     <View style={styles.indicatorContainer}>
       {carisol.map((_, index) => (
-        <View 
-          key={index} 
+        <View
+          key={index}
           style={[
-            styles.indicator, 
-            currentCarouselIndex === index ? styles.activeIndicator : styles.inactiveIndicator
-          ]} 
+            styles.indicator,
+            currentCarouselIndex === index
+              ? styles.activeIndicator
+              : styles.inactiveIndicator,
+          ]}
         />
       ))}
     </View>
@@ -154,25 +258,36 @@ const HomePage = () => {
         translucent={true}
       />
 
-      <Animated.View style={[styles.header, { height: headerHeight }]}>
+      <Animated.View
+        style={[
+          styles.header,
+          {
+            height: headerHeight,
+            borderBottomEndRadius: 20,
+            borderBottomStartRadius: 20,
+          },
+        ]}
+      >
         <LinearGradient
           colors={[colors.dark, colors.dark]}
-          style={StyleSheet.absoluteFill}
+          style={[StyleSheet.absoluteFill, {}]}
         />
-        
-        <Animated.View style={[
-          styles.headerTop, 
-          { 
-            opacity: topSectionOpacity,
-            transform: [
-              { translateY: topSectionTranslateY },
-              { scale: topSectionScale }
-            ]
-          }
-        ]}>
-          <Image 
-            source={require('../../../../assets/vapingJoint.png')} 
-            style={styles.logo}  
+
+        <Animated.View
+          style={[
+            styles.headerTop,
+            {
+              opacity: topSectionOpacity,
+              transform: [
+                { translateY: topSectionTranslateY },
+                { scale: topSectionScale },
+              ],
+            },
+          ]}
+        >
+          <Image
+            source={require("../../../../assets/vapingJoint.png")}
+            style={styles.logo}
           />
           <View style={styles.iconRow}>
             <Pressable style={styles.iconButton}>
@@ -184,12 +299,14 @@ const HomePage = () => {
           </View>
         </Animated.View>
 
-        <Animated.View style={[
-          styles.headerBottom, 
-          { 
-            transform: [{ translateY: searchBarTranslateY }]
-          }
-        ]}>
+        <Animated.View
+          style={[
+            styles.headerBottom,
+            {
+              transform: [{ translateY: searchBarTranslateY }],
+            },
+          ]}
+        >
           <Pressable style={styles.searchButton}>
             <Ionicons name="search" size={20} color={colors.dark} />
             <Text style={styles.searchText}>Search by Brand</Text>
@@ -198,7 +315,12 @@ const HomePage = () => {
       </Animated.View>
 
       <LinearGradient
-        colors={[colors.gradient1, colors.gradient2, colors.gradient3, colors.gradient4]}
+        colors={[
+          colors.gradient1,
+          colors.gradient2,
+          colors.gradient3,
+          colors.gradient4,
+        ]}
         start={{ x: 0, y: 0 }}
         end={{ x: 0, y: 1 }}
         style={styles.gradient}
@@ -206,28 +328,30 @@ const HomePage = () => {
         <SafeAreaView style={styles.safeArea}>
           <Animated.ScrollView
             contentContainerStyle={[
-              styles.scrollContent, 
-              { 
-                paddingTop: MAX_HEADER_HEIGHT + statusBarHeight + (Platform.OS === 'ios' ? -5 : 10)
-              }
+              styles.scrollContent,
+              {
+                paddingTop:
+                  MAX_HEADER_HEIGHT +
+                  statusBarHeight +
+                  (Platform.OS === "ios" ? -5 : 10),
+              },
             ]}
             scrollEventThrottle={16}
             onScroll={handleScroll}
             showsVerticalScrollIndicator={false}
           >
-
             <View style={styles.carouselContainer}>
               <FlatList
                 ref={flatListRef}
                 data={carisol}
                 renderItem={renderCarouselItem}
-                keyExtractor={item => item.id.toString()}
+                keyExtractor={(item) => item.id.toString()}
                 horizontal
                 pagingEnabled
                 showsHorizontalScrollIndicator={false}
-                onScroll={e => {
+                onScroll={(e) => {
                   const contentOffsetX = e.nativeEvent.contentOffset.x;
-                  const index = Math.floor(contentOffsetX / width * 0.94);
+                  const index = Math.floor((contentOffsetX / width) * 0.94);
                   setCurrentCarouselIndex(index);
                 }}
                 onScrollToIndexFailed={() => {
@@ -246,14 +370,27 @@ const HomePage = () => {
 
             {/* Horizontal scrollable categories */}
             <View style={styles.categoryWrapper}>
-              <ScrollView 
-                horizontal 
+              <ScrollView
+                horizontal
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.categoryContainer}
               >
-                {categories.map(category => (
+                {categories.map((category) => (
                   <View key={category.id} style={styles.categoryItem}>
-                    <Ionicons name={category.icon} size={35} color={colors.primary} />  
+                    {/* <Ionicons
+                      name={category.icon}
+                      size={55}
+                      color={colors.primary}
+                    /> */}
+                    {/* Dev */}
+                    <Image
+                      source={category.icon}
+                      style={{
+                        height: height * 0.11,
+                        width: width * 0.2,
+                        resizeMode: "stretch",
+                      }}
+                    />
                     <Text style={styles.categoryText}>{category.name}</Text>
                   </View>
                 ))}
@@ -261,10 +398,312 @@ const HomePage = () => {
             </View>
 
             {/* Recently Viewed */}
-            <View style={styles.recentlyViewed}>
-              <Text style={styles.sectionText}>
-                Recently Viewed
-              </Text>
+            <View style={[styles.recentlyViewed]}>
+              <Text style={[{ fontSize: 18 }]}>Recently Viewed</Text>
+            </View>
+
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.recentlyViewedList}
+            >
+              {Array.from({ length: 6 }).map((_, index) => (
+                <View key={index} style={styles.productWrapper}>
+                  <OneProduct isNew={false} />
+                </View>
+              ))}
+            </ScrollView>
+
+            {/* New Arrivals */}
+            <View
+              style={[
+                {
+                  flexDirection: "row",
+                  // justifyContent: "center",
+                  alignItems: "center",
+                  flex: 1,
+                  height: height * 0.05,
+                  justifyContent: "space-between",
+                },
+              ]}
+            >
+              <View style={[styles.recentlyViewed]}>
+                <Text style={[{ fontSize: 18 }]}>New Arrivals</Text>
+              </View>
+
+              <CustomDropdown
+                placeholder="Choose nicotine"
+                data={[
+                  { label: "E-liquid", value: 1 },
+                  { label: "E-liquid", value: 2 },
+                  { label: "E-liquid", value: 3 },
+                ]}
+                onChange={(val) => console.log("picked", val)}
+              />
+            </View>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.recentlyViewedList}
+            >
+              {Array.from({ length: 6 }).map((_, index) => (
+                <View key={index} style={styles.productWrapper}>
+                  <OneProduct />
+                </View>
+              ))}
+            </ScrollView>
+
+            {/* New Arrivals */}
+            <View
+              style={[
+                {
+                  flexDirection: "row",
+                  // justifyContent: "center",
+                  alignItems: "center",
+                  flex: 1,
+                  height: height * 0.05,
+                  justifyContent: "space-between",
+                },
+              ]}
+            >
+              <View style={[styles.recentlyViewed]}>
+                <Text style={[{ fontSize: 18 }]}>
+                  E-Liquid Brand Collection
+                </Text>
+              </View>
+
+              <CustomDropdown
+                placeholder="Choose nicotine"
+                data={[
+                  { label: "Breezy", value: 10 },
+                  { label: "Breezy", value: 20 },
+                  { label: "Breezy", value: 30 },
+                ]}
+                onChange={(val) => console.log("picked", val)}
+              />
+            </View>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.recentlyViewedList}
+            >
+              {Array.from({ length: 6 }).map((_, index) => (
+                <View key={index} style={styles.productWrapper}>
+                  <OneProduct />
+                </View>
+              ))}
+            </ScrollView>
+
+            {/* Deals of the Day */}
+
+            <LinearGradient
+              start={{ x: 0, y: 0 }}
+              end={{ x: 0, y: 1 }}
+              colors={[colors.dealsGradient1, colors.dealsGradient2]}
+              style={[{ borderRadius: 20, paddingStart: 10, paddingEnd: 10 }]}
+            >
+              <View
+                style={[
+                  {
+                    flexDirection: "row",
+                    // justifyContent: "center",
+                    alignItems: "center",
+                    flex: 1,
+                    height: height * 0.05,
+                    justifyContent: "space-between",
+                  },
+                ]}
+              >
+                <Text
+                  style={[
+                    {
+                      fontSize: 18,
+                      color: colors.fullwhite,
+                      // marginStart: 10,
+                      fontWeight: "700",
+                    },
+                  ]}
+                >
+                  DEALS OF THE DAY
+                </Text>
+                <Text
+                  style={[
+                    {
+                      fontSize: 16,
+                      fontWeight: "800",
+                      color: colors.fullwhite,
+                      // marginStart: 10,
+                    },
+                  ]}
+                >
+                  1 D 15 Hr 30 Min
+                </Text>
+                {/* <CustomDropdown
+                  placeholder="Choose nicotine"
+                  options={[
+                    { label: "10 mg", value: 10 },
+                    { label: "20 mg", value: 20 },
+                    { label: "30 mg", value: 30 },
+                  ]}
+                  onChange={(val) => console.log("picked", val)}
+                /> */}
+              </View>
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.recentlyViewedList}
+              >
+                {Array.from({ length: 6 }).map((_, index) => (
+                  <View key={index} style={styles.productWrapper}>
+                    <OneProduct />
+                  </View>
+                ))}
+              </ScrollView>
+            </LinearGradient>
+
+            {/* New Arrivals */}
+            <View
+              style={[
+                {
+                  marginTop: 20,
+                  flexDirection: "row",
+                  // justifyContent: "center",
+                  alignItems: "center",
+                  flex: 1,
+                  height: height * 0.05,
+                  justifyContent: "space-between",
+                },
+              ]}
+            >
+              <View style={[styles.recentlyViewed]}>
+                <Text style={[{ fontSize: 18 }]}>
+                  VAPING PRODUCTS & HARDWARE
+                </Text>
+              </View>
+
+              <CustomDropdown
+                placeholder="Choose nicotine"
+                data={[
+                  { label: "Room Odourisers", value: 10 },
+                  { label: "Room Odourisers", value: 20 },
+                  { label: "Room Odourisers", value: 30 },
+                ]}
+                onChange={(val) => console.log("picked", val)}
+              />
+            </View>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.recentlyViewedList}
+            >
+              {Array.from({ length: 6 }).map((_, index) => (
+                <View key={index} style={styles.productWrapper}>
+                  <OneProduct />
+                </View>
+              ))}
+            </ScrollView>
+
+            {/* Top Selling Flavours */}
+            <View style={{ position: "relative" }}>
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 0, y: 1 }}
+                colors={["#01ccac", colors.primary]}
+                style={[
+                  {
+                    // justifyContent:"flex-start",
+                    // alignItems:"stretch",
+                    height: height * 0.15,
+                    borderBottomRightRadius: 40,
+                    borderBottomLeftRadius: 40,
+                    borderTopLeftRadius: 10,
+                    borderTopRightRadius: 10,
+                    paddingStart: 10,
+                    paddingEnd: 10,
+                    marginBottom: 100,
+                  },
+                ]}
+              >
+                <View
+                  style={[
+                    {
+                      flexDirection: "row",
+                      // justifyContent: "center",
+                      // alignItems: "center",
+                      flex: 1,
+                      marginTop: 10,
+                      height: height * 0.05,
+                      justifyContent: "space-between",
+                    },
+                  ]}
+                >
+                  <Text
+                    style={[
+                      {
+                        fontSize: 18,
+                        color: colors.fullwhite,
+                        // marginStart: 10,
+                        fontWeight: "700",
+                      },
+                    ]}
+                  >
+                    TOP SELLING FRAVOURS
+                  </Text>
+                </View>
+              </LinearGradient>
+              <ScrollView
+                style={{ position: "absolute", top: 32 }}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.recentlyViewedList}
+              >
+                {flavours.map((flavours) => (
+                  <View
+                    key={flavours.id}
+                    style={[
+                      styles.productWrapper,
+                      {
+                        flexDirection: "column",
+                        backgroundColor: colors.fullwhite,
+                        borderRadius: 15,
+                        width: width * 0.3,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        margin: 10,
+                      },
+                    ]}
+                  >
+                    <Image
+                      style={[
+                        {
+                          height: height * 0.12,
+                          width: width * 0.275,
+                          // borderWidth: 1,
+                          margin: 5,
+                          resizeMode: "stretch",
+                          borderRadius: 10,
+                          marginBottom: height * 0.01,
+                        },
+                      ]}
+                      source={flavours.icon}
+                      // source={require("../../../../assets/vapeDevice.png")}
+                    ></Image>
+                    <Text
+                      style={{
+                        color: colors.dark,
+                        marginBottom: height * 0.01,
+                      }}
+                    >
+                      {flavours.name}
+                    </Text>
+                  </View>
+                ))}
+              </ScrollView>
+            </View>
+            {/* Top Rated Product */}
+
+            <View style={[styles.recentlyViewed, { marginTop: 20 }]}>
+              <Text style={[{ fontSize: 18 }]}>Top Rated Products</Text>
             </View>
 
             <ScrollView
@@ -279,6 +718,155 @@ const HomePage = () => {
               ))}
             </ScrollView>
 
+            <Image
+              style={{ alignSelf: "center", borderRadius: 5 }}
+              source={require("../../../../assets/video.png")}
+            ></Image>
+            {/* Explore More */}
+
+            <View style={[styles.recentlyViewed, { marginTop: 20 }]}>
+              <Text style={[{ fontSize: 18 }]}>Explore More</Text>
+            </View>
+
+            <ScrollView
+              style={{ top: 1 }}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.recentlyViewedList}
+            >
+              {explore.map((explore) => (
+                <View
+                  key={explore.id}
+                  style={[
+                    styles.productWrapper,
+                    {
+                      // flexDirection: "column",
+                      // backgroundColor: colors.fullwhite,
+                      // borderRadius: 15,
+                      // width: width * 0.3,
+                      // alignItems: "center",
+                      // justifyContent: "center",
+                      // margin: 10,
+                    },
+                  ]}
+                >
+                  <Image
+                    style={[
+                      {
+                        borderColor: colors.fullwhite,
+                        borderWidth: 3,
+                        height: height * 0.14,
+                        width: width * 0.275,
+                        // borderWidth: 1,
+                        margin: 3,
+                        resizeMode: "stretch",
+                        borderRadius: 10,
+                        // marginBottom: height * 0.01,
+                      },
+                    ]}
+                    source={explore.icon}
+                    // source={require("../../../../assets/vapeDevice.png")}
+                  ></Image>
+                </View>
+              ))}
+            </ScrollView>
+
+            {/* From our Blog */}
+
+            <View style={[styles.recentlyViewed, { marginTop: 20 }]}>
+              <Text style={[{ fontSize: 18 }]}>From Our Blog</Text>
+            </View>
+
+            {/* </View> */}
+            <ScrollView
+              style={{ top: 2 }}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.recentlyViewedList}
+            >
+              {blogs.map((blogs) => (
+                <View
+                  key={blogs.id}
+                  style={[
+                    styles.productWrapper,
+                    {
+                      flexDirection: "column",
+                      backgroundColor: colors.fullwhite,
+                      borderRadius: 15,
+                      width: width * 0.5,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      margin: 10,
+                    },
+                  ]}
+                >
+                  <Image
+                    style={[
+                      {
+                        height: height * 0.2,
+                        width: width * 0.48,
+                        // borderWidth: 1,
+                        margin: 5,
+                        resizeMode: "stretch",
+                        borderRadius: 10,
+                        marginBottom: height * 0.01,
+                      },
+                    ]}
+                    source={blogs.icon}
+                    // source={require("../../../../assets/vapeDevice.png")}
+                  ></Image>
+                  <Text
+                    style={{
+                      alignSelf: "flex-start",
+                      color: colors.dark,
+                      marginLeft: 7,
+                      // marginBottom: height * 0.02,
+                      fontWeight: "900",
+                      fontStyle: "bold",
+                      fontSize: width * 0.04,
+                    }}
+                  >
+                    {blogs.name}
+                  </Text>
+                  <Text
+                    numberOfLines={2}
+                    ellipsizeMode="tail"
+                    style={{
+                      alignSelf: "flex-start",
+                      color: colors.grey,
+                      marginLeft: 10,
+                      marginRight: 10,
+                      marginBottom: height * 0.02,
+                      fontWeight: "900",
+                      fontStyle: "bold",
+                      fontSize: width * 0.03,
+                    }}
+                  >
+                    {blogs.description}
+                  </Text>
+                  <View
+                    style={{
+                      alignSelf: "flex-start",
+                      flexDirection: "row",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: colors.dark,
+                        marginLeft: 15,
+                        marginBottom: height * 0.02,
+                        fontWeight: "700",
+                        // fontStyle: "bold",
+                        fontSize: width * 0.04,
+                      }}
+                    >
+                      Read More
+                    </Text>
+                    <Ionicons name="arrow-forward" size={25}></Ionicons>
+                  </View>
+                </View>
+              ))}
+            </ScrollView>
           </Animated.ScrollView>
         </SafeAreaView>
       </LinearGradient>
@@ -292,58 +880,58 @@ const styles = StyleSheet.create({
     backgroundColor: colors.dark,
   },
   header: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
     zIndex: 1000,
-    overflow: 'hidden',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    overflow: "hidden",
+    justifyContent: "flex-start",
+    alignItems: "center",
   },
   headerTop: {
-    position: 'absolute',
-    top: Platform.OS === 'ios' ? height * 0.05 : height * 0.04,
+    position: "absolute",
+    top: Platform.OS === "ios" ? height * 0.05 : height * 0.04,
     left: 0,
     right: 0,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingHorizontal: width * 0.05,
   },
   logo: {
     width: width * 0.35,
-    height: Platform.OS === 'ios' ? height * 0.055 : height * 0.06,
-    resizeMode: 'contain',
+    height: Platform.OS === "ios" ? height * 0.055 : height * 0.06,
+    resizeMode: "contain",
   },
   iconRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: width * 0.03,
   },
   iconButton: {
     padding: width * 0.015,
   },
   headerBottom: {
-    position: 'absolute',
-    bottom: Platform.OS === 'ios' ? height * 0.03 : height * 0.025,
-    width: '90%',
-    alignItems: 'center',
+    position: "absolute",
+    bottom: Platform.OS === "ios" ? height * 0.03 : height * 0.025,
+    width: "90%",
+    alignItems: "center",
   },
   searchButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: colors.white,
     borderRadius: width * 0.015,
-    paddingVertical: Platform.OS === 'ios' ? height * 0.012 : height * 0.015,
+    paddingVertical: Platform.OS === "ios" ? height * 0.012 : height * 0.015,
     paddingHorizontal: width * 0.05,
-    width: '100%',
+    width: "100%",
   },
   searchText: {
     marginLeft: width * 0.03,
     fontSize: height * 0.018,
     color: colors.dark,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   gradient: {
     flex: 1,
@@ -359,7 +947,7 @@ const styles = StyleSheet.create({
     height: height * 0.25,
     width: width * 0.94,
     borderRadius: 10,
-    overflow: 'hidden',
+    overflow: "hidden",
     marginBottom: 10,
   },
   carouselItem: {
@@ -368,24 +956,24 @@ const styles = StyleSheet.create({
   },
   carouselGradient: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     padding: 15,
   },
   carouselImage: {
-    width: '40%',
-    height: '100%',
+    width: "40%",
+    height: "100%",
     borderRadius: 8,
   },
   carouselTextContainer: {
     flex: 1,
     paddingLeft: 15,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   carouselText: {
     color: colors.white,
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 15,
   },
   carouselButton: {
@@ -393,20 +981,20 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 15,
     borderRadius: 10,
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
     borderWidth: 1,
     borderColor: colors.white,
   },
   carouselButtonText: {
     color: colors.white,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 12,
   },
   indicatorContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 10,
-    flexDirection: 'row',
-    alignSelf: 'center',
+    flexDirection: "row",
+    alignSelf: "center",
   },
   indicator: {
     width: 8,
@@ -419,44 +1007,46 @@ const styles = StyleSheet.create({
     width: 16,
   },
   inactiveIndicator: {
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
   },
   categoryWrapper: {
     marginTop: 0,
     marginBottom: 15,
   },
   categoryContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingHorizontal: 5,
   },
   categoryItem: {
     backgroundColor: colors.dark,
     borderRadius: 5,
     marginRight: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     width: width * 0.28,
-    paddingVertical: 28,
+    paddingTop: 10,
+    paddingBottom: 10,
   },
   categoryText: {
     marginTop: 8,
-    fontSize: 10,
-    fontWeight: '600',
+    fontSize: 15,
+    fontWeight: "600",
     color: colors.white,
-    textAlign: 'center',
+    textAlign: "center",
   },
-  recentlyViewed:{
-    borderWidth: .5,
+  recentlyViewed: {
+    borderWidth: 0.5,
     borderColor: colors.red,
     padding: 5,
-    width: width * 0.35,
-    marginBottom: 10,
+    // height: height * 0.045,
+    width: width * 0.45,
+    // marginBottom: 10,
   },
-  sectionText:{
+  sectionText: {
     fontSize: 12,
     color: colors.dark,
-    fontFamily: 'KaiseiOpti_400Regular',
-    fontWeight: '500',
+    fontFamily: "KaiseiOpti_400Regular",
+    fontWeight: "500",
   },
   recentlyViewedList: {
     paddingVertical: 10,
@@ -464,7 +1054,7 @@ const styles = StyleSheet.create({
   },
   productWrapper: {
     marginRight: 12,
-  }
+  },
 });
 
 export default HomePage;

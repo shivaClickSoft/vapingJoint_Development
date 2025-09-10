@@ -23,6 +23,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import colors from "../../../constants/colors";
 // import { StatusBar } from "expo-status-bar";
 import { Ionicons } from "@expo/vector-icons";
+import OneProduct from "../../home/components/oneProduct";
 // import { green } from "react-native-reanimated/lib/typescript/Colors";
 // import { TextInput } from "react-native-gesture-handler";
 
@@ -31,7 +32,7 @@ const { width, height } = Dimensions.get("window");
 const modifiedData = [];
 const interval = 6;
 
-const data = Array.from({ length: 15 }).map((_, i) => ({
+const data = Array.from({ length: 14 }).map((_, i) => ({
   id: i,
   title: `item number ${i + 1}`,
   star: "4",
@@ -48,6 +49,7 @@ const cateList = Array.from({ length: 5 }).map((_, j) => ({
   catName: `category ${j + 1}`,
 }));
 
+// const cateList = [{id:1, catName:`Category`},]
 const Shop = ({ navigation }) => {
   const insets = useSafeAreaInsets();
   const HEADER_HEIGHT = height * 0.2;
@@ -138,7 +140,10 @@ const Shop = ({ navigation }) => {
               item.id?.toString() || `custom-${index}`
             }
             numColumns={2}
-            contentContainerStyle={styles.itemContainer}
+            contentContainerStyle={[
+              styles.itemContainer,
+              { alignItems: "center" },
+            ]}
             // scrollEnabled={false}
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => {
@@ -166,86 +171,94 @@ const Shop = ({ navigation }) => {
               }
               return (
                 // <TouchableOpacity onPress={()=>{console.log(`clicked: ${item.title}`)}}>
-                <View style={styles.card}>
-                  {/* Parent container with relative positioning */}
-                  <View
-                    style={{
-                      position: "relative",
-                      width: "100%",
-                      alignItems: "center",
-                    }}
-                  >
-                    {/* Image */}
-                    <Image
-                      style={{
-                        height: "70%",
-                        width: "65%",
-                        borderRadius: 10,
-                        marginTop: 15,
-                      }}
-                      source={require("../../../../assets/vapeDevice.png")}
-                    />
+                // <View style={styles.card}>
+                //   {/* Parent container with relative positioning */}
+                //   <View
+                //     style={{
+                //       position: "relative",
+                //       width: "100%",
+                //       alignItems: "center",
+                //     }}
+                //   >
+                //     {/* Image */}
+                //     <Image
+                //       style={{
+                //         height: "70%",
+                //         width: "65%",
+                //         borderRadius: 10,
+                //         marginTop: 15,
+                //       }}
+                //       source={require("../../../../assets/vapeDevice.png")}
+                //     />
 
-                    {/* Overlay icons */}
-                    <View
-                      style={{
-                        position: "absolute", // key part
-                        top: 10,
-                        right: 10,
-                        flexDirection: "row",
-                      }}
-                    >
-                      <View
-                        style={{
-                          backgroundColor: colors.dark,
-                          borderColor: colors.primary,
-                          borderWidth: 1,
-                          borderRadius: 100,
-                          padding: 3,
-                          marginRight: 5,
-                        }}
-                      >
-                        <Ionicons
-                          name="heart-outline"
-                          color={colors.grey}
-                          size={25}
-                        />
-                      </View>
-                      <View
-                        style={{
-                          backgroundColor: colors.dark,
-                          borderColor: colors.primary,
-                          borderWidth: 1,
-                          borderRadius: 100,
-                          padding: 3,
-                        }}
-                      >
-                        <Ionicons name="cart" color={colors.grey} size={25} />
-                      </View>
-                    </View>
-                  </View>
+                //     {/* Overlay icons */}
+                //     <View
+                //       style={{
+                //         position: "absolute", // key part
+                //         top: 10,
+                //         right: 10,
+                //         flexDirection: "row",
+                //       }}
+                //     >
+                //       <View
+                //         style={{
+                //           backgroundColor: colors.dark,
+                //           borderColor: colors.primary,
+                //           borderWidth: 1,
+                //           borderRadius: 100,
+                //           padding: 3,
+                //           marginRight: 5,
+                //         }}
+                //       >
+                //         <Ionicons
+                //           name="heart-outline"
+                //           color={colors.grey}
+                //           size={25}
+                //         />
+                //       </View>
+                //       <View
+                //         style={{
+                //           backgroundColor: colors.dark,
+                //           borderColor: colors.primary,
+                //           borderWidth: 1,
+                //           borderRadius: 100,
+                //           padding: 3,
+                //         }}
+                //       >
+                //         <Ionicons name="cart" color={colors.grey} size={25} />
+                //       </View>
+                //     </View>
+                //   </View>
 
-                  {/* Item Title */}
-                  <Text style={styles.itemName}>{item.title}</Text>
-                  <Text style={[{ fontSize: 15 }]}>{item.star}</Text>
-                  <View style={[{ flexDirection: "row" }]}>
-                    <Text style={[styles.itemPrice, { marginEnd: 10 }]}>
-                      {item.price}
-                    </Text>
-                    <Text
-                      style={[
-                        styles.itemPrice,
-                        {
-                          color: colors.grey,
-                          textDecorationLine: "line-through",
-                        },
-                      ]}
-                    >
-                      {item.price}
-                    </Text>
-                  </View>
-                </View>
+                //   {/* Item Title */}
+                //   <Text style={styles.itemName}>{item.title}</Text>
+                //   <Text style={[{ fontSize: 15 }]}>{item.star}</Text>
+                //   <View style={[{ flexDirection: "row" }]}>
+                //     <Text style={[styles.itemPrice, { marginEnd: 10 }]}>
+                //       {item.price}
+                //     </Text>
+                //     <Text
+                //       style={[
+                //         styles.itemPrice,
+                //         {
+                //           color: colors.grey,
+                //           textDecorationLine: "line-through",
+                //         },
+                //       ]}
+                //     >
+                //       {item.price}
+                //     </Text>
+                //   </View>
+                // </View>
                 // </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate("ProductDetails");
+                    console.log(`clicked:${item.title}`);
+                  }}
+                >
+                  <OneProduct isNew={false} />
+                </TouchableOpacity>
               );
             }}
           />
@@ -475,12 +488,16 @@ const styles = StyleSheet.create({
   },
   catItem: {
     height: height * 0.04,
+    justifyContent: "center",
+    alignItems: "center",
+    width: width * 0.21,
     backgroundColor: colors.white,
     borderColor: colors.red,
+    // padding:width*0.03,
     borderWidth: 1,
     borderRadius: 20,
     margin: 6,
-    justifyContent: "center",
+    // justifyContent: "center",
     // 👇 Shadow for iOS
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
@@ -490,7 +507,7 @@ const styles = StyleSheet.create({
     // 👇 Shadow for Android
     elevation: 5,
   },
-  catName: { marginStart: 7, marginEnd: 7, fontSize: 20 },
+  catName: { marginStart: 7, marginEnd: 7, fontSize: 16, margin: 5 },
   fsContainer: {
     justifyContent: "center",
     alignItems: "center",
