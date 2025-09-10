@@ -17,6 +17,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import colors from '../../../constants/colors';
 import { Ionicons } from "@expo/vector-icons";
+import OneProduct from '../components/oneProduct';
 
 const { width, height } = Dimensions.get('window');
 const MAX_HEADER_HEIGHT = height * 0.18;
@@ -28,7 +29,6 @@ const HomePage = () => {
   const flatListRef = useRef(null);
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState(0);
   
-  // Carousel data - MOVED BEFORE useEffect
   const carisol = [
     { 
       id: 1, 
@@ -79,14 +79,12 @@ const HomePage = () => {
     { useNativeDriver: false }
   );
 
-  // Auto-scroll effect - CHANGED TO 5 SECONDS
   useEffect(() => {
     const interval = setInterval(() => {
-      if (carisol.length > 1) { // Only auto-scroll if we have multiple items
+      if (carisol.length > 1) {
         const nextIndex = (currentCarouselIndex + 1) % carisol.length;
         setCurrentCarouselIndex(nextIndex);
         
-        // Scroll to the next item
         if (flatListRef.current) {
           flatListRef.current.scrollToIndex({
             index: nextIndex,
@@ -94,17 +92,20 @@ const HomePage = () => {
           });
         }
       }
-    }, 5000); // CHANGED FROM 20000 TO 5000 (5 seconds)
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [currentCarouselIndex, carisol.length]);
 
-  // Sample categories
   const categories = [
-    { id: 1, name: "E-LIQUID", icon: "water" },
-    { id: 2, name: "VAPE KITS", icon: "hardware-chip" },
-    { id: 3, name: "VAPE COILS", icon: "construct" },
-    { id: 4, name: "ACCESS", icon: "extension-puzzle" },
+    { id: 1, name: "E-LIQUID", icon: "flask" },
+    { id: 2, name: "VAPE KITS", icon: "cube" },
+    { id: 3, name: "VAPE COILS", icon: "sync" },
+    { id: 4, name: "ACCESSORIES", icon: "cog" },
+    { id: 5, name: "DISPOSABLE VAPES", icon: "trash-bin" },
+    { id: 6, name: "MULTIBUYS", icon: "cart" },
+    { id: 7, name: "CLEARANCE SALE", icon: "pricetag" },
+    { id: 8, name: "DEALS & OFFERS", icon: "gift" },
   ];
 
   const renderCarouselItem = ({ item }) => (
@@ -122,7 +123,7 @@ const HomePage = () => {
           </Pressable>
         </View>
 
-         <Image 
+        <Image 
           source={item.image} 
           style={styles.carouselImage}
           resizeMode="cover"
@@ -153,14 +154,12 @@ const HomePage = () => {
         translucent={true}
       />
 
-      {/* Main Header with animated height */}
       <Animated.View style={[styles.header, { height: headerHeight }]}>
         <LinearGradient
           colors={[colors.dark, colors.dark]}
           style={StyleSheet.absoluteFill}
         />
         
-        {/* Top section with logo and icons - fades out on scroll */}
         <Animated.View style={[
           styles.headerTop, 
           { 
@@ -185,7 +184,6 @@ const HomePage = () => {
           </View>
         </Animated.View>
 
-        {/* Search bar - moves up as header height decreases */}
         <Animated.View style={[
           styles.headerBottom, 
           { 
@@ -199,7 +197,6 @@ const HomePage = () => {
         </Animated.View>
       </Animated.View>
 
-      {/* Gradient background for rest of screen */}
       <LinearGradient
         colors={[colors.gradient1, colors.gradient2, colors.gradient3, colors.gradient4]}
         start={{ x: 0, y: 0 }}
@@ -207,12 +204,11 @@ const HomePage = () => {
         style={styles.gradient}
       >
         <SafeAreaView style={styles.safeArea}>
-          {/* Scrollable content */}
           <Animated.ScrollView
             contentContainerStyle={[
               styles.scrollContent, 
               { 
-                paddingTop: MAX_HEADER_HEIGHT + statusBarHeight + (Platform.OS === 'ios' ? -5 : 20)
+                paddingTop: MAX_HEADER_HEIGHT + statusBarHeight + (Platform.OS === 'ios' ? -5 : 10)
               }
             ]}
             scrollEventThrottle={16}
@@ -220,7 +216,6 @@ const HomePage = () => {
             showsVerticalScrollIndicator={false}
           >
 
-            {/* Carousel Section */}
             <View style={styles.carouselContainer}>
               <FlatList
                 ref={flatListRef}
@@ -236,7 +231,6 @@ const HomePage = () => {
                   setCurrentCarouselIndex(index);
                 }}
                 onScrollToIndexFailed={() => {
-                  // Fallback in case scrollToIndex fails
                   setTimeout(() => {
                     if (flatListRef.current) {
                       flatListRef.current.scrollToIndex({
@@ -249,6 +243,41 @@ const HomePage = () => {
               />
               {renderCarouselIndicators()}
             </View>
+
+            {/* Horizontal scrollable categories */}
+            <View style={styles.categoryWrapper}>
+              <ScrollView 
+                horizontal 
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.categoryContainer}
+              >
+                {categories.map(category => (
+                  <View key={category.id} style={styles.categoryItem}>
+                    <Ionicons name={category.icon} size={35} color={colors.primary} />  
+                    <Text style={styles.categoryText}>{category.name}</Text>
+                  </View>
+                ))}
+              </ScrollView>
+            </View>
+
+            {/* Recently Viewed */}
+            <View style={styles.recentlyViewed}>
+              <Text style={styles.sectionText}>
+                Recently Viewed
+              </Text>
+            </View>
+
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.recentlyViewedList}
+            >
+              {Array.from({ length: 6 }).map((_, index) => (
+                <View key={index} style={styles.productWrapper}>
+                  <OneProduct />
+                </View>
+              ))}
+            </ScrollView>
 
           </Animated.ScrollView>
         </SafeAreaView>
@@ -331,7 +360,7 @@ const styles = StyleSheet.create({
     width: width * 0.94,
     borderRadius: 10,
     overflow: 'hidden',
-    marginBottom: 20,
+    marginBottom: 10,
   },
   carouselItem: {
     width: width * 0.94,
@@ -392,6 +421,50 @@ const styles = StyleSheet.create({
   inactiveIndicator: {
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
   },
+  categoryWrapper: {
+    marginTop: 0,
+    marginBottom: 15,
+  },
+  categoryContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: 5,
+  },
+  categoryItem: {
+    backgroundColor: colors.dark,
+    borderRadius: 5,
+    marginRight: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: width * 0.28,
+    paddingVertical: 28,
+  },
+  categoryText: {
+    marginTop: 8,
+    fontSize: 10,
+    fontWeight: '600',
+    color: colors.white,
+    textAlign: 'center',
+  },
+  recentlyViewed:{
+    borderWidth: .5,
+    borderColor: colors.red,
+    padding: 5,
+    width: width * 0.35,
+    marginBottom: 10,
+  },
+  sectionText:{
+    fontSize: 12,
+    color: colors.dark,
+    fontFamily: 'KaiseiOpti_400Regular',
+    fontWeight: '500',
+  },
+  recentlyViewedList: {
+    paddingVertical: 10,
+    paddingHorizontal: 5,
+  },
+  productWrapper: {
+    marginRight: 12,
+  }
 });
 
 export default HomePage;
