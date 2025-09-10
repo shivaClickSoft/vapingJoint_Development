@@ -11,6 +11,9 @@ import {
   TouchableOpacity,
   Modal,
   Pressable,
+  LayoutAnimation,
+  ScrollView,
+  UIManager,
   Platform,
 } from "react-native";
 import React, { useState } from "react";
@@ -19,9 +22,20 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 // import { StatusBar } from "expo-status-bar";
 import colors from "../../../constants/colors";
 import { LinearGradient } from "expo-linear-gradient";
+// import { ScrollView } from "react-native-gesture-handler";
+// import { Picker } from "@react-native-picker/picker";
+
+if (Platform.OS === "android") {
+  UIManager.setLayoutAnimationEnabledExperimental &&
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 
 const { width, height } = Dimensions.get("window");
 
+const cateList = Array.from({ length: 5 }).map((_, j) => ({
+  id: j,
+  catName: `category ${j + 1}`,
+}));
 const ProductDetails = () => {
   const insets = useSafeAreaInsets();
   const HEADER_HEIGHT = height * 0.2;
@@ -34,8 +48,28 @@ const ProductDetails = () => {
 
   const [activeIndex, setActiveIndex] = useState(0);
 
+  const [nicotine, setNicotine] = useState("20mg");
+  const [extraNicotine, setExtraNicotine] = useState("Shot");
+  const [extraQty, setExtraQty] = useState("1");
+  const [qty1, setQty1] = useState(1);
+
+  const [activeTab, setActiveTab] = useState("details");
+  const [collapsed, setCollapsed] = useState(false);
+
+  const toggleCollapse = () => {
+    LayoutAnimation.easeInEaseOut();
+    setCollapsed(!collapsed);
+  };
+  const [qty, setQty] = useState(1);
+
+  const increaseQty = () => setQty(qty + 1);
+  const decreaseQty = () => {
+    if (qty > 1) setQty(qty - 1);
+  };
+
+  const [selected, setSelected] = useState(false);
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <StatusBar
         barStyle="light-content"
         backgroundColor={colors.dark}
@@ -97,16 +131,6 @@ const ProductDetails = () => {
               }}
             >
               {/* Image */}
-              {/* <Image
-                style={{
-                  height: "85%",
-                  width: "70%",
-                  resizeMode: "stretch",
-                  borderRadius: 10,
-                  marginTop: 15,
-                }}
-                source={require("../../../../assets/vapeDevice.png")}
-              /> */}
 
               <FlatList
                 data={images}
@@ -196,87 +220,506 @@ const ProductDetails = () => {
           </View>
           {/* product part end */}
 
-          <View style={[styles.card, { flex: 1 }]}>
-            {/* <View
+          <View style={[{}, styles.card]}>
+            <View
               style={[
-                {
-                  // flex: 1,
-                  // height:height*0.05,
-                  flexDirection: "row",
-                  justifyContent: "flex-start",
-                  alignItems: "flex-start",
-                  width:"95%",
-                  marginLeft: width * 0.05,
-                  marginRight: width * 0.05,
-                  marginTop:height*0.01,
-                  backgroundColor: colors.dark,
-                },
+                styles.rowBetween,
+                { alignItems: "center", marginBottom: 10 },
               ]}
             >
               <Text
+                numberOfLines={1}
+                ellipsizeMode="tail"
+                style={[styles.title, { marginTop: 10 }]}
+              >
+                zeus dodoberry 20mg e li12 super long title testing for overflow
+              </Text>
+              <View
                 style={[
                   {
-                    fontSize: width * 0.055,
-                    marginTop: 5,
-                    color: colors.white,
+                    maxWidth: "40%",
+                    flexDirection: "column",
+                    justifyContent: "baseline",
+                    alignItems: "flex-end",
                   },
                 ]}
               >
-                Zeus dodoberry\ 20mg e liq
-              </Text>
-              <View></View>
-            </View> */}
-            {/* Title + Stock */}
-            <View style={styles.rowBetween}>
-              <Text numberOfLines={1} ellipsizeMode="tail" style={styles.title}>
-                zeus dodoberry 20mg e liq super long title testing for overflow
-              </Text>
-              <View style={[{ flexDirection: "column" }]}>
                 <Text style={styles.stock}>In Stock: 5</Text>
-                <Text style={styles.sku}>SKU: 1749228414</Text>
+                <Text
+                  style={[
+                    styles.sku,
+                    { maxWidth: width * 0.15, minWidth: width * 0.13 },
+                  ]}
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                >
+                  SKU: 1749228414000002211121
+                </Text>
               </View>
             </View>
 
             {/* Description */}
             <Text style={styles.description}>
               Dark forest berries picked from the garden of Zeus, with a subtle
-              fresh mint that will leave your mouth watering{" "}
-              <Text style={styles.readMore}>Read More...</Text>
+              fresh mint that will leave your mouth watering
+              {/* <Text style={styles.readMore}>Read More...</Text> */}
+              <TouchableOpacity
+                style={styles.readMore}
+                onPress={() => {
+                  console.log("read more clicked");
+                }}
+              >
+                <Text style={styles.readMore}> Read More...</Text>
+              </TouchableOpacity>
             </Text>
 
             {/* Price + Discount */}
-            <View style={styles.rowAlign}>
-              <Text style={styles.discount}>↓ 50%</Text>
-              <Text style={styles.oldPrice}>£6.99</Text>
-              <Text style={styles.newPrice}>£3.99</Text>
+            <View style={[styles.rowAlign, { alignSelf: "flex-start" }]}>
+              <Text
+                style={[
+                  styles.discount,
+                  {
+                    color: "green",
+                    fontWeight: "bold",
+                    fontSize: width * 0.045,
+                    marginEnd: 5,
+                  },
+                ]}
+              >
+                ↓ 50%
+              </Text>
+              <Text
+                style={[
+                  styles.oldPrice,
+                  {
+                    textDecorationLine: "line-through",
+                    marginRight: 8,
+                    fontWeight: "bold",
+                    fontSize: width * 0.045,
+                    color: colors.grey,
+                  },
+                ]}
+              >
+                £6.99
+              </Text>
+              <Text
+                style={[
+                  styles.newPrice,
+                  { fontWeight: "bold", fontSize: width * 0.05, color: "#000" },
+                ]}
+              >
+                £3.99
+              </Text>
             </View>
 
             {/* Rating */}
-            <Text style={styles.rating}>⭐⭐⭐⭐⭐</Text>
-
-            {/* Example Offer Section */}
-            <View style={styles.offerBox}>
-              <Text style={styles.offerTitle}>GRAB THIS DEAL</Text>
-              <View style={styles.rowBetween}>
-                <View style={styles.offerCard}>
-                  <Text>Buy 3 for £2.01 Off</Text>
-                  <Text>Total £9.96</Text>
+            <Text
+              style={[
+                styles.rating,
+                { alignSelf: "flex-start", marginStart: width * 0.05 },
+              ]}
+            >
+              ⭐⭐⭐⭐⭐
+            </Text>
+            <View style={{ marginTop: 15, width: "90%", marginHorizontal: 10 }}>
+              {/* Row 1 - Nicotine & Extra Nicotine */}
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                {/* Nicotine */}
+                <View style={{ flex: 1, marginRight: 10 }}>
+                  <Text style={{ fontSize: 16, marginBottom: 5 }}>
+                    Nicotine:
+                  </Text>
+                  <View style={styles.dropdownBox}>
+                    <Text>20 mg ▼</Text>
+                  </View>
                 </View>
-                <View style={styles.offerCard}>
-                  <Text>Buy 6 for £4.05 Off</Text>
-                  <Text>Total £19.86</Text>
+
+                {/* Extra Nicotine */}
+                <View style={{ flex: 2, marginLeft: 10 }}>
+                  <Text style={{ fontSize: 16, marginBottom: 5 }}>
+                    Add Extra Nicotine:
+                  </Text>
+                  <View style={styles.dropdownBox}>
+                    <Text>Nicotine Shot ▼</Text>
+                  </View>
+                </View>
+
+                {/* Extra Nicotine Qty */}
+                <View style={{ width: 60, marginLeft: 10 }}>
+                  <Text style={{ fontSize: 16, marginBottom: 5 }}> </Text>
+                  <View style={styles.dropdownBox}>
+                    <Text>1 ▼</Text>
+                  </View>
+                </View>
+              </View>
+
+              {/* Row 2 - Qty */}
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginTop: 15,
+                }}
+              >
+                <Text style={{ fontSize: 16, marginRight: 10 }}>Qty:</Text>
+                <View style={styles.qtyBox}>
+                  <TouchableOpacity>
+                    <Text style={styles.qtyBtn}>+</Text>
+                  </TouchableOpacity>
+                  <Text style={styles.qtyText}>1</Text>
+                  <TouchableOpacity>
+                    <Text style={styles.qtyBtn}>-</Text>
+                  </TouchableOpacity>
                 </View>
               </View>
             </View>
 
-            {/* Buttons */}
-            <View style={styles.rowBetween}>
-              <TouchableOpacity style={styles.addCartBtn}>
-                <Text style={styles.btnText}>Add to Cart</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.buyBtn}>
-                <Text style={styles.btnText}>Buy at £3.99</Text>
-              </TouchableOpacity>
+            <View
+              style={[
+                {
+                  backgroundColor: colors.secondary,
+                  height: height * 0.2,
+                  flexDirection: "column",
+
+                  marginStart: 10,
+                  marginEnd: 10,
+                  marginTop: 10,
+
+                  borderRadius: 20,
+                  minWidth: width * 0.88,
+                },
+              ]}
+            >
+              <View
+                style={[
+                  {
+                    backgroundColor: colors.dark + "00",
+                    flexDirection: "row",
+                    borderRadius: 20,
+                    paddingStart: width * 0.02,
+                    alignItems: "center",
+                    paddingTop: width * 0.01,
+                    height:height*0.05
+                  },
+                ]}
+              >
+                <Image
+                  style={[
+                    {
+                      height: height * 0.03,
+                      width: width * 0.08,
+                      marginStart: width * 0.01,
+                    },
+                  ]}
+                  source={require("../../../../assets/offersimg.png")}
+                ></Image>
+
+                <Text
+                  style={[
+                    {
+                      fontSize: width * 0.04,
+                      color: colors.white,
+                      fontWeight: "700",
+                      marginStart: width * 0.02,
+                    },
+                  ]}
+                >
+                  Buy More, Save More
+                </Text>
+              </View>
+              <View
+                style={[
+                  {
+                    borderRadius: 10,
+                    backgroundColor: "#FFEAEE",
+                    flexDirection: "column",
+                    height:height*0.15
+                  },
+                ]}
+              >
+                <Text
+                  style={[
+                    {
+                      fontSize: width * 0.045,
+                      fontWeight: "900",
+                      fontStyle: "bold",
+                      color: colors.dark,
+                      padding: width * 0.035,
+                    },
+                  ]}
+                >
+                  GRAB THIS DEAL
+                </Text>
+                <FlatList
+                  data={cateList}
+                  keyExtractor={(item) => item.id.toString()}
+                  numColumns={1}
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                  renderItem={({ item }) => (
+                    <TouchableOpacity
+                      style={[styles.cardoffers, selected && styles.cardActive]}
+                      onPress={() => setSelected(!selected)}
+                      activeOpacity={0.8}
+                    >
+                      <LinearGradient
+                        colors={[colors.primary, colors.secondary]}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 1 }}
+                        style={[
+                          {
+                            width: "30%",
+                            marginEnd: 5,
+                            height: "100%",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderTopLeftRadius: 10,
+                            borderBottomLeftRadius: 10,
+                          },
+                        ]}
+                      >
+                        {/* Radio Button */}
+                        <View style={[styles.radioOuter]}>
+                          {selected ? <View style={styles.radioInner} /> : null}
+                        </View>
+                      </LinearGradient>
+                      {/* Offer Details */}
+                      <View style={styles.details}>
+                        <Text style={styles.offerTitle}>
+                          Buy 3 for £2.01 Off
+                        </Text>
+                        <View
+                          style={{ flexDirection: "row", alignItems: "center" }}
+                        >
+                          <Text style={styles.newPrice}>£3.32 </Text>
+                          <Text style={styles.oldPrice}>£3.99</Text>
+                        </View>
+                        <View
+                          style={{ flexDirection: "row", alignItems: "center" }}
+                        >
+                          <Text style={styles.totalLabel}>Total </Text>
+                          <Text style={styles.totalPrice}>£9.96 </Text>
+                          <Text style={styles.oldPrice}>£11.97</Text>
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  )}
+                />
+              </View>
+            </View>
+
+            <View style={[{ height: 50 }]}></View>
+
+            <View
+              style={[
+                {
+                  backgroundColor: colors.secondary,
+                  height: height * 0.2,
+                  flexDirection: "column",
+
+                  marginStart: 10,
+                  marginEnd: 10,
+                  marginTop: 10,
+
+                  borderRadius: 20,
+                  minWidth: width * 0.88,
+                },
+              ]}
+            >
+              <View
+                style={[
+                  {
+                    backgroundColor: colors.dark + "00",
+                    flexDirection: "row",
+
+                    borderRadius: 20,
+                    paddingStart: width * 0.02,
+                    alignItems: "center",
+                    paddingTop: width * 0.01,
+                  },
+                ]}
+              >
+                <Text
+                  style={[
+                    {
+                      fontSize: width * 0.04,
+                      color: colors.white,
+                      fontWeight: "700",
+                      marginStart: width * 0.02,
+                      marginVertical: 10,
+                    },
+                  ]}
+                >
+                  More Zeus E liquids
+                </Text>
+              </View>
+              <View
+                style={[
+                  {
+                    borderRadius: 10,
+                    backgroundColor: "#FFEAEE",
+                    flexDirection: "column",
+                  },
+                ]}
+              >
+                <FlatList
+                  data={cateList}
+                  keyExtractor={(item) => item.id.toString()}
+                  numColumns={1}
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                  renderItem={({ item }) => (
+                    <View
+                      style={[
+                        styles.cardProduct,
+                        { justifyContent: "center", alignItems: "center" },
+                      ]}
+                    >
+                      {/* Product Image */}
+                      <Image
+                        source={require("../../../../assets/offersimg.png")}
+                        style={styles.image}
+                      />
+
+                      {/* Product Details */}
+                      <View style={styles.details}>
+                        <Text
+                          numberOfLines={1}
+                          ellipsizeMode="tail"
+                          style={styles.title}
+                        >
+                          zeus cerberus 20mg e liq
+                        </Text>
+                        <Text style={styles.stock}>(In Stock: 5)</Text>
+                        <Text style={styles.price}>£3.99</Text>
+
+                        {/* Counter */}
+                        <View style={styles.counter}>
+                          <TouchableOpacity
+                            style={[
+                              styles.btn,
+                              qty === 1 && styles.disabledBtn,
+                            ]}
+                            onPress={decreaseQty}
+                            disabled={qty === 1}
+                          >
+                            <Text style={styles.btnText}>-</Text>
+                          </TouchableOpacity>
+
+                          <Text style={styles.qty}>{qty}</Text>
+
+                          <TouchableOpacity
+                            style={styles.btn}
+                            onPress={increaseQty}
+                          >
+                            <Text style={styles.btnText}>+</Text>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    </View>
+                  )}
+                />
+              </View>
+            </View>
+
+            <View style={[{ height: 50 }]}></View>
+            <View
+              style={[
+                styles.detailsContainer,
+                {
+                  padding: 10,
+                  margin: 10,
+                  borderColor: colors.dark,
+                  borderWidth: 1,
+                  borderRadius: 20,
+                  minWidth: width * 0.88,
+                },
+              ]}
+            >
+              <View
+                style={[
+                  { flexDirection: "row", justifyContent: "space-between" },
+                ]}
+              >
+                <Text style={[{ color: colors.dark, fontSize: 20 }]}>
+                  All Details
+                </Text>
+
+                {/* Collapse Button */}
+                <TouchableOpacity
+                  onPress={toggleCollapse}
+                  style={styles.toggleCollapse}
+                >
+                  <Ionicons
+                    style={{ fontWeight: "bold" }}
+                    name={collapsed ? "caret-down" : "caret-up"}
+                    size={width * 0.05}
+                  ></Ionicons>
+                </TouchableOpacity>
+              </View>
+              {/* Header Tabs */}
+              <View style={styles.tabRow}>
+                <TouchableOpacity
+                  style={[
+                    styles.tabButton,
+                    activeTab === "details" && styles.activeTab,
+                  ]}
+                  onPress={() => setActiveTab("details")}
+                >
+                  <Text
+                    style={[
+                      styles.tabText,
+                      activeTab === "details" && styles.activeText,
+                    ]}
+                  >
+                    Product Details
+                  </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[
+                    styles.tabButton,
+                    activeTab === "spec" && styles.activeTab,
+                  ]}
+                  onPress={() => setActiveTab("spec")}
+                >
+                  <Text
+                    style={[
+                      styles.tabText,
+                      activeTab === "spec" && styles.activeText,
+                    ]}
+                  >
+                    Specification
+                  </Text>
+                </TouchableOpacity>
+              </View>
+
+              {/* Content */}
+              {!collapsed && (
+                <View style={styles.contentBox}>
+                  {activeTab === "details" ? (
+                    <Text style={styles.contentText}>
+                      Dark forest berries picked from the garden of Zeus, with a
+                      subtle fresh mint that will leave your mouth watering.
+                      {"\n\n"}
+                      This product is powered by NS20. The two main benefits of
+                      Nicotine Salts are that it affects the flavour of the
+                      E-Liquid much less than traditional nicotine and has much
+                      less of a throat hit at such high strengths.
+                    </Text>
+                  ) : (
+                    <Text style={styles.contentText}>
+                      - Strength: 20mg {"\n"}- Volume: 10ml {"\n"}- Ingredients:
+                      PG, VG, Flavouring, Nicotine Salt {"\n"}- Made in: UK
+                    </Text>
+                  )}
+                </View>
+              )}
             </View>
           </View>
 
@@ -318,16 +761,12 @@ const ProductDetails = () => {
             <TouchableOpacity
               style={[
                 {
-                  //   justifyContent: "center",
-                  //   alignItems: "center",
                   flex: 1,
                   margin: 15,
-                  //   backgroundColor: colors.dark,
+
                   fontWeight: 800,
                   fontSize: width * 0.03,
-                  //   padding: 10,
-                  //   borderColor: colors.primary,
-                  //   borderWidth: 1,
+
                   borderRadius: 10,
                 },
               ]}
@@ -341,13 +780,9 @@ const ProductDetails = () => {
                     justifyContent: "center",
                     alignItems: "center",
                     flex: 1,
-                    // margin: 15,
-                    //   backgroundColor: colors.dark,
                     fontWeight: 800,
                     fontSize: width * 0.03,
                     padding: 10,
-                    // borderColor: colors.primary,
-                    // borderWidth: 1,
                     borderRadius: 10,
                   },
                 ]}
@@ -368,7 +803,7 @@ const ProductDetails = () => {
           </View>
         </SafeAreaView>
       </LinearGradient>
-    </View>
+    </ScrollView>
   );
 };
 const styles = StyleSheet.create({
@@ -388,27 +823,21 @@ const styles = StyleSheet.create({
   },
   safeArea: {
     flex: 1,
-    // paddingHorizontal: width * 0.05,
   },
   itemContainer: {
     padding: 10,
   },
   card: {
-    // flex: 1, // makes items share space equally
     marginStart: 20,
     marginTop: 10,
     marginBottom: 10,
     marginEnd: 20,
-    // height: height * 0.35,
-    // aspectRatio: 1, // square shape (auto height = width)
     backgroundColor: "#ffffffff",
-    // justifyContent: "center",
     alignItems: "center",
     borderRadius: 20,
 
     borderColor: colors.primary,
     borderWidth: 1,
-    // width:width
 
     // 👇 Shadow for iOS
     shadowColor: "#000",
@@ -429,7 +858,6 @@ const styles = StyleSheet.create({
   itemPrice: {
     color: colors.dark,
     fontWeight: "bold",
-    // marginTop: -40,
     fontSize: width * 0.045,
     textAlign: "center",
   },
@@ -441,13 +869,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     margin: 6,
     justifyContent: "center",
-    // 👇 Shadow for iOS
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-
-    // 👇 Shadow for Android
     elevation: 5,
   },
   catName: { marginStart: 7, marginEnd: 7, fontSize: 20 },
@@ -455,7 +880,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
-    // backgroundColor: colors.white,
   },
   modalBackdrop: {
     flex: 1,
@@ -465,33 +889,20 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: colors.white,
-    // borderRadius: 12,
-    // borderTopLeftRadius:12,borderTopRightRadius:12,
     borderTopStartRadius: 12,
     borderTopEndRadius: 12,
-    // padding: 20,
     width: "100%",
     elevation: 5, // shadow for Android
   },
 
   modalView: {
-    // margin: 5,
     backgroundColor: colors.white,
-    // borderRadius: 15,
-
     borderTopStartRadius: 12,
     borderTopEndRadius: 12,
     padding: 25,
     alignItems: "flex-start",
     justifyContent: "flex-start",
-
     width: width,
-    // backgroundColor: colors.white,
-    // borderTopLeftRadius: 20,
-    // borderTopRightRadius: 20,
-    // padding: 20,
-    // alignItems: "center",
-    // justifyContent: "center",
   },
 
   btnContainer: {
@@ -528,7 +939,6 @@ const styles = StyleSheet.create({
   text: {
     color: colors.white,
     fontWeight: "600",
-    // Better text scaling
     includeFontPadding: false,
   },
   container1: {
@@ -565,48 +975,46 @@ const styles = StyleSheet.create({
   rowBetween: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    marginHorizontal: width * 0.05,
-    marginTop: 10,
+    marginEnd: width * 0.1,
+    marginStart: width * 0.1,
   },
 
   rowAlign: {
     flexDirection: "row",
     alignItems: "center",
     marginHorizontal: width * 0.05,
-    marginTop: 10,
+    marginTop: 5,
   },
 
   title: {
-    fontSize: width * 0.05,
+    fontSize: width * 0.04,
     fontWeight: "bold",
     color: "#000",
     maxWidth: width * 0.6, // ✅ max width for ellipsis
   },
 
-  stock: { fontSize: width * 0.03, color: "green" },
+  stock: { fontSize: width * 0.04, marginTop: 5, color: "green" },
   sku: { fontSize: width * 0.03, color: "#666", marginLeft: width * 0.05 },
 
   description: {
     marginHorizontal: width * 0.05,
-    marginTop: 10,
+    marginTop: 5,
     color: "#333",
     fontSize: width * 0.04,
   },
 
   readMore: { color: "blue" },
 
-  discount: { color: "green", fontWeight: "bold", marginRight: 8 },
+  discount: {},
   oldPrice: { textDecorationLine: "line-through", marginRight: 8 },
-  newPrice: { fontWeight: "bold", fontSize: width * 0.05, color: "#000" },
+  newPrice: {},
 
-  rating: { marginHorizontal: width * 0.05, marginTop: 5, fontSize: 20 },
+  rating: { marginHorizontal: width * 0.05, marginTop: 1, fontSize: 20 },
 
   offerBox: {
     backgroundColor: "#f3f3f3",
     margin: width * 0.05,
     borderRadius: 8,
-    padding: 10,
   },
   offerTitle: { fontWeight: "bold", marginBottom: 10 },
   offerCard: {
@@ -618,24 +1026,207 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#ddd",
   },
+  dropdownBox: {
+    borderWidth: 1,
+    borderColor: "#aaa",
+    borderRadius: 4,
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    justifyContent: "center",
+  },
+  qtyBox: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#aaa",
+    borderRadius: 4,
+    paddingHorizontal: 10,
+  },
+  qtyBtn: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginHorizontal: 5,
+    color: "#666",
+  },
+  qtyText: {
+    fontSize: 16,
+    marginHorizontal: 5,
+  },
+  container12: {
+    margin: 15,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 10,
+    padding: 10,
+  },
+  tabRow: {
+    flexDirection: "row",
+    marginBottom: 10,
+  },
+  tabButton: {
+    flex: 1,
+    padding: 10,
+    alignItems: "center",
+    borderBottomWidth: 2,
+    borderBottomColor: "transparent",
+  },
+  activeTab: {
+    borderBottomColor: "#000",
+  },
+  tabText: {
+    fontSize: 16,
+    color: "#666",
+  },
+  activeText: {
+    color: "#000",
+    fontWeight: "bold",
+  },
+  collapseBtn: {
+    alignSelf: "flex-end",
+    marginBottom: 10,
+  },
+  contentBox: {
+    padding: 10,
+  },
+  contentText: {
+    fontSize: 14,
+    lineHeight: 20,
+    color: "#333",
+  },
 
-  // addCartBtn: {
-  //   flex: 1,
-  //   backgroundColor: "#ddd",
-  //   margin: 5,
-  //   padding: 15,
-  //   borderRadius: 8,
-  //   alignItems: "center",
+  cardoffers: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: 10,
+    backgroundColor: "#fff",
+    // padding: 10,
+    marginVertical: 1,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    // elevation: 2,
+    height: height * 0.08,
+    width: width * 0.5,
+    marginHorizontal: width * 0.02,
+    // borderWidth: 2,
+    // borderColor: "#06c16700",
+  },
+  cardActive: {
+    // borderWidth: 1,
+    // borderColor: "#06C16700", // green highlight
+  },
+  radioOuter: {
+    height: 24,
+    width: 24,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: "#ffffffff",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 10,
+  },
+  radioInner: {
+    height: 16,
+    width: 16,
+    borderRadius: 20,
+    backgroundColor: "#ffffffff",
+  },
+  details: {
+    flex: 1,
+  },
+  offerTitle: {
+    fontSize: 15,
+    fontWeight: "600",
+    marginBottom: 2,
+  },
+  newPrice: {
+    color: "red",
+    fontSize: 14,
+    fontWeight: "600",
+  },
+  oldPrice: {
+    fontSize: 13,
+    color: "#888",
+    textDecorationLine: "line-through",
+  },
+  totalLabel: {
+    fontSize: 13,
+    fontWeight: "500",
+  },
+  totalPrice: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "green",
+  },
+
+  cardProduct: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 10,
+    margin: 8,
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+  },
+  image: {
+    width: 60,
+    height: 80,
+    resizeMode: "contain",
+    marginRight: 10,
+  },
+  details: {
+    flex: 1,
+  },
+  // title: {
+  //   fontSize: 14,
+  //   fontWeight: "600",
+  //   marginBottom: 2,
   // },
-  // buyBtn: {
-  //   flex: 1,
-  //   backgroundColor: "green",
-  //   margin: 5,
-  //   padding: 15,
-  //   borderRadius: 8,
-  //   alignItems: "center",
-  // },
-  // btnText: { color: "#fff", fontWeight: "bold" },
+  stock: {
+    fontSize: 12,
+    color: "green",
+    marginBottom: 4,
+  },
+  price: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "red",
+    marginBottom: 8,
+  },
+  counter: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    paddingHorizontal: 4,
+    paddingVertical: 2,
+    width: 100,
+    justifyContent: "space-between",
+  },
+  btn: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: "#eee",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  disabledBtn: {
+    backgroundColor: "#ddd",
+  },
+  btnText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
+  },
+  qty: {
+    fontSize: 16,
+    fontWeight: "600",
+  },
 });
 
 export default ProductDetails;

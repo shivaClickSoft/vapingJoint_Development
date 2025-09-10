@@ -48,11 +48,10 @@ const cateList = Array.from({ length: 5 }).map((_, j) => ({
   catName: `category ${j + 1}`,
 }));
 
-const Shop = ({navigation}) => {
-
+const Shop = ({ navigation }) => {
   const insets = useSafeAreaInsets();
   const HEADER_HEIGHT = height * 0.2;
-  
+
   const options = ["Popularity", "Price hight to low", "Price low to high"];
   const [selected, setSelected] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -127,7 +126,7 @@ const Shop = ({navigation}) => {
                   console.log(`clicked:${item.catName}`);
                 }}
               >
-                <View style={styles.catItem}>
+                <View style={[styles.catItem, { marginBottom: 20 }]}>
                   <Text style={styles.catName}>{item.catName}</Text>
                 </View>
               </TouchableOpacity>
