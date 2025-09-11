@@ -207,29 +207,6 @@ const ScreenThree = ({ navigation }) => {
                   {/* <checkedBox></checkedBox> */}
                 </View>
 
-                <View style={styles.content}>
-                  <Text style={styles.title}>
-                    Are you above 18 Years of age?
-                  </Text>
-
-                  <View style={styles.checkboxContainer}>
-                    <Checkbox
-                      status={isChecked ? "checked" : "unchecked"}
-                      onPress={() => setIsChecked(!isChecked)}
-                      color="#4CAF50"
-                    />
-                    <Text style={styles.label}>Yes, I am above 18</Text>
-                  </View>
-
-                  <TouchableOpacity
-                    style={[styles.button, !isChecked && styles.buttonDisabled]}
-                    disabled={!isChecked}
-                    onPress={() => console.log("Verified")}
-                  >
-                    <Text style={styles.buttonText}>Confirm</Text>
-                  </TouchableOpacity>
-                </View>
-
                 <View
                   style={
                     // ({ pressed }) =>
@@ -538,49 +515,6 @@ const styles = StyleSheet.create({
     marginBottom: height * 0.01,
     fontStyle: "bold",
     fontWeight: "700",
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#f8f9fa',
-  },
-  content: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: '600',
-    marginBottom: 30,
-    textAlign: 'center',
-    color: '#333',
-  },
-  checkboxContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 30,
-  },
-  label: {
-    marginLeft: 10,
-    fontSize: 16,
-    color: '#333',
-  },
-  button: {
-    backgroundColor: '#4CAF50',
-    paddingVertical: 12,
-    paddingHorizontal: 30,
-    borderRadius: 8,
-    minWidth: 150,
-    alignItems: 'center',
-  },
-  buttonDisabled: {
-    backgroundColor: '#cccccc',
-  },
-  buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 16,
   },
 });
 
