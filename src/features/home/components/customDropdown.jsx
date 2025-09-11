@@ -124,30 +124,28 @@ const DropdownExample = ({
     { label: "30 mg", value: "30" },
     { label: "40 mg", value: "40" },
   ],
+  widthh = height * 0.15,
+  placeholder = "select",
 }) => {
   const [value, setValue] = useState(null);
-
-  // const data = [
-  //   { label: "10 mg", value: "10" },
-  //   { label: "20 mg", value: "20" },
-  //   { label: "30 mg", value: "30" },
-  //   { label: "40 mg", value: "40" },
-  // ];
 
   return (
     <View style={styles.container}>
       <Dropdown
-        style={styles.dropdown}
+        style={[styles.dropdown, { width: widthh }]}
         containerStyle={styles.dropdownContainer}
         data={data}
         labelField="label"
         valueField="value"
-        placeholder="Select item"
+        placeholder={placeholder}
         value={value}
         onChange={(item) => {
           setValue(item.value);
           console.log("selected:", item);
         }}
+        selectedTextStyle={styles.selectedText}
+        placeholderStyle={styles.placeholderText}
+        itemTextStyle={styles.itemText}
       />
     </View>
   );
@@ -155,19 +153,45 @@ const DropdownExample = ({
 
 const styles = StyleSheet.create({
   //   container: { padding: 16 },
-  label: { marginBottom: 8, fontSize: 14, color: "#333" },
+  label: {
+    marginBottom: 8,
+    fontSize: height * 0.02,
+    color: "#333",
+    numberOfLines: 1,
+    ellipsizeMode: "tail",
+  },
   dropdown: {
-    height: 40,
+    minHeight: height * 0.04,
     borderColor: colors.primary,
     borderWidth: 1,
     borderRadius: 8,
     paddingHorizontal: 12,
     backgroundColor: "#fff",
-    minWidth: width * 0.35,
+    minWidth: height * 0.1,
+    // maxWidth: width * 0.5,
+    // width: "auto",
+    // width:width*0.3,
+    // width: widthh,
+    numberOfLines: 1,
+    ellipsizeMode: "tail",
   },
   dropdownContainer: {
     borderRadius: 8,
     borderColor: "#ccc",
+  },
+  selectedText: {
+    fontSize: height * 0.015, // yaha font size kam kar sakta hai
+    color: "#222",
+  },
+
+  placeholderText: {
+    fontSize: height * 0.015,
+    color: "#888",
+  },
+
+  itemText: {
+    fontSize: height * 0.015, // dropdown list ke andar ka text size
+    color: "#333",
   },
 });
 

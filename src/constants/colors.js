@@ -6,6 +6,8 @@ export default {
   dark: "#0E1514", // Dark Charcoal
   red: "#FF0000", // Red
   grey: "#acacacff",
+  grey2: "#7c7c7cff",
+
   // Gradient colors
   gradient1: "#F2FBFF",
   gradient2: "#FFFEE4",

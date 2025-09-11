@@ -157,7 +157,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import colors from "../../../constants/colors";
 
-const { width } = Dimensions.get("window");
+const { height, width } = Dimensions.get("window");
 
 const OneProduct = ({
   productName = "ZEUS DODOBERRY",
@@ -176,14 +176,26 @@ const OneProduct = ({
 
     for (let i = 1; i <= 5; i++) {
       if (i <= fullStars) {
-        stars.push(<Ionicons key={i} name="star" size={20} color="#FFD700" />);
+        stars.push(
+          <Ionicons key={i} name="star" size={width * 0.05} color="#FFD700" />
+        );
       } else if (i === fullStars + 1 && hasHalfStar) {
         stars.push(
-          <Ionicons key={i} name="star-half" size={20} color="#FFD700" />
+          <Ionicons
+            key={i}
+            name="star-half"
+            size={width * 0.05}
+            color="#FFD700"
+          />
         );
       } else {
         stars.push(
-          <Ionicons key={i} name="star-outline" size={20} color="#FFD700" />
+          <Ionicons
+            key={i}
+            name="star-outline"
+            size={width * 0.05}
+            color="#FFD700"
+          />
         );
       }
     }
@@ -204,14 +216,14 @@ const OneProduct = ({
         {isNew ? (
           <Text style={styles.newTag}>New</Text>
         ) : (
-          <View style={{ width: 40, height: 25 }} />
+          <View style={{ width: width * 0.05, height: height * 0.02 }} />
         )}
         <View style={styles.iconsWrapper}>
           <Pressable style={styles.iconButton}>
-            <Ionicons name="heart-outline" size={16} color={colors.white} />
+            <Ionicons name="heart-outline" size={width*0.035} color={colors.white} />
           </Pressable>
           <Pressable style={styles.iconButton}>
-            <Ionicons name="cart-outline" size={16} color={colors.white} />
+            <Ionicons name="cart-outline" size={width*0.035} color={colors.white} />
           </Pressable>
         </View>
       </View>
@@ -237,9 +249,9 @@ const styles = StyleSheet.create({
   card: {
     width: width * 0.4,
     backgroundColor: colors.fullwhite,
-    borderRadius: 10,
-    padding: 10,
-    margin: 5,
+    borderRadius: width*0.03,
+    padding: width*0.02,
+    margin: width*0.01,
     alignItems: "center",
     shadowColor: "#ffffffff",
     shadowOffset: { width: 0, height: 2 },
@@ -250,25 +262,27 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   productImage: {
-    width: "80%",
-    height: 100,
-    marginBottom: 8,
+    width: width*0.25,
+    height: height * 0.095,
+    marginBottom: height * 0.003,
+
   },
+
   topContainer: {
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
-    marginBottom: 8,
+    marginBottom: height * 0.003,
     position: "absolute",
-    marginTop: 5,
+    marginTop: height * 0.005,
   },
   newTag: {
     padding: 5,
     backgroundColor: colors.secondary,
     borderRadius: 5,
     color: colors.white,
-    fontSize: 12,
+    fontSize: height * 0.0115,
     fontWeight: "bold",
   },
   iconsWrapper: {
@@ -287,14 +301,14 @@ const styles = StyleSheet.create({
     borderColor: colors.primary,
   },
   productTitle: {
-    fontSize: 18,
+    fontSize: width * 0.035,
     textAlign: "center",
     color: colors.dark,
     fontFamily: "KaiseiOpti_400Regular",
     marginBottom: 4,
   },
   productDescription: {
-    fontSize: 15,
+    fontSize: width * 0.03,
     color: "gray",
     marginBottom: 6,
     textAlign: "center",
@@ -309,12 +323,12 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   currentPrice: {
-    fontSize: 14,
+    fontSize: width * 0.035,
     fontWeight: "bold",
     color: colors.dark,
   },
   oldPrice: {
-    fontSize: 12,
+    fontSize: width * 0.03,
     color: "gray",
     textDecorationLine: "line-through",
   },

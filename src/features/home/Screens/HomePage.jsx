@@ -12,6 +12,7 @@ import {
   ScrollView,
   Platform,
   FlatList,
+  TouchableOpacity,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -24,12 +25,12 @@ const { width, height } = Dimensions.get("window");
 const MAX_HEADER_HEIGHT = height * 0.18;
 const MIN_HEADER_HEIGHT = height * 0.1;
 
-const cateList = Array.from({ length: 5 }).map((_, j) => ({
-  id: j,
-  catName: ``,
-}));
+// const cateList = Array.from({ length: 5 }).map((_, j) => ({
+//   id: j,
+//   catName: ``,
+// }));
 
-const HomePage = () => {
+const HomePage = ({ navigation }) => {
   const insets = useSafeAreaInsets();
   const scrollY = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef(null);
@@ -44,7 +45,7 @@ const HomePage = () => {
     {
       id: 2,
       name: "BIG DISCOUNT ON ALL VAPES",
-      image: require("../../../../assets/carisolImage.png"),
+      image: require("../../../../assets/vape.png"),
     },
   ];
 
@@ -120,23 +121,23 @@ const HomePage = () => {
     },
     {
       id: 3,
-      name: "BlueBerry E-Liquid",
+      name: "Strawberry E-Liquid",
       icon: require("../../../../assets/flavours/image3.png"),
     },
     {
       id: 4,
-      name: "BlueBerry E-Liquid",
+      name: "Grapes E-Liquid",
       icon: require("../../../../assets/flavours/image4.png"),
     },
     {
       id: 5,
-      name: "BlueBerry E-Liquid",
+      name: "Raspberry E-Liquid",
       icon: require("../../../../assets/flavours/image5.png"),
     },
     ,
     {
       id: 6,
-      name: "BlueBerry E-Liquid",
+      name: "Tobacco E-Liquid",
       icon: require("../../../../assets/flavours/image6.png"),
     },
   ];
@@ -198,14 +199,46 @@ const HomePage = () => {
     },
   ];
   const categories = [
-    { id: 1, name: "E-LIQUID", icon: require("../../../../assets/icC1.png") },
-    { id: 2, name: "VAPE KITS", icon: require("../../../../assets/icC2.png") },
-    { id: 3, name: "VAPE COILS", icon: require("../../../../assets/icC3.png") },
-    { id: 4, name: "ACCESSORIES", icon: "cog" },
-    { id: 5, name: "DISPOSABLE VAPES", icon: "trash-bin" },
-    { id: 6, name: "MULTIBUYS", icon: "cart" },
-    { id: 7, name: "CLEARANCE SALE", icon: "pricetag" },
-    { id: 8, name: "DEALS & OFFERS", icon: "gift" },
+    {
+      id: 1,
+      name: "E-LIQUID",
+      icon: require("../../../../assets/categories/8.png"),
+    },
+    {
+      id: 2,
+      name: "VAPE KITS",
+      icon: require("../../../../assets/categories/7.png"),
+    },
+    {
+      id: 3,
+      name: "VAPE COILS",
+      icon: require("../../../../assets/categories/6.png"),
+    },
+    {
+      id: 4,
+      name: "ACCESSORIES",
+      icon: require("../../../../assets/categories/5.png"),
+    },
+    {
+      id: 5,
+      name: "DISPOSABLE VAPES",
+      icon: require("../../../../assets/categories/4.png"),
+    },
+    {
+      id: 6,
+      name: "MULTIBUYS",
+      icon: require("../../../../assets/categories/3.png"),
+    },
+    {
+      id: 7,
+      name: "CLEARANCE SALE",
+      icon: require("../../../../assets/categories/2.png"),
+    },
+    {
+      id: 8,
+      name: "DEALS & OFFERS",
+      icon: require("../../../../assets/categories/1.png"),
+    },
   ];
 
   const renderCarouselItem = ({ item }) => (
@@ -228,7 +261,7 @@ const HomePage = () => {
         <Image
           source={item.image}
           style={styles.carouselImage}
-          resizeMode="cover"
+          resizeMode="contain"
         />
       </LinearGradient>
     </View>
@@ -285,6 +318,9 @@ const HomePage = () => {
             },
           ]}
         >
+          <Pressable style={styles.iconButton}>
+            <Ionicons name="person-circle-outline" size={24} color="#fff" />
+          </Pressable>
           <Image
             source={require("../../../../assets/vapingJoint.png")}
             style={styles.logo}
@@ -292,9 +328,6 @@ const HomePage = () => {
           <View style={styles.iconRow}>
             <Pressable style={styles.iconButton}>
               <Ionicons name="cart-outline" size={22} color="#fff" />
-            </Pressable>
-            <Pressable style={styles.iconButton}>
-              <Ionicons name="person-circle-outline" size={24} color="#fff" />
             </Pressable>
           </View>
         </Animated.View>
@@ -376,31 +409,67 @@ const HomePage = () => {
                 contentContainerStyle={styles.categoryContainer}
               >
                 {categories.map((category) => (
-                  <View key={category.id} style={styles.categoryItem}>
-                    {/* <Ionicons
+                  <TouchableOpacity
+                    key={category.id}
+                    onPress={() => {
+                      navigation.navigate("Shop", {
+                        screen: "ProductCategory", // nested screen ka naam
+                        // params: {
+                        //   // agar kuch data bhejna ho to yaha
+                        //   categoryId: 5,
+                        // },
+                      });
+                    }}
+                  >
+                    <View style={styles.categoryItem}>
+                      {/* <Ionicons
                       name={category.icon}
                       size={55}
                       color={colors.primary}
                     /> */}
-                    {/* Dev */}
-                    <Image
-                      source={category.icon}
-                      style={{
-                        height: height * 0.11,
-                        width: width * 0.2,
-                        resizeMode: "stretch",
-                      }}
-                    />
-                    <Text style={styles.categoryText}>{category.name}</Text>
-                  </View>
+                      {/* Dev */}
+                      <Image
+                        source={category.icon}
+                        style={{
+                          height: height * 0.1,
+                          width: height * 0.2,
+                          resizeMode: "contain",
+                        }}
+                      />
+                      <Text style={styles.categoryText}>{category.name}</Text>
+                    </View>
+                  </TouchableOpacity>
                 ))}
               </ScrollView>
             </View>
 
             {/* Recently Viewed */}
-            <View style={[styles.recentlyViewed]}>
-              <Text style={[{ fontSize: 18 }]}>Recently Viewed</Text>
-            </View>
+            <LinearGradient
+              colors={[
+                // colors.secondary,
+                // colors.primary,
+                "#D31174",
+                "#fe0083ff",
+                // colors.gradient3,
+                // colors.gradient4,
+              ]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={[styles.recentlyViewed, { maxWidth: height * 0.2 }]}
+            >
+              <Text
+                style={[
+                  {
+                    fontSize: height * 0.022,
+                    color: colors.white,
+                    fontWeight: "800",
+                    // fontFamily: "KaiseiOpti_400Regular",
+                  },
+                ]}
+              >
+                Recently Viewed
+              </Text>
+            </LinearGradient>
 
             <ScrollView
               horizontal
@@ -409,7 +478,19 @@ const HomePage = () => {
             >
               {Array.from({ length: 6 }).map((_, index) => (
                 <View key={index} style={styles.productWrapper}>
-                  <OneProduct isNew={false} />
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate("Shop", {
+                        screen: "ProductDetails", // nested screen ka naam
+                        // params: {
+                        //   // agar kuch data bhejna ho to yaha
+                        //   categoryId: 5,
+                        // },
+                      });
+                    }}
+                  >
+                    <OneProduct isNew={false} />
+                  </TouchableOpacity>
                 </View>
               ))}
             </ScrollView>
@@ -422,21 +503,49 @@ const HomePage = () => {
                   // justifyContent: "center",
                   alignItems: "center",
                   flex: 1,
-                  height: height * 0.05,
+                  fontSize: height * 0.022,
                   justifyContent: "space-between",
                 },
               ]}
             >
-              <View style={[styles.recentlyViewed]}>
-                <Text style={[{ fontSize: 18 }]}>New Arrivals</Text>
-              </View>
+              <LinearGradient
+                colors={["#D31174", "#fe0083ff"]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={[
+                  styles.recentlyViewed,
+                  {
+                    width: height * 0.2, // width fix rakhna ok hai
+                    maxWidth: height * 0.23,
+                    paddingHorizontal: 10,
+                    paddingVertical: 6,
+                    borderRadius: 8,
+                    // ❌ height mat do
+                  },
+                ]}
+              >
+                <Text
+                  style={{
+                    fontSize: height * 0.022,
+                    fontWeight: "800",
+                    color: colors.fullwhite,
+                    letterSpacing: 2,
+                    flexWrap: "wrap", // ensure wrapping
+                  }}
+                >
+                  New Arrivals
+                </Text>
+              </LinearGradient>
 
               <CustomDropdown
-                placeholder="Choose nicotine"
+                placeholder="select"
                 data={[
                   { label: "E-liquid", value: 1 },
-                  { label: "E-liquid", value: 2 },
-                  { label: "E-liquid", value: 3 },
+                  { label: "VAPE KITS", value: 2 },
+                  { label: "VAPE COILS", value: 3 },
+                  { label: "ACCESSORIES", value: 4 },
+                  { label: "DISPOSABLE VAPES", value: 5 },
+                  { label: "MULTIBUYS", value: 6 },
                 ]}
                 onChange={(val) => console.log("picked", val)}
               />
@@ -448,7 +557,19 @@ const HomePage = () => {
             >
               {Array.from({ length: 6 }).map((_, index) => (
                 <View key={index} style={styles.productWrapper}>
-                  <OneProduct />
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate("Shop", {
+                        screen: "ProductDetails", // nested screen ka naam
+                        // params: {
+                        //   // agar kuch data bhejna ho to yaha
+                        //   categoryId: 5,
+                        // },
+                      });
+                    }}
+                  >
+                    <OneProduct />
+                  </TouchableOpacity>
                 </View>
               ))}
             </ScrollView>
@@ -461,23 +582,48 @@ const HomePage = () => {
                   // justifyContent: "center",
                   alignItems: "center",
                   flex: 1,
-                  height: height * 0.05,
+                  // height: height * 0.05,
                   justifyContent: "space-between",
                 },
               ]}
             >
-              <View style={[styles.recentlyViewed]}>
-                <Text style={[{ fontSize: 18 }]}>
+              <LinearGradient
+                colors={["#D31174", "#fe0083ff"]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={[
+                  styles.recentlyViewed,
+                  {
+                    width: height * 0.2, // width fix rakhna ok hai
+                    maxWidth: height * 0.23,
+                    paddingHorizontal: 10,
+                    paddingVertical: 6,
+                    borderRadius: 8,
+                    // ❌ height mat do
+                  },
+                ]}
+              >
+                <Text
+                  style={{
+                    fontSize: height * 0.022,
+                    fontWeight: "800",
+                    color: colors.fullwhite,
+                    letterSpacing: 0,
+                    flexWrap: "wrap", // ensure wrapping
+                  }}
+                >
                   E-Liquid Brand Collection
                 </Text>
-              </View>
+              </LinearGradient>
 
               <CustomDropdown
-                placeholder="Choose nicotine"
+                placeholder="select"
                 data={[
-                  { label: "Breezy", value: 10 },
-                  { label: "Breezy", value: 20 },
-                  { label: "Breezy", value: 30 },
+                  { label: "CloudAlchemy", value: 10 },
+                  { label: "FrostFuel", value: 20 },
+                  { label: "VelvetVapor", value: 30 },
+                  { label: "DripVerse", value: 40 },
+                  { label: "NectarNova", value: 50 },
                 ]}
                 onChange={(val) => console.log("picked", val)}
               />
@@ -489,7 +635,19 @@ const HomePage = () => {
             >
               {Array.from({ length: 6 }).map((_, index) => (
                 <View key={index} style={styles.productWrapper}>
-                  <OneProduct />
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate("Shop", {
+                        screen: "ProductDetails", // nested screen ka naam
+                        // params: {
+                        //   // agar kuch data bhejna ho to yaha
+                        //   categoryId: 5,
+                        // },
+                      });
+                    }}
+                  >
+                    <OneProduct />
+                  </TouchableOpacity>
                 </View>
               ))}
             </ScrollView>
@@ -517,7 +675,7 @@ const HomePage = () => {
                 <Text
                   style={[
                     {
-                      fontSize: 18,
+                      fontSize: height * 0.02,
                       color: colors.fullwhite,
                       // marginStart: 10,
                       fontWeight: "700",
@@ -529,7 +687,7 @@ const HomePage = () => {
                 <Text
                   style={[
                     {
-                      fontSize: 16,
+                      fontSize: height * 0.02,
                       fontWeight: "800",
                       color: colors.fullwhite,
                       // marginStart: 10,
@@ -555,7 +713,19 @@ const HomePage = () => {
               >
                 {Array.from({ length: 6 }).map((_, index) => (
                   <View key={index} style={styles.productWrapper}>
-                    <OneProduct />
+                    <TouchableOpacity
+                      onPress={() => {
+                        navigation.navigate("Shop", {
+                          screen: "ProductDetails", // nested screen ka naam
+                          // params: {
+                          //   // agar kuch data bhejna ho to yaha
+                          //   categoryId: 5,
+                          // },
+                        });
+                      }}
+                    >
+                      <OneProduct />
+                    </TouchableOpacity>
                   </View>
                 ))}
               </ScrollView>
@@ -570,23 +740,48 @@ const HomePage = () => {
                   // justifyContent: "center",
                   alignItems: "center",
                   flex: 1,
-                  height: height * 0.05,
+                  // height: height * 0.05,
                   justifyContent: "space-between",
                 },
               ]}
             >
-              <View style={[styles.recentlyViewed]}>
-                <Text style={[{ fontSize: 18 }]}>
+              <LinearGradient
+                colors={["#D31174", "#fe0083ff"]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={[
+                  styles.recentlyViewed,
+                  {
+                    width: height * 0.2, // width fix rakhna ok hai
+                    maxWidth: height * 0.23,
+                    paddingHorizontal: 10,
+                    paddingVertical: 6,
+                    borderRadius: 8,
+                    // ❌ height mat do
+                  },
+                ]}
+              >
+                <Text
+                  style={{
+                    fontSize: height * 0.018,
+                    fontWeight: "800",
+                    color: colors.fullwhite,
+                    letterSpacing: 0,
+                    flexWrap: "wrap", // ensure wrapping
+                  }}
+                >
                   VAPING PRODUCTS & HARDWARE
                 </Text>
-              </View>
+              </LinearGradient>
 
               <CustomDropdown
-                placeholder="Choose nicotine"
+                placeholder="select"
                 data={[
-                  { label: "Room Odourisers", value: 10 },
-                  { label: "Room Odourisers", value: 20 },
-                  { label: "Room Odourisers", value: 30 },
+                  { label: "IronPulse", value: 10 },
+                  { label: "VortexGear", value: 20 },
+                  { label: "TitanVape", value: 30 },
+                  { label: "IgnisCore", value: 40 },
+                  { label: "AeroForge", value: 50 },
                 ]}
                 onChange={(val) => console.log("picked", val)}
               />
@@ -598,7 +793,19 @@ const HomePage = () => {
             >
               {Array.from({ length: 6 }).map((_, index) => (
                 <View key={index} style={styles.productWrapper}>
-                  <OneProduct />
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate("Shop", {
+                        screen: "ProductDetails", // nested screen ka naam
+                        // params: {
+                        //   // agar kuch data bhejna ho to yaha
+                        //   categoryId: 5,
+                        // },
+                      });
+                    }}
+                  >
+                    <OneProduct />
+                  </TouchableOpacity>
                 </View>
               ))}
             </ScrollView>
@@ -640,10 +847,13 @@ const HomePage = () => {
                   <Text
                     style={[
                       {
-                        fontSize: 18,
+                        // alignSelf:"center",
+                        fontSize: width * 0.05,
                         color: colors.fullwhite,
                         // marginStart: 10,
                         fontWeight: "700",
+                        width: "100%",
+                        textAlign: "center",
                       },
                     ]}
                   >
@@ -658,53 +868,91 @@ const HomePage = () => {
                 contentContainerStyle={styles.recentlyViewedList}
               >
                 {flavours.map((flavours) => (
-                  <View
+                  <TouchableOpacity
                     key={flavours.id}
-                    style={[
-                      styles.productWrapper,
-                      {
-                        flexDirection: "column",
-                        backgroundColor: colors.fullwhite,
-                        borderRadius: 15,
-                        width: width * 0.3,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        margin: 10,
-                      },
-                    ]}
+                    onPress={() => {
+                      navigation.navigate("Shop", {
+                        screen: "ProductCategory", // nested screen ka naam
+                        // params: {
+                        //   // agar kuch data bhejna ho to yaha
+                        //   categoryId: 5,
+                        // },
+                      });
+                    }}
                   >
-                    <Image
+                    <View
                       style={[
+                        styles.productWrapper,
                         {
-                          height: height * 0.12,
-                          width: width * 0.275,
-                          // borderWidth: 1,
-                          margin: 5,
-                          resizeMode: "stretch",
-                          borderRadius: 10,
-                          marginBottom: height * 0.01,
+                          flexDirection: "column",
+                          backgroundColor: colors.fullwhite,
+                          borderRadius: 15,
+                          width: width * 0.3,
+                          alignItems: "center",
+                          justifyContent: "center",
+                          margin: 10,
                         },
                       ]}
-                      source={flavours.icon}
-                      // source={require("../../../../assets/vapeDevice.png")}
-                    ></Image>
-                    <Text
-                      style={{
-                        color: colors.dark,
-                        marginBottom: height * 0.01,
-                      }}
                     >
-                      {flavours.name}
-                    </Text>
-                  </View>
+                      <Image
+                        style={[
+                          {
+                            height: height * 0.12,
+                            width: width * 0.275,
+                            // borderWidth: 1,
+                            margin: 5,
+                            resizeMode: "stretch",
+                            borderRadius: 10,
+                            marginBottom: height * 0.01,
+                          },
+                        ]}
+                        source={flavours.icon}
+                        // source={require("../../../../assets/vapeDevice.png")}
+                      ></Image>
+                      <Text
+                        style={{
+                          color: colors.dark,
+                          marginBottom: height * 0.01,
+                          fontSize: height * 0.015,
+                        }}
+                      >
+                        {flavours.name}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
                 ))}
               </ScrollView>
             </View>
             {/* Top Rated Product */}
 
-            <View style={[styles.recentlyViewed, { marginTop: 20 }]}>
-              <Text style={[{ fontSize: 18 }]}>Top Rated Products</Text>
-            </View>
+            <LinearGradient
+              colors={["#D31174", "#fe0083ff"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={[
+                styles.recentlyViewed,
+                {
+                  width: height * 0.2, // width fix rakhna ok hai
+                  maxWidth: height * 0.23,
+                  paddingHorizontal: 10,
+                  paddingVertical: 6,
+                  borderRadius: 8,
+                  // ❌ height mat do
+                },
+              ]}
+            >
+              <Text
+                style={{
+                  fontSize: height * 0.022,
+                  fontWeight: "800",
+                  color: colors.fullwhite,
+                  letterSpacing: 2,
+                  flexWrap: "wrap", // ensure wrapping
+                }}
+              >
+                Top Rated Products
+              </Text>
+            </LinearGradient>
 
             <ScrollView
               horizontal
@@ -713,7 +961,19 @@ const HomePage = () => {
             >
               {Array.from({ length: 6 }).map((_, index) => (
                 <View key={index} style={styles.productWrapper}>
-                  <OneProduct />
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate("Shop", {
+                        screen: "ProductDetails", // nested screen ka naam
+                        // params: {
+                        //   // agar kuch data bhejna ho to yaha
+                        //   categoryId: 5,
+                        // },
+                      });
+                    }}
+                  >
+                    <OneProduct />
+                  </TouchableOpacity>
                 </View>
               ))}
             </ScrollView>
@@ -724,9 +984,25 @@ const HomePage = () => {
             ></Image>
             {/* Explore More */}
 
-            <View style={[styles.recentlyViewed, { marginTop: 20 }]}>
-              <Text style={[{ fontSize: 18 }]}>Explore More</Text>
-            </View>
+            <LinearGradient
+              colors={[
+                colors.secondary,
+                colors.primary,
+
+                // colors.gradient3,
+                // colors.gradient4,
+              ]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={[
+                styles.recentlyViewed,
+                { marginTop: 20, maxWidth: height * 0.18 },
+              ]}
+            >
+              <Text style={[{ fontSize: 18, color: colors.fullwhite }]}>
+                Explore More
+              </Text>
+            </LinearGradient>
 
             <ScrollView
               style={{ top: 1 }}
@@ -735,47 +1011,79 @@ const HomePage = () => {
               contentContainerStyle={styles.recentlyViewedList}
             >
               {explore.map((explore) => (
-                <View
+                <TouchableOpacity
                   key={explore.id}
-                  style={[
-                    styles.productWrapper,
-                    {
-                      // flexDirection: "column",
-                      // backgroundColor: colors.fullwhite,
-                      // borderRadius: 15,
-                      // width: width * 0.3,
-                      // alignItems: "center",
-                      // justifyContent: "center",
-                      // margin: 10,
-                    },
-                  ]}
+                  onPress={() => {
+                    navigation.navigate("Shop", {
+                      screen: "ProductCategory", // nested screen ka naam
+                      // params: {
+                      //   // agar kuch data bhejna ho to yaha
+                      //   categoryId: 5,
+                      // },
+                    });
+                  }}
                 >
-                  <Image
+                  <View
                     style={[
+                      styles.productWrapper,
                       {
-                        borderColor: colors.fullwhite,
-                        borderWidth: 3,
-                        height: height * 0.14,
-                        width: width * 0.275,
-                        // borderWidth: 1,
-                        margin: 3,
-                        resizeMode: "stretch",
-                        borderRadius: 10,
-                        // marginBottom: height * 0.01,
+                        // flexDirection: "column",
+                        // backgroundColor: colors.fullwhite,
+                        // borderRadius: 15,
+                        // width: width * 0.3,
+                        // alignItems: "center",
+                        // justifyContent: "center",
+                        // margin: 10,
                       },
                     ]}
-                    source={explore.icon}
-                    // source={require("../../../../assets/vapeDevice.png")}
-                  ></Image>
-                </View>
+                  >
+                    <Image
+                      style={[
+                        {
+                          borderColor: colors.fullwhite,
+                          borderWidth: 3,
+                          height: height * 0.14,
+                          width: width * 0.275,
+                          // borderWidth: 1,
+                          margin: 3,
+                          resizeMode: "stretch",
+                          borderRadius: 10,
+                          // marginBottom: height * 0.01,
+                        },
+                      ]}
+                      source={explore.icon}
+                      // source={require("../../../../assets/vapeDevice.png")}
+                    ></Image>
+                  </View>
+                </TouchableOpacity>
               ))}
             </ScrollView>
 
             {/* From our Blog */}
 
-            <View style={[styles.recentlyViewed, { marginTop: 20 }]}>
-              <Text style={[{ fontSize: 18 }]}>From Our Blog</Text>
-            </View>
+            <LinearGradient
+              colors={[
+                colors.secondary,
+                colors.primary,
+
+                // colors.gradient3,
+                // colors.gradient4,
+              ]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={[
+                styles.recentlyViewed,
+                {
+                  marginTop: 20,
+                  maxWidth: height * 0.18,
+                  color: colors.fullwhite,
+                },
+              ]}
+            >
+              <Text style={[{ fontSize: 18, color: colors.fullwhite }]}>
+                From Our Blog
+              </Text>
+            </LinearGradient>
 
             {/* </View> */}
             <ScrollView
@@ -1023,24 +1331,32 @@ const styles = StyleSheet.create({
     marginRight: 12,
     alignItems: "center",
     justifyContent: "center",
-    width: width * 0.28,
+    width: height * 0.145,
     paddingTop: 10,
     paddingBottom: 10,
   },
   categoryText: {
     marginTop: 8,
-    fontSize: 15,
+    fontSize: height * 0.014,
     fontWeight: "600",
     color: colors.white,
     textAlign: "center",
   },
   recentlyViewed: {
-    borderWidth: 0.5,
+    borderWidth: 0.7,
     borderColor: colors.red,
-    padding: 5,
+    padding: height * 0.01,
     // height: height * 0.045,
-    width: width * 0.45,
+    // width: height * 0.,
     // marginBottom: 10,
+    // maxWidth:height*0.3
+    // backgroundColor: colors.primary,
+
+    borderRadius: 10,
+    borderColor: "#FFC0CB",
+    borderWidth: 2,
+
+    elevation: 5,
   },
   sectionText: {
     fontSize: 12,

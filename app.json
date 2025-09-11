@@ -31,8 +31,9 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "99657649-4dfa-4df5-9780-71d0ed260cfa"
+        "projectId": "d68dcc5f-0fa4-4303-a33f-d03ce954efcc"
       }
-    }
+    },
+    "owner": "devraj2110"
   }
 }

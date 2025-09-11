@@ -21,7 +21,7 @@ import { LinearGradient } from "expo-linear-gradient";
 const { width, height } = Dimensions.get("window");
 // Calculate responsive sizes based on screen dimensions
 const buttonWidth = Math.min(160, width * 0.45);
-const buttonHeight = Math.max(44, height * 0.06);
+const buttonHeight = Math.max(40, height * 0.05);
 const fontSize = Math.max(14, width * 0.04);
 const iconSize = Math.max(18, width * 0.045);
 const ScreenThree = ({ navigation }) => {
@@ -142,13 +142,14 @@ const ScreenThree = ({ navigation }) => {
           >
             <Pressable onPress={() => {}}>
               <View
-                style={[styles.modalView, { marginHorizontal: width * 0.05 }]}
+                style={[styles.modalView, { marginHorizontal: height * 0.015 }]}
               >
                 <Text
                   style={{
                     color: colors.dark,
-                    fontSize: width * 0.055,
-                    marginBottom: 5,
+                    fontSize: height * 0.025,
+                    marginBottom: height * 0.01,
+                    marginTop: height * 0.015,
                     lineHeight: height * 0.035,
                     fontFamily: "KaiseiOpti_700Bold",
                   }}
@@ -157,39 +158,43 @@ const ScreenThree = ({ navigation }) => {
                 </Text>
                 <Image
                   source={require("../../../../assets/vapingJoint.png")}
-                  style={[{ height: height * 0.04, width: width * 0.5 }]}
+                  style={[
+                    {
+                      height: height * 0.04,
+                      width: height * 0.23,
+                      resizeMode: "stretch",
+                    },
+                  ]}
                 ></Image>
                 <View style={{ flexDirection: "row" }}>
                   <Text
-                    style={{
-                      color: colors.dark,
-                      fontSize: width * 0.055,
-                      marginBottom: 10,
-                      // fontStyle: "bold",
-                      fontWeight: "800",
-                      marginRight: 10,
-                    }}
+                    style={[
+                      styles.txt_agever,
+                      {
+                        color: colors.dark,
+                        marginEnd: height * 0.01,
+                      },
+                    ]}
                   >
                     AGE
                   </Text>
                   <Text
-                    style={{
-                      color: colors.dark,
-                      fontSize: width * 0.055,
-                      marginBottom: 10,
-                      fontStyle: "bold",
-                      fontWeight: "700",
-                      color: colors.secondary,
-                    }}
+                    style={[
+                      styles.txt_agever,
+                      {
+                        color: colors.secondary,
+                      },
+                    ]}
                   >
                     VERIFICATION
                   </Text>
                 </View>
                 <Text
                   style={{
-                    fontSize: width * 0.045,
+                    fontSize: height * 0.023,
                     marginTop: height * 0.02,
                     textAlign: "center",
+                    color: colors.grey2,
                   }}
                 >
                   The products available on Vapingjoint are age-restricted and
@@ -202,6 +207,29 @@ const ScreenThree = ({ navigation }) => {
                   {/* <checkedBox></checkedBox> */}
                 </View>
 
+                <View style={styles.content}>
+                  <Text style={styles.title}>
+                    Are you above 18 Years of age?
+                  </Text>
+
+                  <View style={styles.checkboxContainer}>
+                    <Checkbox
+                      status={isChecked ? "checked" : "unchecked"}
+                      onPress={() => setIsChecked(!isChecked)}
+                      color="#4CAF50"
+                    />
+                    <Text style={styles.label}>Yes, I am above 18</Text>
+                  </View>
+
+                  <TouchableOpacity
+                    style={[styles.button, !isChecked && styles.buttonDisabled]}
+                    disabled={!isChecked}
+                    onPress={() => console.log("Verified")}
+                  >
+                    <Text style={styles.buttonText}>Confirm</Text>
+                  </TouchableOpacity>
+                </View>
+
                 <View
                   style={
                     // ({ pressed }) =>
@@ -209,8 +237,8 @@ const ScreenThree = ({ navigation }) => {
                       styles.btnContainer,
                       {
                         // marginHorizontal: 10,
-                        width: "90%",
-                        marginTop: 20,
+                        // width: height * 0.38,
+                        marginVertical: height * 0.04,
                         height: buttonHeight,
                         // opacity: pressed && Platform.OS === "ios" ? 0.7 : 1,
                         transform: [
@@ -226,12 +254,12 @@ const ScreenThree = ({ navigation }) => {
                         ? colors.primary + "80"
                         : undefined,
                     borderless: false,
-                    radius: buttonHeight / 2,
+                    radius: buttonHeight / 1,
                   }}
                 >
                   {/* Left side with text */}
                   <TouchableOpacity
-                    style={[styles.left, { backgroundColor: colors.secondary }]}
+                    style={[styles.left, { backgroundColor: colors.primary }]}
                     onPress={() => {
                       setModalVisible(false);
                       navigation.navigate("Auth");
@@ -248,7 +276,7 @@ const ScreenThree = ({ navigation }) => {
                         style={[
                           styles.text,
                           {
-                            fontSize: width * 0.055,
+                            fontSize: height * 0.023,
                             // Adjust text alignment for RTL
                             // textAlign: isRTL ? "right" : "left",
                           },
@@ -256,7 +284,7 @@ const ScreenThree = ({ navigation }) => {
                         numberOfLines={1}
                         adjustsFontSizeToFit
                       >
-                        I am 18+
+                        I'm 18+
                         {/* {text} */}
                       </Text>
                     </View>
@@ -292,15 +320,15 @@ const ScreenThree = ({ navigation }) => {
                     /> */}
                       <Text
                         style={{
-                          fontSize: width * 0.05,
+                          fontSize: height * 0.023,
                           // fontStyle: "normal",
                           fontWeight: "900",
+                          color: colors.grey2,
                           // fontFamily: "KaiseiOpti_700Bold",
                           // lineHeight: height * 0.035,
                         }}
                       >
-                        {" "}
-                        No I'm not
+                        I'm not
                       </Text>
                     </View>
                   </TouchableOpacity>
@@ -471,15 +499,16 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     overflow: "hidden",
     borderWidth: 1,
-    borderColor: colors.secondary,
+    borderColor: colors.primary,
+    backgroundColor: colors.white,
     ...Platform.select({
       ios: {
-        shadowColor: "#000",
+        // shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
       },
-      android: { elevation: 4 },
+      android: { elevation: 0 },
     }),
   },
   left: {
@@ -489,6 +518,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 10,
+    borderRadius: 50,
   },
   right: {
     width: "50%",
@@ -501,6 +531,56 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     // Better text scaling
     includeFontPadding: false,
+  },
+  txt_agever: {
+    color: colors.dark,
+    fontSize: height * 0.028,
+    marginBottom: height * 0.01,
+    fontStyle: "bold",
+    fontWeight: "700",
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#f8f9fa',
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: '600',
+    marginBottom: 30,
+    textAlign: 'center',
+    color: '#333',
+  },
+  checkboxContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 30,
+  },
+  label: {
+    marginLeft: 10,
+    fontSize: 16,
+    color: '#333',
+  },
+  button: {
+    backgroundColor: '#4CAF50',
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 8,
+    minWidth: 150,
+    alignItems: 'center',
+  },
+  buttonDisabled: {
+    backgroundColor: '#cccccc',
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
 });
 

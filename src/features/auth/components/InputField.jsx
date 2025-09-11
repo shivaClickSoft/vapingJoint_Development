@@ -3,7 +3,7 @@ import {
   TextInput,
   StyleSheet,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import { useState } from "react";
 import colors from "../../../constants/colors";
@@ -11,12 +11,19 @@ import { Ionicons } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");
 
-const InputField = ({ isPassword, value, setValue, placeholder, icon, error }) => {
-    const [showPassword, setShowPassword] = useState(false);
+const InputField = ({
+  isPassword,
+  value,
+  setValue,
+  placeholder,
+  icon,
+  error,
+}) => {
+  const [showPassword, setShowPassword] = useState(false);
 
-    const togglePasswordVisibility = () => {
-      setShowPassword(!showPassword);
-    };
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   return (
     <View style={[styles.container, error && styles.errorBorder]}>
@@ -31,17 +38,17 @@ const InputField = ({ isPassword, value, setValue, placeholder, icon, error }) =
 
       {/* Text Input */}
       <TextInput
-        style={[styles.input, {width: isPassword ? "70%" : "85%"}]} // Moved the conditional width here
+        style={[styles.input, { width: isPassword ? "70%" : "85%" }]} // Moved the conditional width here
         placeholder={placeholder}
-        placeholderTextColor={colors.gray}
+        placeholderTextColor={colors.grey}
         value={value}
         onChangeText={setValue}
         secureTextEntry={isPassword && !showPassword} // Fixed the secureTextEntry logic
       />
 
       {isPassword && (
-        <TouchableOpacity 
-          style={styles.iconContainer} 
+        <TouchableOpacity
+          style={styles.iconContainer}
           onPress={togglePasswordVisibility}
         >
           <Ionicons
@@ -61,7 +68,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 1,
     borderColor: colors.primary,
-    backgroundColor: colors.white,
+    backgroundColor: colors.fullwhite,
     borderRadius: width * 0.02,
     width: "100%",
     height: height * 0.065,

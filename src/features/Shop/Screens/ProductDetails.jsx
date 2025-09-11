@@ -24,6 +24,7 @@ import colors from "../../../constants/colors";
 import { LinearGradient } from "expo-linear-gradient";
 // import { ScrollView } from "react-native-gesture-handler";
 // import { Picker } from "@react-native-picker/picker";
+import CustomDropdown from "../../home/components/customDropdown";
 
 if (Platform.OS === "android") {
   UIManager.setLayoutAnimationEnabledExperimental &&
@@ -36,7 +37,7 @@ const cateList = Array.from({ length: 5 }).map((_, j) => ({
   id: j,
   catName: `category ${j + 1}`,
 }));
-const ProductDetails = () => {
+const ProductDetails = ({ navigation }) => {
   const insets = useSafeAreaInsets();
   const HEADER_HEIGHT = height * 0.2;
 
@@ -79,8 +80,8 @@ const ProductDetails = () => {
         style={[
           {
             paddingTop: insets.top,
-            paddingStart: width * 0.02,
-            paddingEnd: width * 0.04,
+            paddingStart: height * 0.01,
+            paddingEnd: height * 0.01,
             height: height * 0.15,
           },
         ]}
@@ -90,22 +91,41 @@ const ProductDetails = () => {
             styles.topContainer,
             {
               paddingTop: height * 0.02,
-              paddingStart: width * 0.02,
-              paddingEnd: width * 0.04,
+              paddingStart: height * 0.01,
+              paddingEnd: height * 0.01,
               alignItems: "center",
             },
           ]}
         >
-          <Ionicons name="arrow-back" color={colors.white} size={30}></Ionicons>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Shop");
+              //
+            }}
+          >
+            <Ionicons
+              name="arrow-back"
+              color={colors.white}
+              size={height * 0.03}
+            ></Ionicons>
+          </TouchableOpacity>
           <View style={[styles.searchContainer, { flexDirection: "row" }]}>
-            <Ionicons name="search" color={colors.grey} size={30}></Ionicons>
+            <Ionicons
+              name="search"
+              color={colors.grey}
+              size={height * 0.025}
+            ></Ionicons>
             <TextInput
-              style={{ fontSize: width * 0.05 }}
+              style={{ fontSize: height * 0.02 }}
               placeholder="Search By Brand"
               placeholderTextColor={colors.grey}
             ></TextInput>
           </View>
-          <Ionicons name="cart" color={colors.grey} size={30}></Ionicons>
+          <Ionicons
+            name="cart"
+            color={colors.grey}
+            size={height * 0.03}
+          ></Ionicons>
         </View>
         {/* Gradient background for rest of screen */}
       </View>
@@ -143,7 +163,7 @@ const ProductDetails = () => {
                     source={item}
                     style={{
                       height: height * 0.2,
-                      width: width * 0.9,
+                      width: height * 0.42,
                       resizeMode: "contain",
                       borderRadius: 10,
                       marginTop: 15,
@@ -230,7 +250,7 @@ const ProductDetails = () => {
               <Text
                 numberOfLines={1}
                 ellipsizeMode="tail"
-                style={[styles.title, { marginTop: 10 }]}
+                style={[styles.title, { marginTop: height * 0.01 }]}
               >
                 zeus dodoberry 20mg e li12 super long title testing for overflow
               </Text>
@@ -248,12 +268,12 @@ const ProductDetails = () => {
                 <Text
                   style={[
                     styles.sku,
-                    { maxWidth: width * 0.15, minWidth: width * 0.13 },
+                    { maxWidth: height * 0.07, minWidth: height * 0.06 },
                   ]}
                   numberOfLines={1}
                   ellipsizeMode="tail"
                 >
-                  SKU: 1749228414000002211121
+                  SKU: 174922841
                 </Text>
               </View>
             </View>
@@ -281,7 +301,7 @@ const ProductDetails = () => {
                   {
                     color: "green",
                     fontWeight: "bold",
-                    fontSize: width * 0.045,
+                    fontSize: height * 0.025,
                     marginEnd: 5,
                   },
                 ]}
@@ -295,7 +315,7 @@ const ProductDetails = () => {
                     textDecorationLine: "line-through",
                     marginRight: 8,
                     fontWeight: "bold",
-                    fontSize: width * 0.045,
+                    fontSize: height * 0.025,
                     color: colors.grey,
                   },
                 ]}
@@ -305,7 +325,11 @@ const ProductDetails = () => {
               <Text
                 style={[
                   styles.newPrice,
-                  { fontWeight: "bold", fontSize: width * 0.05, color: "#000" },
+                  {
+                    fontWeight: "bold",
+                    fontSize: height * 0.025,
+                    color: "#000",
+                  },
                 ]}
               >
                 £3.99
@@ -316,7 +340,7 @@ const ProductDetails = () => {
             <Text
               style={[
                 styles.rating,
-                { alignSelf: "flex-start", marginStart: width * 0.05 },
+                { alignSelf: "flex-start", marginStart: height * 0.03 },
               ]}
             >
               ⭐⭐⭐⭐⭐
@@ -330,32 +354,90 @@ const ProductDetails = () => {
                 }}
               >
                 {/* Nicotine */}
-                <View style={{ flex: 1, marginRight: 10 }}>
-                  <Text style={{ fontSize: 16, marginBottom: 5 }}>
+                <View
+                  style={{
+                    // justifyContent: "center",
+                    alignItems: "center",
+                    flex: 1,
+                    marginRight: height * 0.001,
+                    flexDirection: "row",
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: height * 0.015,
+                      marginBottom: 5,
+                      marginRight: 5,
+                    }}
+                  >
                     Nicotine:
                   </Text>
-                  <View style={styles.dropdownBox}>
-                    <Text>20 mg ▼</Text>
-                  </View>
+                  <CustomDropdown
+                    placeholder="select"
+                    data={[
+                      { label: "IronPulse", value: 10 },
+                      { label: "VortexGear", value: 20 },
+                      { label: "TitanVape", value: 30 },
+                      { label: "IgnisCore", value: 40 },
+                      { label: "AeroForge", value: 50 },
+                    ]}
+                    onChange={(val) => console.log("picked", val)}
+                  />
                 </View>
-
+              </View>
+              <View
+                style={[
+                  {
+                    marginTop: height * 0.01,
+                    flexDirection: "row",
+                    justifyContent: "flex-end",
+                    alignItems: "flex-end",
+                  },
+                ]}
+              >
                 {/* Extra Nicotine */}
-                <View style={{ flex: 2, marginLeft: 10 }}>
-                  <Text style={{ fontSize: 16, marginBottom: 5 }}>
+                <View
+                  style={{
+                    flex: 2,
+                    marginTop: 5,
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: height * 0.015,
+                      marginRight: height * 0.001,
+                    }}
+                  >
                     Add Extra Nicotine:
                   </Text>
-                  <View style={styles.dropdownBox}>
-                    <Text>Nicotine Shot ▼</Text>
-                  </View>
+                  <CustomDropdown
+                    placeholder="select"
+                    data={[
+                      { label: "IronPulse", value: 10 },
+                      { label: "VortexGear", value: 20 },
+                      { label: "TitanVape", value: 30 },
+                      { label: "IgnisCore", value: 40 },
+                      { label: "AeroForge", value: 50 },
+                    ]}
+                    onChange={(val) => console.log("picked", val)}
+                  />
                 </View>
-
+                <View style={[{ width: width * 0.1 }]}></View>
                 {/* Extra Nicotine Qty */}
-                <View style={{ width: 60, marginLeft: 10 }}>
-                  <Text style={{ fontSize: 16, marginBottom: 5 }}> </Text>
-                  <View style={styles.dropdownBox}>
-                    <Text>1 ▼</Text>
-                  </View>
-                </View>
+                <CustomDropdown
+                  placeholder="0"
+                  widthh={width * 0.1}
+                  data={[
+                    { label: "1", value: 10 },
+                    { label: "2", value: 20 },
+                    { label: "3", value: 30 },
+                    { label: "4", value: 40 },
+                    { label: "5", value: 50 },
+                  ]}
+                  onChange={(val) => console.log("picked", val)}
+                />
               </View>
 
               {/* Row 2 - Qty */}
@@ -363,17 +445,25 @@ const ProductDetails = () => {
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
-                  marginTop: 15,
+                  marginTop: height * 0.01,
                 }}
               >
-                <Text style={{ fontSize: 16, marginRight: 10 }}>Qty:</Text>
-                <View style={styles.qtyBox}>
-                  <TouchableOpacity>
-                    <Text style={styles.qtyBtn}>+</Text>
+                <Text style={{ fontSize: height * 0.015, marginRight: 10 }}>
+                  Qty:
+                </Text>
+                <View style={styles.counter}>
+                  <TouchableOpacity
+                    style={[styles.btn, qty === 1 && styles.disabledBtn]}
+                    onPress={decreaseQty}
+                    disabled={qty === 1}
+                  >
+                    <Text style={styles.btnText}>-</Text>
                   </TouchableOpacity>
-                  <Text style={styles.qtyText}>1</Text>
-                  <TouchableOpacity>
-                    <Text style={styles.qtyBtn}>-</Text>
+
+                  <Text style={styles.qty}>{qty}</Text>
+
+                  <TouchableOpacity style={styles.btn} onPress={increaseQty}>
+                    <Text style={styles.btnText}>+</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -385,13 +475,13 @@ const ProductDetails = () => {
                   backgroundColor: colors.secondary,
                   height: height * 0.2,
                   flexDirection: "column",
-
-                  marginStart: 10,
-                  marginEnd: 10,
-                  marginTop: 10,
+                  // this is
+                  marginStart: height * 0.01,
+                  marginEnd: height * 0.01,
+                  marginTop: height * 0.01,
 
                   borderRadius: 20,
-                  minWidth: width * 0.88,
+                  minWidth: height * 0.08,
                 },
               ]}
             >
@@ -401,10 +491,10 @@ const ProductDetails = () => {
                     backgroundColor: colors.dark + "00",
                     flexDirection: "row",
                     borderRadius: 20,
-                    paddingStart: width * 0.02,
+                    paddingStart: height * 0.015,
                     alignItems: "center",
-                    paddingTop: width * 0.01,
-                    height:height*0.05
+                    paddingTop: height * 0.001,
+                    height: height * 0.05,
                   },
                 ]}
               >
@@ -412,8 +502,8 @@ const ProductDetails = () => {
                   style={[
                     {
                       height: height * 0.03,
-                      width: width * 0.08,
-                      marginStart: width * 0.01,
+                      width: height * 0.034,
+                      marginStart: height * 0.01,
                     },
                   ]}
                   source={require("../../../../assets/offersimg.png")}
@@ -422,10 +512,10 @@ const ProductDetails = () => {
                 <Text
                   style={[
                     {
-                      fontSize: width * 0.04,
+                      fontSize: height * 0.02,
                       color: colors.white,
                       fontWeight: "700",
-                      marginStart: width * 0.02,
+                      marginStart: height * 0.01,
                     },
                   ]}
                 >
@@ -438,18 +528,18 @@ const ProductDetails = () => {
                     borderRadius: 10,
                     backgroundColor: "#FFEAEE",
                     flexDirection: "column",
-                    height:height*0.15
+                    height: height * 0.15,
                   },
                 ]}
               >
                 <Text
                   style={[
                     {
-                      fontSize: width * 0.045,
-                      fontWeight: "900",
+                      fontSize: height * 0.02,
+                      fontWeight: "700",
                       fontStyle: "bold",
                       color: colors.dark,
-                      padding: width * 0.035,
+                      padding: height * 0.007,
                     },
                   ]}
                 >
@@ -490,7 +580,9 @@ const ProductDetails = () => {
                       </LinearGradient>
                       {/* Offer Details */}
                       <View style={styles.details}>
-                        <Text style={styles.offerTitle}>
+                        <Text
+                          style={[styles.offerTitle, { fontStyle: "bold" }]}
+                        >
                           Buy 3 for £2.01 Off
                         </Text>
                         <View
@@ -513,16 +605,17 @@ const ProductDetails = () => {
               </View>
             </View>
 
-            <View style={[{ height: 50 }]}></View>
+            <View style={[{ height: height * 0.02 }]}></View>
 
             <View
               style={[
                 {
                   backgroundColor: colors.secondary,
-                  height: height * 0.2,
+                  height: height * 0.15,
+
                   flexDirection: "column",
 
-                  marginStart: 10,
+                  marginStart: height * 0.01,
                   marginEnd: 10,
                   marginTop: 10,
 
@@ -536,7 +629,6 @@ const ProductDetails = () => {
                   {
                     backgroundColor: colors.dark + "00",
                     flexDirection: "row",
-
                     borderRadius: 20,
                     paddingStart: width * 0.02,
                     alignItems: "center",
@@ -562,6 +654,7 @@ const ProductDetails = () => {
                 style={[
                   {
                     borderRadius: 10,
+                    height: height * 0.15,
                     backgroundColor: "#FFEAEE",
                     flexDirection: "column",
                   },
@@ -577,7 +670,11 @@ const ProductDetails = () => {
                     <View
                       style={[
                         styles.cardProduct,
-                        { justifyContent: "center", alignItems: "center" },
+                        {
+                          height: height * 0.13,
+                          justifyContent: "center",
+                          alignItems: "center",
+                        },
                       ]}
                     >
                       {/* Product Image */}
@@ -587,7 +684,7 @@ const ProductDetails = () => {
                       />
 
                       {/* Product Details */}
-                      <View style={styles.details}>
+                      <View style={[{}]}>
                         <Text
                           numberOfLines={1}
                           ellipsizeMode="tail"
@@ -735,10 +832,10 @@ const ProductDetails = () => {
                   justifyContent: "center",
                   alignItems: "center",
                   flex: 1,
-                  margin: 15,
+                  margin: height * 0.01,
                   backgroundColor: colors.white + "00",
                   fontWeight: 800,
-                  fontSize: width * 0.03,
+                  fontSize: height * 0.03,
                   padding: 10,
                   borderColor: colors.primary,
                   borderWidth: 1,
@@ -751,7 +848,7 @@ const ProductDetails = () => {
                   {
                     color: colors.dark,
                     fontWeight: 800,
-                    fontSize: width * 0.05,
+                    fontSize: height * 0.04,
                   },
                 ]}
               >
@@ -762,7 +859,7 @@ const ProductDetails = () => {
               style={[
                 {
                   flex: 1,
-                  margin: 15,
+                  margin: width * 0.01,
 
                   fontWeight: 800,
                   fontSize: width * 0.03,
@@ -781,7 +878,7 @@ const ProductDetails = () => {
                     alignItems: "center",
                     flex: 1,
                     fontWeight: 800,
-                    fontSize: width * 0.03,
+                    fontSize: width * 0.02,
                     padding: 10,
                     borderRadius: 10,
                   },
@@ -792,11 +889,11 @@ const ProductDetails = () => {
                     {
                       color: colors.white,
                       fontWeight: 800,
-                      fontSize: width * 0.05,
+                      fontSize: width * 0.04,
                     },
                   ]}
                 >
-                  Buy at + price
+                  Buy at £9.96
                 </Text>
               </LinearGradient>
             </TouchableOpacity>
@@ -828,10 +925,10 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   card: {
-    marginStart: 20,
+    marginStart: height * 0.015,
     marginTop: 10,
     marginBottom: 10,
-    marginEnd: 20,
+    marginEnd: height * 0.015,
     backgroundColor: "#ffffffff",
     alignItems: "center",
     borderRadius: 20,
@@ -1005,9 +1102,12 @@ const styles = StyleSheet.create({
 
   readMore: { color: "blue" },
 
-  discount: {},
-  oldPrice: { textDecorationLine: "line-through", marginRight: 8 },
-  newPrice: {},
+  oldPrice: {
+    fontSize: width * 0.025,
+    color: "#888",
+    textDecorationLine: "line-through",
+    marginRight: 8,
+  },
 
   rating: { marginHorizontal: width * 0.05, marginTop: 1, fontSize: 20 },
 
@@ -1016,7 +1116,13 @@ const styles = StyleSheet.create({
     margin: width * 0.05,
     borderRadius: 8,
   },
-  offerTitle: { fontWeight: "bold", marginBottom: 10 },
+  offerTitle: {
+    fontWeight: "bold",
+    marginBottom: 10,
+    fontSize: 15,
+    fontWeight: "600",
+    marginBottom: 2,
+  },
   offerCard: {
     flex: 1,
     backgroundColor: "#fff",
@@ -1106,9 +1212,9 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     // elevation: 2,
     height: height * 0.08,
-    width: width * 0.5,
-    marginHorizontal: width * 0.02,
-    // borderWidth: 2,
+    width: height * 0.3,
+    marginHorizontal: height * 0.004,
+    marginEnd: height * 0.004, // borderWidth: 2,
     // borderColor: "#06c16700",
   },
   cardActive: {
@@ -1116,45 +1222,33 @@ const styles = StyleSheet.create({
     // borderColor: "#06C16700", // green highlight
   },
   radioOuter: {
-    height: 24,
-    width: 24,
+    height: height * 0.03,
+    width: height * 0.03,
     borderRadius: 12,
     borderWidth: 2,
     borderColor: "#ffffffff",
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 10,
+    // marginRight: 10,
   },
   radioInner: {
-    height: 16,
-    width: 16,
+    height: height * 0.02,
+    width: height * 0.02,
     borderRadius: 20,
     backgroundColor: "#ffffffff",
   },
-  details: {
-    flex: 1,
-  },
-  offerTitle: {
-    fontSize: 15,
-    fontWeight: "600",
-    marginBottom: 2,
-  },
+
   newPrice: {
     color: "red",
-    fontSize: 14,
+    fontSize: width * 0.03,
     fontWeight: "600",
   },
-  oldPrice: {
-    fontSize: 13,
-    color: "#888",
-    textDecorationLine: "line-through",
-  },
   totalLabel: {
-    fontSize: 13,
+    fontSize: width * 0.03,
     fontWeight: "500",
   },
   totalPrice: {
-    fontSize: 14,
+    fontSize: width * 0.03,
     fontWeight: "600",
     color: "green",
   },
@@ -1172,8 +1266,8 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
   },
   image: {
-    width: 60,
-    height: 80,
+    width: width * 0.1,
+    height: height * 0.1,
     resizeMode: "contain",
     marginRight: 10,
   },

@@ -52,48 +52,28 @@ const cateList = Array.from({ length: 5 }).map((_, j) => ({
 const categories = [
   {
     id: 1,
-    name: "E-LIQUID",
+    name: "Brands",
     icon: require("../../../../assets/categories/8.png"),
   },
   {
     id: 2,
-    name: "VAPE KITS",
+    name: "Type",
     icon: require("../../../../assets/categories/7.png"),
   },
   {
     id: 3,
-    name: "VAPE COILS",
+    name: "Flavours",
     icon: require("../../../../assets/categories/6.png"),
   },
   {
     id: 4,
-    name: "ACCESSORIES",
+    name: "Size",
     icon: require("../../../../assets/categories/5.png"),
-  },
-  {
-    id: 5,
-    name: "DISPOSABLE VAPES",
-    icon: require("../../../../assets/categories/4.png"),
-  },
-  {
-    id: 6,
-    name: "MULTIBUYS",
-    icon: require("../../../../assets/categories/3.png"),
-  },
-  {
-    id: 7,
-    name: "CLEARANCE SALE",
-    icon: require("../../../../assets/categories/2.png"),
-  },
-  {
-    id: 8,
-    name: "DEALS & OFFERS",
-    icon: require("../../../../assets/categories/1.png"),
   },
 ];
 
 // const cateList = [{id:1, catName:`Category`},]
-const Shop = ({ navigation }) => {
+const ProductCategory = ({ navigation }) => {
   const insets = useSafeAreaInsets();
   const HEADER_HEIGHT = height * 0.2;
 
@@ -178,8 +158,8 @@ const Shop = ({ navigation }) => {
             renderItem={({ item }) => (
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate("ProductCategory");
-                  console.log(`clicked:${item.name}`);
+                  // navigation.navigate("ProductDetails");
+                  // console.log(`clicked:${item.name}`);
                 }}
               >
                 <View
@@ -686,4 +666,4 @@ const styles = StyleSheet.create({
     color: "#333",
   },
 });
-export default Shop;
+export default ProductCategory;
