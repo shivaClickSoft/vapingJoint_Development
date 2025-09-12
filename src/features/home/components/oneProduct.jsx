@@ -216,20 +216,30 @@ const OneProduct = ({
         {isNew ? (
           <Text style={styles.newTag}>New</Text>
         ) : (
-          <View style={{ width: width * 0.05, height: height * 0.02 }} />
+          <View style={{ width: height * 0.05, height: height * 0.02 }} />
         )}
         <View style={styles.iconsWrapper}>
           <Pressable style={styles.iconButton}>
-            <Ionicons name="heart-outline" size={width*0.035} color={colors.white} />
+            <Ionicons
+              name="heart-outline"
+              size={width * 0.035}
+              color={colors.white}
+            />
           </Pressable>
           <Pressable style={styles.iconButton}>
-            <Ionicons name="cart-outline" size={width*0.035} color={colors.white} />
+            <Ionicons
+              name="cart-outline"
+              size={width * 0.035}
+              color={colors.white}
+            />
           </Pressable>
         </View>
       </View>
 
       {/* Product Title */}
-      <Text style={styles.productTitle}>{productName}</Text>
+      <Text numberOfLines={2} ellipsizeMode="tail" style={styles.productTitle}>
+        {productName}
+      </Text>
       <Text style={styles.productDescription}>{description}</Text>
 
       {/* Rating */}
@@ -247,11 +257,11 @@ const OneProduct = ({
 
 const styles = StyleSheet.create({
   card: {
-    width: width * 0.4,
+    // width: width * 0.4,
     backgroundColor: colors.fullwhite,
-    borderRadius: width*0.03,
-    padding: width*0.02,
-    margin: width*0.01,
+    borderRadius: width * 0.03,
+    padding: height * 0.015,
+    margin: height * 0.01,
     alignItems: "center",
     shadowColor: "#ffffffff",
     shadowOffset: { width: 0, height: 2 },
@@ -262,10 +272,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   productImage: {
-    width: width*0.25,
-    height: height * 0.095,
+    width: height * 0.14,
+    height: height * 0.145,
+    resizeMode: "stretch",
     marginBottom: height * 0.003,
-
+    marginTop: -10,
   },
 
   topContainer: {
@@ -301,14 +312,14 @@ const styles = StyleSheet.create({
     borderColor: colors.primary,
   },
   productTitle: {
-    fontSize: width * 0.035,
+    fontSize: height * 0.017,
     textAlign: "center",
     color: colors.dark,
     fontFamily: "KaiseiOpti_400Regular",
     marginBottom: 4,
   },
   productDescription: {
-    fontSize: width * 0.03,
+    fontSize: height * 0.017,
     color: "gray",
     marginBottom: 6,
     textAlign: "center",
@@ -323,12 +334,12 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   currentPrice: {
-    fontSize: width * 0.035,
+    fontSize: height * 0.017,
     fontWeight: "bold",
     color: colors.dark,
   },
   oldPrice: {
-    fontSize: width * 0.03,
+    fontSize: height * 0.015,
     color: "gray",
     textDecorationLine: "line-through",
   },

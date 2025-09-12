@@ -27,6 +27,7 @@ const iconSize = Math.max(18, width * 0.045);
 const ScreenThree = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
+  const [is18Selected, set18] = useState(true);
   const handleSkipPress = () => {
     navigation.replace("Auth");
   };
@@ -125,195 +126,6 @@ const ScreenThree = ({ navigation }) => {
           colors={["transparent", colors.dark + "EE", colors.dark]}
           style={styles.gradientOverlay}
         />
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            console.log("age Verification dialog is closed");
-            setModalVisible(!modalVisible);
-          }}
-        >
-          <Pressable
-            onPress={() => {
-              setModalVisible(false);
-            }}
-            style={styles.modalBackdrop}
-          >
-            <Pressable onPress={() => {}}>
-              <View
-                style={[styles.modalView, { marginHorizontal: height * 0.015 }]}
-              >
-                <Text
-                  style={{
-                    color: colors.dark,
-                    fontSize: height * 0.025,
-                    marginBottom: height * 0.01,
-                    marginTop: height * 0.015,
-                    lineHeight: height * 0.035,
-                    fontFamily: "KaiseiOpti_700Bold",
-                  }}
-                >
-                  Sign Up to
-                </Text>
-                <Image
-                  source={require("../../../../assets/vapingJoint.png")}
-                  style={[
-                    {
-                      height: height * 0.04,
-                      width: height * 0.23,
-                      resizeMode: "stretch",
-                    },
-                  ]}
-                ></Image>
-                <View style={{ flexDirection: "row" }}>
-                  <Text
-                    style={[
-                      styles.txt_agever,
-                      {
-                        color: colors.dark,
-                        marginEnd: height * 0.01,
-                      },
-                    ]}
-                  >
-                    AGE
-                  </Text>
-                  <Text
-                    style={[
-                      styles.txt_agever,
-                      {
-                        color: colors.secondary,
-                      },
-                    ]}
-                  >
-                    VERIFICATION
-                  </Text>
-                </View>
-                <Text
-                  style={{
-                    fontSize: height * 0.023,
-                    marginTop: height * 0.02,
-                    textAlign: "center",
-                    color: colors.grey2,
-                  }}
-                >
-                  The products available on Vapingjoint are age-restricted and
-                  intended for adults of legal smoking age only. By entering our
-                  website, you affirm that you are of legal smoking age, and you
-                  agree to be Age Verified.
-                </Text>
-
-                <View style={{ flexDirection: "row" }}>
-                  {/* <checkedBox></checkedBox> */}
-                </View>
-
-                <View
-                  style={
-                    // ({ pressed }) =>
-                    [
-                      styles.btnContainer,
-                      {
-                        // marginHorizontal: 10,
-                        // width: height * 0.38,
-                        marginVertical: height * 0.04,
-                        height: buttonHeight,
-                        // opacity: pressed && Platform.OS === "ios" ? 0.7 : 1,
-                        transform: [
-                          // { scale: pressed && Platform.OS === "ios" ? 0.98 : 1 },
-                        ],
-                      },
-                    ]
-                  }
-                  // onPress={onPress}
-                  android_ripple={{
-                    color:
-                      Platform.OS === "android"
-                        ? colors.primary + "80"
-                        : undefined,
-                    borderless: false,
-                    radius: buttonHeight / 1,
-                  }}
-                >
-                  {/* Left side with text */}
-                  <TouchableOpacity
-                    style={[styles.left, { backgroundColor: colors.primary }]}
-                    onPress={() => {
-                      setModalVisible(false);
-                      navigation.navigate("Auth");
-                      console.log("I am 18");
-                    }}
-                  >
-                    <View
-                    // style={[
-                    //   styles.left,
-                    //   { backgroundColor: colors.secondary },
-                    // ]}
-                    >
-                      <Text
-                        style={[
-                          styles.text,
-                          {
-                            fontSize: height * 0.023,
-                            // Adjust text alignment for RTL
-                            // textAlign: isRTL ? "right" : "left",
-                          },
-                        ]}
-                        numberOfLines={1}
-                        adjustsFontSizeToFit
-                      >
-                        I'm 18+
-                        {/* {text} */}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                  {/* Right side with icon */}
-                  <TouchableOpacity
-                    style={[
-                      styles.right,
-                      {
-                        backgroundColor: colors.white,
-                      },
-                    ]}
-                    onPress={() => {
-                      Alert.alert(
-                        "Not Allowed",
-                        "You are not authorised to use this app. Please exit manually."
-                      );
-                      console.log("I am not 18");
-                    }}
-                  >
-                    <View
-                    // style={[
-                    //   styles.right,
-                    //   {
-                    //     backgroundColor: colors.white,
-                    //   },
-                    // ]}
-                    >
-                      {/* <Ionicons
-                      name={iconName}
-                      size={iconSize}
-                      color={colors.white}
-                    /> */}
-                      <Text
-                        style={{
-                          fontSize: height * 0.023,
-                          // fontStyle: "normal",
-                          fontWeight: "900",
-                          color: colors.grey2,
-                          // fontFamily: "KaiseiOpti_700Bold",
-                          // lineHeight: height * 0.035,
-                        }}
-                      >
-                        I'm not
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </Pressable>
-          </Pressable>
-        </Modal>
 
         <View style={styles.getStartedSection}>
           <Pressable
@@ -323,7 +135,7 @@ const ScreenThree = ({ navigation }) => {
             ]}
             // onPress={handleSkipPress}
             onPress={() => {
-              setModalVisible(true);
+              navigation.replace("Auth");
             }}
           >
             <Text style={styles.getStartedText}>Get Started</Text>

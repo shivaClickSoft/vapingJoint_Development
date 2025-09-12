@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 12,
     backgroundColor: "#fff",
-    minWidth: height * 0.1,
+    minWidth: height * 0.08,
     // maxWidth: width * 0.5,
     // width: "auto",
     // width:width*0.3,
@@ -185,12 +185,12 @@ const styles = StyleSheet.create({
   },
 
   placeholderText: {
-    fontSize: height * 0.015,
+    fontSize: height * 0.018,
     color: "#888",
   },
 
   itemText: {
-    fontSize: height * 0.015, // dropdown list ke andar ka text size
+    fontSize: height * 0.016, // dropdown list ke andar ka text size
     color: "#333",
   },
 });

@@ -147,28 +147,28 @@ const HomePage = ({ navigation }) => {
       name: "Important Pod Safety Tips",
       icon: require("../../../../assets/blog/imgg1.png"),
       description:
-        " Lorem Impsum a demo text written to desribe the content in the style",
+        "Lorem Impsum a demo text written to desribe the content in the style",
     },
     {
       id: 2,
       name: "10 facts about vaping",
       icon: require("../../../../assets/blog/imgg2.png"),
       description:
-        " Lorem Impsum a demo text written to desribe the content in the style",
+        "Lorem Impsum a demo text written to desribe the content in the style",
     },
     {
       id: 3,
       name: "The best E-Liquid Prices",
       icon: require("../../../../assets/blog/imgg3.png"),
       description:
-        " Lorem Impsum a demo text written to desribe the content in the style",
+        "Lorem Impsum a demo text written to desribe the content in the style",
     },
     {
       id: 4,
       name: "Top 5 Best Pod System",
       icon: require("../../../../assets/blog/imgg4.png"),
       description:
-        " Lorem Impsum a demo text written to desribe the content in the style",
+        "Lorem Impsum a demo text written to desribe the content in the style",
     },
   ];
   const explore = [
@@ -250,7 +250,7 @@ const HomePage = ({ navigation }) => {
         style={styles.carouselGradient}
       >
         <View style={styles.carouselTextContainer}>
-          <Text style={[styles.carouselText, { fontSize: width * 0.06 }]}>
+          <Text style={[styles.carouselText, { fontSize: height * 0.03 }]}>
             {item.name}
           </Text>
           <Pressable style={styles.carouselButton}>
@@ -319,7 +319,7 @@ const HomePage = ({ navigation }) => {
           ]}
         >
           <Pressable style={styles.iconButton}>
-            <Ionicons name="person-circle-outline" size={24} color="#fff" />
+            <Ionicons name="person-circle-outline" size={height*0.04} color="#fff" />
           </Pressable>
           <Image
             source={require("../../../../assets/vapingJoint.png")}
@@ -327,7 +327,7 @@ const HomePage = ({ navigation }) => {
           />
           <View style={styles.iconRow}>
             <Pressable style={styles.iconButton}>
-              <Ionicons name="cart-outline" size={22} color="#fff" />
+              <Ionicons name="cart-outline" size={height*0.04} color="#fff" />
             </Pressable>
           </View>
         </Animated.View>
@@ -373,6 +373,87 @@ const HomePage = ({ navigation }) => {
             onScroll={handleScroll}
             showsVerticalScrollIndicator={false}
           >
+            <View
+              style={[
+                {
+                  marginTop: 5,
+                  marginBottom: 10,
+                  borderColor: "#D31174",
+                  // borderColor:colors.grey,
+                  borderWidth: 1,
+                  borderRadius: height*0.01,
+                  // padding: 3,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                },
+              ]}
+            >
+              <View style={[{ marginTop: 5 }]}>
+                <Text
+                  style={[
+                    {
+                      color: colors.dark,
+                      fontSize: height * 0.02,
+                      marginStart: 5,
+                      marginTop: 5,
+                    },
+                  ]}
+                >
+                  Shop Address:
+                </Text>
+                <Text
+                  style={[
+                    {
+                      color: colors.grey2,
+                      fontSize: height * 0.015,
+                      marginStart: 5,
+                      marginBottom: 5,
+                    },
+                  ]}
+                >
+                  89 Woolwich New Rd, London
+                </Text>
+              </View>
+              <LinearGradient
+                colors={[
+                  // colors.secondary,
+                  // colors.primary,
+                  "#D31174",
+                  "#fe0083ff",
+                  // colors.gradient3,
+                  // colors.gradient4,
+                ]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={[
+                  {
+                    // marginTop: 5,
+                    // marginBottom: 10,
+
+                    // borderColor:colors.grey,
+                    // borderWidth: 1,
+                    borderRadius: height*0.009,
+                    padding: 3,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    height: "100%",
+                  },
+                ]}
+              >
+                <Text
+                  style={[
+                    {
+                      color: colors.white,
+                      fontSize: height * 0.02,
+                      paddingHorizontal: height * 0.02,
+                    },
+                  ]}
+                >
+                  Locate Store
+                </Text>
+              </LinearGradient>
+            </View>
             <View style={styles.carouselContainer}>
               <FlatList
                 ref={flatListRef}
@@ -431,6 +512,8 @@ const HomePage = ({ navigation }) => {
                       <Image
                         source={category.icon}
                         style={{
+                          marginTop: height * 0.015,
+                          marginBottom: height * 0.015,
                           height: height * 0.1,
                           width: height * 0.2,
                           resizeMode: "contain",
@@ -442,8 +525,18 @@ const HomePage = ({ navigation }) => {
                 ))}
               </ScrollView>
             </View>
+            <View style={[styles.container2110,{marginTop:height*0.025}]}>
+              {/* Left Pink Lines */}
+              <View style={styles.linesContainer2110}>
+                <View style={[styles.line2110, { marginTop: 5 }]} />
+                <View style={[styles.line2110, { marginTop: 10 }]} />
+              </View>
 
-            {/* Recently Viewed */}
+              {/* Text */}
+              <Text style={styles.mainCatName}>RECENTLY VIEWED</Text>
+            </View>
+
+            {/* Recently Viewed
             <LinearGradient
               colors={[
                 // colors.secondary,
@@ -455,21 +548,10 @@ const HomePage = ({ navigation }) => {
               ]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
-              style={[styles.recentlyViewed, { maxWidth: height * 0.2 }]}
+              style={[styles.recentlyViewed, {}]}
             >
-              <Text
-                style={[
-                  {
-                    fontSize: height * 0.022,
-                    color: colors.white,
-                    fontWeight: "800",
-                    // fontFamily: "KaiseiOpti_400Regular",
-                  },
-                ]}
-              >
-                Recently Viewed
-              </Text>
-            </LinearGradient>
+              <Text style={[styles.mainCatName, {}]}>Recently Viewed</Text>
+            </LinearGradient> */}
 
             <ScrollView
               horizontal
@@ -505,37 +587,35 @@ const HomePage = ({ navigation }) => {
                   flex: 1,
                   fontSize: height * 0.022,
                   justifyContent: "space-between",
+                  marginTop:height*0.025
                 },
               ]}
             >
-              <LinearGradient
-                colors={["#D31174", "#fe0083ff"]}
+              {/* <LinearGradient
+                colors={[
+                  // colors.secondary,
+                  // colors.primary,
+                  "#D31174",
+                  "#fe0083ff",
+                  // colors.gradient3,
+                  // colors.gradient4,
+                ]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
-                style={[
-                  styles.recentlyViewed,
-                  {
-                    width: height * 0.2, // width fix rakhna ok hai
-                    maxWidth: height * 0.23,
-                    paddingHorizontal: 10,
-                    paddingVertical: 6,
-                    borderRadius: 8,
-                    // ❌ height mat do
-                  },
-                ]}
+                style={[styles.recentlyViewed, {}]}
               >
-                <Text
-                  style={{
-                    fontSize: height * 0.022,
-                    fontWeight: "800",
-                    color: colors.fullwhite,
-                    letterSpacing: 2,
-                    flexWrap: "wrap", // ensure wrapping
-                  }}
-                >
-                  New Arrivals
-                </Text>
-              </LinearGradient>
+                <Text style={[styles.mainCatName, {}]}>New Arrivals</Text>
+              </LinearGradient> */}
+              <View style={[styles.container2110,]}>
+                {/* Left Pink Lines */}
+                <View style={styles.linesContainer2110}>
+                  <View style={[styles.line2110, { marginTop: 5 }]} />
+                  <View style={[styles.line2110, { marginTop: 10 }]} />
+                </View>
+
+                {/* Text */}
+                <Text style={styles.mainCatName}>NEW ARRIVALS</Text>
+              </View>
 
               <CustomDropdown
                 placeholder="select"
@@ -584,10 +664,11 @@ const HomePage = ({ navigation }) => {
                   flex: 1,
                   // height: height * 0.05,
                   justifyContent: "space-between",
+                  marginTop:height*0.025
                 },
               ]}
             >
-              <LinearGradient
+              {/* <LinearGradient
                 colors={["#D31174", "#fe0083ff"]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
@@ -603,18 +684,23 @@ const HomePage = ({ navigation }) => {
                   },
                 ]}
               >
-                <Text
-                  style={{
-                    fontSize: height * 0.022,
-                    fontWeight: "800",
-                    color: colors.fullwhite,
-                    letterSpacing: 0,
-                    flexWrap: "wrap", // ensure wrapping
-                  }}
-                >
+                <Text style={[styles.mainCatName, {}]}>
                   E-Liquid Brand Collection
                 </Text>
-              </LinearGradient>
+              </LinearGradient> */}
+
+              <View style={styles.container2110}>
+                {/* Left Pink Lines */}
+                <View style={styles.linesContainer2110}>
+                  <View style={[styles.line2110, { marginTop: 5 }]} />
+                  <View style={[styles.line2110, { marginTop: 10 }]} />
+                </View>
+
+                {/* Text */}
+                <Text style={styles.mainCatName}>
+                  E-LIQUID BRAND COLLECTION
+                </Text>
+              </View>
 
               <CustomDropdown
                 placeholder="select"
@@ -658,7 +744,7 @@ const HomePage = ({ navigation }) => {
               start={{ x: 0, y: 0 }}
               end={{ x: 0, y: 1 }}
               colors={[colors.dealsGradient1, colors.dealsGradient2]}
-              style={[{ borderRadius: 20, paddingStart: 10, paddingEnd: 10 }]}
+              style={[{ borderRadius: 20, paddingStart: 10, paddingEnd: 10,marginTop:height*0.025 }]}
             >
               <View
                 style={[
@@ -714,6 +800,7 @@ const HomePage = ({ navigation }) => {
                 {Array.from({ length: 6 }).map((_, index) => (
                   <View key={index} style={styles.productWrapper}>
                     <TouchableOpacity
+                      activeOpacity={1}
                       onPress={() => {
                         navigation.navigate("Shop", {
                           screen: "ProductDetails", // nested screen ka naam
@@ -735,44 +822,47 @@ const HomePage = ({ navigation }) => {
             <View
               style={[
                 {
-                  marginTop: 20,
+                  // marginTop: 20,
                   flexDirection: "row",
                   // justifyContent: "center",
                   alignItems: "center",
                   flex: 1,
                   // height: height * 0.05,
                   justifyContent: "space-between",
+                  marginTop:height*0.035
                 },
               ]}
             >
-              <LinearGradient
-                colors={["#D31174", "#fe0083ff"]}
+              {/* <LinearGradient
+                colors={[
+                  // colors.secondary,
+                  // colors.primary,
+                  "#D31174",
+                  "#fe0083ff",
+                  // colors.gradient3,
+                  // colors.gradient4,
+                ]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
-                style={[
-                  styles.recentlyViewed,
-                  {
-                    width: height * 0.2, // width fix rakhna ok hai
-                    maxWidth: height * 0.23,
-                    paddingHorizontal: 10,
-                    paddingVertical: 6,
-                    borderRadius: 8,
-                    // ❌ height mat do
-                  },
-                ]}
+                style={[styles.recentlyViewed, {}]}
               >
-                <Text
-                  style={{
-                    fontSize: height * 0.018,
-                    fontWeight: "800",
-                    color: colors.fullwhite,
-                    letterSpacing: 0,
-                    flexWrap: "wrap", // ensure wrapping
-                  }}
-                >
-                  VAPING PRODUCTS & HARDWARE
+                <Text style={[styles.mainCatName, {}]}>
+                  Vaping Products & Hardware
                 </Text>
-              </LinearGradient>
+              </LinearGradient> */}
+
+              <View style={styles.container2110}>
+                {/* Left Pink Lines */}
+                <View style={styles.linesContainer2110}>
+                  <View style={[styles.line2110, { marginTop: 5 }]} />
+                  <View style={[styles.line2110, { marginTop: 10 }]} />
+                </View>
+
+                {/* Text */}
+                <Text style={styles.mainCatName}>
+                  VAPING PRODUCT & HARDWARE
+                </Text>
+              </View>
 
               <CustomDropdown
                 placeholder="select"
@@ -848,7 +938,7 @@ const HomePage = ({ navigation }) => {
                     style={[
                       {
                         // alignSelf:"center",
-                        fontSize: width * 0.05,
+                        fontSize: height * 0.028,
                         color: colors.fullwhite,
                         // marginStart: 10,
                         fontWeight: "700",
@@ -887,7 +977,7 @@ const HomePage = ({ navigation }) => {
                           flexDirection: "column",
                           backgroundColor: colors.fullwhite,
                           borderRadius: 15,
-                          width: width * 0.3,
+                          width: height * 0.135,
                           alignItems: "center",
                           justifyContent: "center",
                           margin: 10,
@@ -898,7 +988,7 @@ const HomePage = ({ navigation }) => {
                         style={[
                           {
                             height: height * 0.12,
-                            width: width * 0.275,
+                            width: height * 0.1275,
                             // borderWidth: 1,
                             margin: 5,
                             resizeMode: "stretch",
@@ -925,34 +1015,24 @@ const HomePage = ({ navigation }) => {
             </View>
             {/* Top Rated Product */}
 
-            <LinearGradient
+            {/* <LinearGradient
               colors={["#D31174", "#fe0083ff"]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
-              style={[
-                styles.recentlyViewed,
-                {
-                  width: height * 0.2, // width fix rakhna ok hai
-                  maxWidth: height * 0.23,
-                  paddingHorizontal: 10,
-                  paddingVertical: 6,
-                  borderRadius: 8,
-                  // ❌ height mat do
-                },
-              ]}
+              style={[styles.recentlyViewed, {}]}
             >
-              <Text
-                style={{
-                  fontSize: height * 0.022,
-                  fontWeight: "800",
-                  color: colors.fullwhite,
-                  letterSpacing: 2,
-                  flexWrap: "wrap", // ensure wrapping
-                }}
-              >
-                Top Rated Products
-              </Text>
-            </LinearGradient>
+              <Text style={[styles.mainCatName, {}]}>Top Rated Products</Text>
+            </LinearGradient> */}
+            <View style={[styles.container2110,{marginTop:height*0.025}]}>
+              {/* Left Pink Lines */}
+              <View style={styles.linesContainer2110}>
+                <View style={[styles.line2110, { marginTop: 5 }]} />
+                <View style={[styles.line2110, { marginTop: 10 }]} />
+              </View>
+
+              {/* Text */}
+              <Text style={styles.mainCatName}>TOP RATED PRODUCTS</Text>
+            </View>
 
             <ScrollView
               horizontal
@@ -984,26 +1064,32 @@ const HomePage = ({ navigation }) => {
             ></Image>
             {/* Explore More */}
 
-            <LinearGradient
+            {/* <LinearGradient
               colors={[
-                colors.secondary,
-                colors.primary,
-
+                // colors.secondary,
+                // colors.primary,
+                "#D31174",
+                "#fe0083ff",
                 // colors.gradient3,
                 // colors.gradient4,
               ]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
-              style={[
-                styles.recentlyViewed,
-                { marginTop: 20, maxWidth: height * 0.18 },
-              ]}
+              style={[styles.recentlyViewed, { marginTop: height * 0.015 }]}
             >
-              <Text style={[{ fontSize: 18, color: colors.fullwhite }]}>
-                Explore More
-              </Text>
-            </LinearGradient>
+              <Text style={[styles.mainCatName, {}]}>Explore More</Text>
+            </LinearGradient> */}
 
+            <View style={[styles.container2110, { marginTop: height * 0.045 }]}>
+              {/* Left Pink Lines */}
+              <View style={styles.linesContainer2110}>
+                <View style={[styles.line2110, { marginTop: 5 }]} />
+                <View style={[styles.line2110, { marginTop: 10 }]} />
+              </View>
+
+              {/* Text */}
+              <Text style={styles.mainCatName}>EXPLORE MORE</Text>
+            </View>
             <ScrollView
               style={{ top: 1 }}
               horizontal
@@ -1042,8 +1128,8 @@ const HomePage = ({ navigation }) => {
                         {
                           borderColor: colors.fullwhite,
                           borderWidth: 3,
-                          height: height * 0.14,
-                          width: width * 0.275,
+                          height: height * 0.16,
+                          width: height * 0.1275,
                           // borderWidth: 1,
                           margin: 3,
                           resizeMode: "stretch",
@@ -1061,30 +1147,31 @@ const HomePage = ({ navigation }) => {
 
             {/* From our Blog */}
 
-            <LinearGradient
+            {/* <LinearGradient
               colors={[
-                colors.secondary,
-                colors.primary,
-
+                // colors.secondary,
+                // colors.primary,
+                "#D31174",
+                "#fe0083ff",
                 // colors.gradient3,
                 // colors.gradient4,
               ]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
-              style={[
-                styles.recentlyViewed,
-                {
-                  marginTop: 20,
-                  maxWidth: height * 0.18,
-                  color: colors.fullwhite,
-                },
-              ]}
+              style={[styles.recentlyViewed, { marginTop: height * 0.015 }]}
             >
-              <Text style={[{ fontSize: 18, color: colors.fullwhite }]}>
-                From Our Blog
-              </Text>
-            </LinearGradient>
+              <Text style={[styles.mainCatName, {}]}>From Our Blog</Text>
+            </LinearGradient> */}
+            <View style={[styles.container2110,{marginTop:height*0.025}]}>
+              {/* Left Pink Lines */}
+              <View style={styles.linesContainer2110}>
+                <View style={[styles.line2110, { marginTop: 5 }]} />
+                <View style={[styles.line2110, { marginTop: 10 }]} />
+              </View>
 
+              {/* Text */}
+              <Text style={styles.mainCatName}>FROM OUR BLOG</Text>
+            </View>
             {/* </View> */}
             <ScrollView
               style={{ top: 2 }}
@@ -1100,22 +1187,28 @@ const HomePage = ({ navigation }) => {
                     {
                       flexDirection: "column",
                       backgroundColor: colors.fullwhite,
-                      borderRadius: 15,
-                      width: width * 0.5,
-                      alignItems: "center",
-                      justifyContent: "center",
-                      margin: 10,
+                      borderRadius: height*0.015,
+                      // width: height * 0.25,
+                      minWidth: height * 0.25,
+                      maxWidth: height * 0.25,
+                      // alignItems: "center",
+                      justifyContent: "flex-start",
+                      padding: height * 0.005,
+                      margin: height * 0.01,
                     },
                   ]}
                 >
                   <Image
                     style={[
                       {
-                        height: height * 0.2,
-                        width: width * 0.48,
+                        // height: height * 0.2,
+                        // width: width * 0.48,
                         // borderWidth: 1,
-                        margin: 5,
-                        resizeMode: "stretch",
+                        minWidth: height * 0.24,
+                        maxWidth: height * 0.24,
+                        // margin: 5,
+                        width: "100%",
+                        resizeMode: "cover",
                         borderRadius: 10,
                         marginBottom: height * 0.01,
                       },
@@ -1142,9 +1235,9 @@ const HomePage = ({ navigation }) => {
                     style={{
                       alignSelf: "flex-start",
                       color: colors.grey,
-                      marginLeft: 10,
+                      marginLeft: 7,
                       marginRight: 10,
-                      marginBottom: height * 0.02,
+                      marginBottom: height * 0.01,
                       fontWeight: "900",
                       fontStyle: "bold",
                       fontSize: width * 0.03,
@@ -1162,7 +1255,7 @@ const HomePage = ({ navigation }) => {
                       style={{
                         color: colors.dark,
                         marginLeft: 15,
-                        marginBottom: height * 0.02,
+                        marginBottom: height * 0.01,
                         fontWeight: "700",
                         // fontStyle: "bold",
                         fontSize: width * 0.04,
@@ -1208,7 +1301,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: width * 0.05,
   },
   logo: {
-    width: width * 0.35,
+    width: width * 0.5,
     height: Platform.OS === "ios" ? height * 0.055 : height * 0.06,
     resizeMode: "contain",
   },
@@ -1341,22 +1434,21 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: colors.white,
     textAlign: "center",
+    marginBottom: height * 0.005,
   },
   recentlyViewed: {
-    borderWidth: 0.7,
-    borderColor: colors.red,
+    // borderWidth: 0.7,
     padding: height * 0.01,
-    // height: height * 0.045,
-    // width: height * 0.,
-    // marginBottom: 10,
-    // maxWidth:height*0.3
-    // backgroundColor: colors.primary,
-
-    borderRadius: 10,
+    maxWidth: height * 0.235,
+    minWidth: height * 0.235,
     borderColor: "#FFC0CB",
     borderWidth: 2,
-
     elevation: 5,
+
+    paddingHorizontal: height * 0.01,
+    // paddingVertical: 6,
+    borderRadius: 8,
+    // ❌ height mat do
   },
   sectionText: {
     fontSize: 12,
@@ -1371,6 +1463,44 @@ const styles = StyleSheet.create({
   productWrapper: {
     marginRight: 12,
   },
+  mainCatName: {
+    fontSize: height * 0.017,
+    fontWeight: "800",
+    color: colors.dark,
+    letterSpacing: 2,
+    flexWrap: "wrap",
+    // ensure wrapping
+    fontFamily: "KaiseiOpti_400Regular",
+  },
+
+  container2110: {
+    borderWidth: 2,
+    borderColor: "#E91E63", // pink border
+    paddingHorizontal: height * 0.016,
+    paddingVertical: height * 0.01,
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "flex-start",
+    maxWidth: height * 0.235,
+    minWidth: height * 0.235, // box utna hi wide jitna text
+  },
+  linesContainer2110: {
+    position: "absolute",
+    left: -12, // thoda bahar nikalne ke liye
+    top: "30%",
+  },
+  line2110: {
+    width: height * 0.025,
+    height: 2,
+    backgroundColor: "#E91E63",
+    borderRadius: 2,
+  },
+  // text2110: {
+  //   fontSize: height * 0.015,
+  //   fontWeight: "bold",
+  //   fontFamily: "KaiseiOpti_500Medium",
+  //   color: "#000",
+  // },
 });
 
 export default HomePage;

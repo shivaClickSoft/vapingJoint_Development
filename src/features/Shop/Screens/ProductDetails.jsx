@@ -70,7 +70,7 @@ const ProductDetails = ({ navigation }) => {
 
   const [selected, setSelected] = useState(false);
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <StatusBar
         barStyle="light-content"
         backgroundColor={colors.dark}
@@ -129,778 +129,823 @@ const ProductDetails = ({ navigation }) => {
         </View>
         {/* Gradient background for rest of screen */}
       </View>
+      <ScrollView style={styles.container}>
+        <LinearGradient
+          colors={[
+            colors.gradient1,
+            colors.gradient2,
+            colors.gradient3,
+            colors.gradient4,
+          ]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 0, y: 1 }}
+          style={styles.gradient}
+        >
+          <SafeAreaView style={styles.safeArea}>
+            <View style={[styles.card, { height: height * 0.25 }]}>
+              {/* Parent container with relative positioning */}
+              <View
+                style={{
+                  position: "relative",
+                  width: "100%",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {/* Image */}
+
+                <FlatList
+                  style={{
+                    // backgroundColor: "#002154",
+                    width: width * 0.9,
+                    marginTop: height * 0.01,
+                  }}
+                  data={images}
+                  keyExtractor={(_, index) => index.toString()}
+                  horizontal
+                  pagingEnabled
+                  showsHorizontalScrollIndicator={false}
+                  renderItem={({ item }) => (
+                    <Image
+                      source={item}
+                      style={{
+                        // backgroundColor: colors.dark,
+                        // alignSelf: "center",
+                        // alignContent: "center",
+                        height: height * 0.2,
+                        // width: width,
+                        width: width * 0.9,
+                        // marginHorizontal: 60,
+                        // width:"80%",
+                        resizeMode: "center",
+                        // marginHorizontal: height * 0.02,
+                        borderRadius: 10,
+                        marginTop: 15,
+                      }}
+                    />
+                  )}
+                  onScroll={(e) => {
+                    const slide = Math.round(
+                      e.nativeEvent.contentOffset.x / width
+                    );
+                    setActiveIndex(slide);
+                  }}
+                />
+
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    // marginTop: ,
+                  }}
+                >
+                  {images.map((_, index) => (
+                    <View
+                      key={index}
+                      style={{
+                        width: 8,
+                        height: 8,
+                        borderRadius: 4,
+                        backgroundColor:
+                          activeIndex === index ? colors.primary : "#ccc",
+                        margin: 4,
+                      }}
+                    />
+                  ))}
+                </View>
+                {/* Overlay icons */}
+                <View
+                  style={{
+                    position: "absolute", // key part
+                    top: 10,
+                    right: 10,
+                    flexDirection: "row",
+                  }}
+                >
+                  <View
+                    style={{
+                      backgroundColor: colors.dark,
+                      borderColor: colors.primary,
+                      borderWidth: 1,
+                      borderRadius: 100,
+                      padding: 3,
+                      marginRight: 5,
+                    }}
+                  >
+                    <Ionicons
+                      name="heart-outline"
+                      color={colors.grey}
+                      size={25}
+                    />
+                  </View>
+                  <View
+                    style={{
+                      backgroundColor: colors.dark,
+                      borderColor: colors.primary,
+                      borderWidth: 1,
+                      borderRadius: 100,
+                      padding: 3,
+                    }}
+                  >
+                    <Ionicons name="cart" color={colors.grey} size={25} />
+                  </View>
+                </View>
+              </View>
+            </View>
+            {/* product part end */}
+
+            <View style={[{}, styles.card]}>
+              <View
+                style={[
+                  styles.rowBetween,
+                  { alignItems: "center", marginBottom: 10 },
+                ]}
+              >
+                <Text
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                  style={[styles.title, { marginTop: height * 0.01 }]}
+                >
+                  zeus dodoberry 20mg e li12 super long title testing for
+                  overflow
+                </Text>
+                <View
+                  style={[
+                    {
+                      marginStart: height * 0.02,
+                      maxWidth: "40%",
+                      flexDirection: "column",
+                      justifyContent: "baseline",
+                      alignItems: "flex-end",
+                      marginTop: height * 0.02,
+                    },
+                  ]}
+                >
+                  <Text style={styles.stock}>In Stock: 5</Text>
+                  <Text
+                    style={[
+                      styles.sku,
+                      { maxWidth: height * 0.07, minWidth: height * 0.06 },
+                    ]}
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                  >
+                    SKU: 174922841
+                  </Text>
+                </View>
+              </View>
+
+              {/* Description */}
+              <Text style={[styles.description, { alignItems: "center" }]}>
+                Dark forest berries picked from the garden of Zeus, with a
+                subtle fresh mint that will leave your mouth watering
+                {/* <Text style={styles.readMore}>Read More...</Text> */}
+                <TouchableOpacity
+                  style={styles.readMore}
+                  onPress={() => {
+                    console.log("read more clicked");
+                  }}
+                >
+                  <Text style={[styles.readMore]}> Read More...</Text>
+                </TouchableOpacity>
+              </Text>
+
+              {/* Price + Discount */}
+              <View style={[styles.rowAlign, { alignSelf: "flex-start" }]}>
+                <Text
+                  style={[
+                    styles.discount,
+                    {
+                      color: "green",
+                      fontWeight: "bold",
+                      fontSize: height * 0.025,
+                      marginEnd: 5,
+                    },
+                  ]}
+                >
+                  ↓ 50%
+                </Text>
+                <Text
+                  style={[
+                    styles.oldPrice,
+                    {
+                      textDecorationLine: "line-through",
+                      marginRight: 8,
+                      fontWeight: "bold",
+                      fontSize: height * 0.025,
+                      color: colors.grey,
+                    },
+                  ]}
+                >
+                  £6.99
+                </Text>
+                <Text
+                  style={[
+                    styles.newPrice,
+                    {
+                      fontWeight: "bold",
+                      fontSize: height * 0.025,
+                      color: "#000",
+                    },
+                  ]}
+                >
+                  £3.99
+                </Text>
+              </View>
+
+              {/* Rating */}
+              <Text
+                style={[
+                  styles.rating,
+                  { alignSelf: "flex-start", marginStart: height * 0.03 },
+                ]}
+              >
+                ⭐⭐⭐⭐⭐
+              </Text>
+              <View
+                style={{ marginTop: 15, width: "90%", marginHorizontal: 10 }}
+              >
+                {/* Row 1 - Nicotine & Extra Nicotine */}
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  {/* Nicotine */}
+                  <View
+                    style={{
+                      // justifyContent: "center",
+                      alignItems: "center",
+                      flex: 1,
+                      marginRight: height * 0.001,
+                      flexDirection: "row",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: height * 0.015,
+                        marginBottom: 5,
+                        marginRight: 5,
+                      }}
+                    >
+                      Nicotine:
+                    </Text>
+                    <CustomDropdown
+                      placeholder="select"
+                      data={[
+                        { label: "IronPulse", value: 10 },
+                        { label: "VortexGear", value: 20 },
+                        { label: "TitanVape", value: 30 },
+                        { label: "IgnisCore", value: 40 },
+                        { label: "AeroForge", value: 50 },
+                      ]}
+                      onChange={(val) => console.log("picked", val)}
+                    />
+                  </View>
+                </View>
+                <View
+                  style={[
+                    {
+                      marginTop: height * 0.01,
+                      flexDirection: "row",
+                      justifyContent: "flex-end",
+                      alignItems: "flex-end",
+                    },
+                  ]}
+                >
+                  {/* Extra Nicotine */}
+                  <View
+                    style={{
+                      flex: 2,
+                      marginTop: 5,
+                      flexDirection: "row",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: height * 0.015,
+                        marginRight: height * 0.001,
+                      }}
+                    >
+                      Add Extra Nicotine:
+                    </Text>
+                    <CustomDropdown
+                      placeholder="select"
+                      data={[
+                        { label: "IronPulse", value: 10 },
+                        { label: "VortexGear", value: 20 },
+                        { label: "TitanVape", value: 30 },
+                        { label: "IgnisCore", value: 40 },
+                        { label: "AeroForge", value: 50 },
+                      ]}
+                      onChange={(val) => console.log("picked", val)}
+                    />
+                  </View>
+                  <View style={[{ width: height * 0.1 }]}></View>
+                  {/* Extra Nicotine Qty */}
+                  <CustomDropdown
+                    placeholder="0"
+                    widthh={height * 0.08}
+                    data={[
+                      { label: "1", value: 10 },
+                      { label: "2", value: 20 },
+                      { label: "3", value: 30 },
+                      { label: "4", value: 40 },
+                      { label: "5", value: 50 },
+                    ]}
+                    onChange={(val) => console.log("picked", val)}
+                  />
+                </View>
+
+                {/* Row 2 - Qty */}
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginTop: height * 0.01,
+                  }}
+                >
+                  <Text style={{ fontSize: height * 0.015, marginRight: 10 }}>
+                    Qty:
+                  </Text>
+                  <View style={styles.counter}>
+                    <TouchableOpacity
+                      style={[styles.btn, qty === 1 && styles.disabledBtn]}
+                      onPress={decreaseQty}
+                      disabled={qty === 1}
+                    >
+                      <Text style={styles.btnText}>-</Text>
+                    </TouchableOpacity>
+
+                    <Text style={styles.qty}>{qty}</Text>
+
+                    <TouchableOpacity style={styles.btn} onPress={increaseQty}>
+                      <Text style={styles.btnText}>+</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+
+              <View
+                style={[
+                  {
+                    backgroundColor: colors.secondary,
+                    height: height * 0.12,
+                    flexDirection: "column",
+                    // this is
+                    marginStart: height * 0.01,
+                    marginEnd: height * 0.01,
+                    marginTop: height * 0.01,
+
+                    borderRadius: 20,
+                    minWidth: height * 0.08,
+                  },
+                ]}
+              >
+                <View
+                  style={[
+                    {
+                      backgroundColor: colors.dark + "00",
+                      flexDirection: "row",
+                      borderRadius: 20,
+                      paddingStart: height * 0.015,
+                      alignItems: "center",
+                      paddingTop: height * 0.001,
+                      height: height * 0.05,
+                    },
+                  ]}
+                >
+                  <Image
+                    style={[
+                      {
+                        height: height * 0.03,
+                        width: height * 0.034,
+                        marginStart: height * 0.01,
+                      },
+                    ]}
+                    source={require("../../../../assets/offersimg.png")}
+                  ></Image>
+
+                  <Text
+                    style={[
+                      {
+                        fontSize: height * 0.02,
+                        color: colors.white,
+                        fontWeight: "700",
+                        marginStart: height * 0.01,
+                      },
+                    ]}
+                  >
+                    Buy More, Save More
+                  </Text>
+                </View>
+                <View
+                  style={[
+                    {
+                      borderRadius: 10,
+                      backgroundColor: "#FFEAEE",
+                      flexDirection: "column",
+                      height: height * 0.15,
+                    },
+                  ]}
+                >
+                  <Text
+                    style={[
+                      {
+                        fontSize: height * 0.02,
+                        fontWeight: "700",
+                        fontStyle: "bold",
+                        color: colors.dark,
+                        padding: height * 0.007,
+                      },
+                    ]}
+                  >
+                    GRAB THIS DEAL
+                  </Text>
+                  <FlatList
+                    data={cateList}
+                    keyExtractor={(item) => item.id.toString()}
+                    numColumns={1}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={({ item }) => (
+                      <TouchableOpacity
+                        style={[
+                          styles.cardoffers,
+                          selected && styles.cardActive,
+                        ]}
+                        onPress={() => setSelected(!selected)}
+                        activeOpacity={0.8}
+                      >
+                        <LinearGradient
+                          colors={[colors.primary, colors.secondary]}
+                          start={{ x: 0, y: 0 }}
+                          end={{ x: 1, y: 1 }}
+                          style={[
+                            {
+                              width: "30%",
+                              marginEnd: 5,
+                              height: "100%",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              borderTopLeftRadius: 10,
+                              borderBottomLeftRadius: 10,
+                            },
+                          ]}
+                        >
+                          {/* Radio Button */}
+                          <View style={[styles.radioOuter]}>
+                            {selected ? (
+                              <View style={styles.radioInner} />
+                            ) : null}
+                          </View>
+                        </LinearGradient>
+                        {/* Offer Details */}
+                        <View style={styles.details}>
+                          <Text
+                            style={[styles.offerTitle, { fontStyle: "bold" }]}
+                          >
+                            Buy 3 for £2.01 Off
+                          </Text>
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Text style={styles.newPrice}>£3.32 </Text>
+                            <Text style={styles.oldPrice}>£3.99</Text>
+                          </View>
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Text style={styles.totalLabel}>Total </Text>
+                            <Text style={styles.totalPrice}>£9.96 </Text>
+                            <Text style={styles.oldPrice}>£11.97</Text>
+                          </View>
+                        </View>
+                      </TouchableOpacity>
+                    )}
+                  />
+                </View>
+              </View>
+
+              <View style={[{ height: height * 0.1 }]}></View>
+
+              <View
+                style={[
+                  {
+                    backgroundColor: colors.secondary,
+                    height: height * 0.15,
+
+                    flexDirection: "column",
+
+                    marginStart: height * 0.01,
+                    marginEnd: 10,
+                    marginTop: 10,
+
+                    borderRadius: 20,
+                    minWidth: height * 0.08,
+                  },
+                ]}
+              >
+                <View
+                  style={[
+                    {
+                      backgroundColor: colors.dark + "00",
+                      flexDirection: "row",
+                      borderRadius: 20,
+                      paddingStart: width * 0.02,
+                      alignItems: "center",
+                      paddingTop: width * 0.01,
+                    },
+                  ]}
+                >
+                  <Text
+                    style={[
+                      {
+                        fontSize: width * 0.04,
+                        color: colors.white,
+                        fontWeight: "700",
+                        marginStart: width * 0.02,
+                        marginVertical: 10,
+                      },
+                    ]}
+                  >
+                    More Zeus E liquids
+                  </Text>
+                </View>
+                <View
+                  style={[
+                    {
+                      borderRadius: 10,
+                      height: height * 0.17,
+                      backgroundColor: "#FFEAEE",
+                      flexDirection: "column",
+                      paddingHorizontal: height * 0.002,
+                    },
+                  ]}
+                >
+                  <FlatList
+                    data={cateList}
+                    keyExtractor={(item) => item.id.toString()}
+                    numColumns={1}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={({ item }) => (
+                      <View
+                        style={[
+                          styles.cardProduct,
+                          {
+                            height: height * 0.145,
+                            justifyContent: "center",
+                            alignItems: "center",
+                          },
+                        ]}
+                      >
+                        {/* Product Image */}
+                        <Image
+                          source={require("../../../../assets/offersimg.png")}
+                          style={styles.image}
+                        />
+
+                        {/* Product Details */}
+                        <View style={[{}]}>
+                          <Text
+                            numberOfLines={1}
+                            ellipsizeMode="tail"
+                            style={styles.title}
+                          >
+                            zeus cerberus 20mg e liq
+                          </Text>
+                          <Text style={styles.stock}>(In Stock: 5)</Text>
+                          <Text style={styles.price}>£3.99</Text>
+
+                          {/* Counter */}
+                          <View style={styles.counter}>
+                            <TouchableOpacity
+                              style={[
+                                styles.btn,
+                                qty === 1 && styles.disabledBtn,
+                              ]}
+                              onPress={decreaseQty}
+                              disabled={qty === 1}
+                            >
+                              <Text style={styles.btnText}>-</Text>
+                            </TouchableOpacity>
+
+                            <Text style={styles.qty}>{qty}</Text>
+
+                            <TouchableOpacity
+                              style={styles.btn}
+                              onPress={increaseQty}
+                            >
+                              <Text style={styles.btnText}>+</Text>
+                            </TouchableOpacity>
+                          </View>
+                        </View>
+                      </View>
+                    )}
+                  />
+                </View>
+              </View>
+
+              <View style={[{ height: height * 0.08 }]}></View>
+              <View
+                style={[
+                  styles.detailsContainer,
+                  {
+                    padding: 10,
+                    margin: 10,
+                    borderColor: colors.dark,
+                    borderWidth: 1,
+                    borderRadius: 20,
+                    minWidth: width * 0.88,
+                  },
+                ]}
+              >
+                <View
+                  style={[
+                    { flexDirection: "row", justifyContent: "space-between" },
+                  ]}
+                >
+                  <Text style={[{ color: colors.dark, fontSize: 20 }]}>
+                    All Details
+                  </Text>
+
+                  {/* Collapse Button */}
+                  <TouchableOpacity
+                    onPress={toggleCollapse}
+                    style={styles.toggleCollapse}
+                  >
+                    <Ionicons
+                      style={{ fontWeight: "bold" }}
+                      name={collapsed ? "caret-down" : "caret-up"}
+                      size={width * 0.05}
+                    ></Ionicons>
+                  </TouchableOpacity>
+                </View>
+                {/* Header Tabs */}
+                <View style={styles.tabRow}>
+                  <TouchableOpacity
+                    style={[
+                      styles.tabButton,
+                      activeTab === "details" && styles.activeTab,
+                    ]}
+                    onPress={() => setActiveTab("details")}
+                  >
+                    <Text
+                      style={[
+                        styles.tabText,
+                        activeTab === "details" && styles.activeText,
+                      ]}
+                    >
+                      Product Details
+                    </Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={[
+                      styles.tabButton,
+                      activeTab === "spec" && styles.activeTab,
+                    ]}
+                    onPress={() => setActiveTab("spec")}
+                  >
+                    <Text
+                      style={[
+                        styles.tabText,
+                        activeTab === "spec" && styles.activeText,
+                      ]}
+                    >
+                      Specification
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+
+                {/* Content */}
+                {!collapsed && (
+                  <View style={styles.contentBox}>
+                    {activeTab === "details" ? (
+                      <Text style={styles.contentText}>
+                        Dark forest berries picked from the garden of Zeus, with
+                        a subtle fresh mint that will leave your mouth watering.
+                        {"\n\n"}
+                        This product is powered by NS20. The two main benefits
+                        of Nicotine Salts are that it affects the flavour of the
+                        E-Liquid much less than traditional nicotine and has
+                        much less of a throat hit at such high strengths.
+                      </Text>
+                    ) : (
+                      <Text style={styles.contentText}>
+                        - Strength: 20mg {"\n"}- Volume: 10ml {"\n"}-
+                        Ingredients: PG, VG, Flavouring, Nicotine Salt {"\n"}-
+                        Made in: UK
+                      </Text>
+                    )}
+                  </View>
+                )}
+              </View>
+            </View>
+          </SafeAreaView>
+        </LinearGradient>
+      </ScrollView>
+      {/* Bottom buttons add to cart and buy at price part  */}
+      {/* <View
+        style={[{ margin: 15, justifyContent: "center", flexDirection: "row" }]}
+      > */}
       <LinearGradient
         colors={[
-          colors.gradient1,
-          colors.gradient2,
-          colors.gradient3,
+          // colors.gradient1,
+          // colors.gradient2,
+          // colors.gradient3,
+          colors.gradient4,
           colors.gradient4,
         ]}
         start={{ x: 0, y: 0 }}
         end={{ x: 0, y: 1 }}
-        style={styles.gradient}
+        style={[
+          styles.gradient,
+          {  justifyContent: "center", flexDirection: "row" },
+        ]}
       >
-        <SafeAreaView style={styles.safeArea}>
-          <View style={[styles.card, { height: height * 0.25 }]}>
-            {/* Parent container with relative positioning */}
-            <View
-              style={{
-                position: "relative",
-                width: "100%",
-                alignItems: "center",
-              }}
-            >
-              {/* Image */}
-
-              <FlatList
-                data={images}
-                keyExtractor={(_, index) => index.toString()}
-                horizontal
-                pagingEnabled
-                showsHorizontalScrollIndicator={false}
-                renderItem={({ item }) => (
-                  <Image
-                    source={item}
-                    style={{
-                      height: height * 0.2,
-                      width: height * 0.42,
-                      resizeMode: "contain",
-                      borderRadius: 10,
-                      marginTop: 15,
-                    }}
-                  />
-                )}
-                onScroll={(e) => {
-                  const slide = Math.round(
-                    e.nativeEvent.contentOffset.x / width
-                  );
-                  setActiveIndex(slide);
-                }}
-              />
-
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "center",
-                  // marginTop: ,
-                }}
-              >
-                {images.map((_, index) => (
-                  <View
-                    key={index}
-                    style={{
-                      width: 8,
-                      height: 8,
-                      borderRadius: 4,
-                      backgroundColor:
-                        activeIndex === index ? colors.primary : "#ccc",
-                      margin: 4,
-                    }}
-                  />
-                ))}
-              </View>
-              {/* Overlay icons */}
-              <View
-                style={{
-                  position: "absolute", // key part
-                  top: 10,
-                  right: 10,
-                  flexDirection: "row",
-                }}
-              >
-                <View
-                  style={{
-                    backgroundColor: colors.dark,
-                    borderColor: colors.primary,
-                    borderWidth: 1,
-                    borderRadius: 100,
-                    padding: 3,
-                    marginRight: 5,
-                  }}
-                >
-                  <Ionicons
-                    name="heart-outline"
-                    color={colors.grey}
-                    size={25}
-                  />
-                </View>
-                <View
-                  style={{
-                    backgroundColor: colors.dark,
-                    borderColor: colors.primary,
-                    borderWidth: 1,
-                    borderRadius: 100,
-                    padding: 3,
-                  }}
-                >
-                  <Ionicons name="cart" color={colors.grey} size={25} />
-                </View>
-              </View>
-            </View>
-          </View>
-          {/* product part end */}
-
-          <View style={[{}, styles.card]}>
-            <View
-              style={[
-                styles.rowBetween,
-                { alignItems: "center", marginBottom: 10 },
-              ]}
-            >
-              <Text
-                numberOfLines={1}
-                ellipsizeMode="tail"
-                style={[styles.title, { marginTop: height * 0.01 }]}
-              >
-                zeus dodoberry 20mg e li12 super long title testing for overflow
-              </Text>
-              <View
-                style={[
-                  {
-                    maxWidth: "40%",
-                    flexDirection: "column",
-                    justifyContent: "baseline",
-                    alignItems: "flex-end",
-                  },
-                ]}
-              >
-                <Text style={styles.stock}>In Stock: 5</Text>
-                <Text
-                  style={[
-                    styles.sku,
-                    { maxWidth: height * 0.07, minWidth: height * 0.06 },
-                  ]}
-                  numberOfLines={1}
-                  ellipsizeMode="tail"
-                >
-                  SKU: 174922841
-                </Text>
-              </View>
-            </View>
-
-            {/* Description */}
-            <Text style={styles.description}>
-              Dark forest berries picked from the garden of Zeus, with a subtle
-              fresh mint that will leave your mouth watering
-              {/* <Text style={styles.readMore}>Read More...</Text> */}
-              <TouchableOpacity
-                style={styles.readMore}
-                onPress={() => {
-                  console.log("read more clicked");
-                }}
-              >
-                <Text style={styles.readMore}> Read More...</Text>
-              </TouchableOpacity>
-            </Text>
-
-            {/* Price + Discount */}
-            <View style={[styles.rowAlign, { alignSelf: "flex-start" }]}>
-              <Text
-                style={[
-                  styles.discount,
-                  {
-                    color: "green",
-                    fontWeight: "bold",
-                    fontSize: height * 0.025,
-                    marginEnd: 5,
-                  },
-                ]}
-              >
-                ↓ 50%
-              </Text>
-              <Text
-                style={[
-                  styles.oldPrice,
-                  {
-                    textDecorationLine: "line-through",
-                    marginRight: 8,
-                    fontWeight: "bold",
-                    fontSize: height * 0.025,
-                    color: colors.grey,
-                  },
-                ]}
-              >
-                £6.99
-              </Text>
-              <Text
-                style={[
-                  styles.newPrice,
-                  {
-                    fontWeight: "bold",
-                    fontSize: height * 0.025,
-                    color: "#000",
-                  },
-                ]}
-              >
-                £3.99
-              </Text>
-            </View>
-
-            {/* Rating */}
-            <Text
-              style={[
-                styles.rating,
-                { alignSelf: "flex-start", marginStart: height * 0.03 },
-              ]}
-            >
-              ⭐⭐⭐⭐⭐
-            </Text>
-            <View style={{ marginTop: 15, width: "90%", marginHorizontal: 10 }}>
-              {/* Row 1 - Nicotine & Extra Nicotine */}
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                {/* Nicotine */}
-                <View
-                  style={{
-                    // justifyContent: "center",
-                    alignItems: "center",
-                    flex: 1,
-                    marginRight: height * 0.001,
-                    flexDirection: "row",
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: height * 0.015,
-                      marginBottom: 5,
-                      marginRight: 5,
-                    }}
-                  >
-                    Nicotine:
-                  </Text>
-                  <CustomDropdown
-                    placeholder="select"
-                    data={[
-                      { label: "IronPulse", value: 10 },
-                      { label: "VortexGear", value: 20 },
-                      { label: "TitanVape", value: 30 },
-                      { label: "IgnisCore", value: 40 },
-                      { label: "AeroForge", value: 50 },
-                    ]}
-                    onChange={(val) => console.log("picked", val)}
-                  />
-                </View>
-              </View>
-              <View
-                style={[
-                  {
-                    marginTop: height * 0.01,
-                    flexDirection: "row",
-                    justifyContent: "flex-end",
-                    alignItems: "flex-end",
-                  },
-                ]}
-              >
-                {/* Extra Nicotine */}
-                <View
-                  style={{
-                    flex: 2,
-                    marginTop: 5,
-                    flexDirection: "row",
-                    alignItems: "center",
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: height * 0.015,
-                      marginRight: height * 0.001,
-                    }}
-                  >
-                    Add Extra Nicotine:
-                  </Text>
-                  <CustomDropdown
-                    placeholder="select"
-                    data={[
-                      { label: "IronPulse", value: 10 },
-                      { label: "VortexGear", value: 20 },
-                      { label: "TitanVape", value: 30 },
-                      { label: "IgnisCore", value: 40 },
-                      { label: "AeroForge", value: 50 },
-                    ]}
-                    onChange={(val) => console.log("picked", val)}
-                  />
-                </View>
-                <View style={[{ width: width * 0.1 }]}></View>
-                {/* Extra Nicotine Qty */}
-                <CustomDropdown
-                  placeholder="0"
-                  widthh={width * 0.1}
-                  data={[
-                    { label: "1", value: 10 },
-                    { label: "2", value: 20 },
-                    { label: "3", value: 30 },
-                    { label: "4", value: 40 },
-                    { label: "5", value: 50 },
-                  ]}
-                  onChange={(val) => console.log("picked", val)}
-                />
-              </View>
-
-              {/* Row 2 - Qty */}
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  marginTop: height * 0.01,
-                }}
-              >
-                <Text style={{ fontSize: height * 0.015, marginRight: 10 }}>
-                  Qty:
-                </Text>
-                <View style={styles.counter}>
-                  <TouchableOpacity
-                    style={[styles.btn, qty === 1 && styles.disabledBtn]}
-                    onPress={decreaseQty}
-                    disabled={qty === 1}
-                  >
-                    <Text style={styles.btnText}>-</Text>
-                  </TouchableOpacity>
-
-                  <Text style={styles.qty}>{qty}</Text>
-
-                  <TouchableOpacity style={styles.btn} onPress={increaseQty}>
-                    <Text style={styles.btnText}>+</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
-
-            <View
-              style={[
-                {
-                  backgroundColor: colors.secondary,
-                  height: height * 0.2,
-                  flexDirection: "column",
-                  // this is
-                  marginStart: height * 0.01,
-                  marginEnd: height * 0.01,
-                  marginTop: height * 0.01,
-
-                  borderRadius: 20,
-                  minWidth: height * 0.08,
-                },
-              ]}
-            >
-              <View
-                style={[
-                  {
-                    backgroundColor: colors.dark + "00",
-                    flexDirection: "row",
-                    borderRadius: 20,
-                    paddingStart: height * 0.015,
-                    alignItems: "center",
-                    paddingTop: height * 0.001,
-                    height: height * 0.05,
-                  },
-                ]}
-              >
-                <Image
-                  style={[
-                    {
-                      height: height * 0.03,
-                      width: height * 0.034,
-                      marginStart: height * 0.01,
-                    },
-                  ]}
-                  source={require("../../../../assets/offersimg.png")}
-                ></Image>
-
-                <Text
-                  style={[
-                    {
-                      fontSize: height * 0.02,
-                      color: colors.white,
-                      fontWeight: "700",
-                      marginStart: height * 0.01,
-                    },
-                  ]}
-                >
-                  Buy More, Save More
-                </Text>
-              </View>
-              <View
-                style={[
-                  {
-                    borderRadius: 10,
-                    backgroundColor: "#FFEAEE",
-                    flexDirection: "column",
-                    height: height * 0.15,
-                  },
-                ]}
-              >
-                <Text
-                  style={[
-                    {
-                      fontSize: height * 0.02,
-                      fontWeight: "700",
-                      fontStyle: "bold",
-                      color: colors.dark,
-                      padding: height * 0.007,
-                    },
-                  ]}
-                >
-                  GRAB THIS DEAL
-                </Text>
-                <FlatList
-                  data={cateList}
-                  keyExtractor={(item) => item.id.toString()}
-                  numColumns={1}
-                  horizontal={true}
-                  showsHorizontalScrollIndicator={false}
-                  renderItem={({ item }) => (
-                    <TouchableOpacity
-                      style={[styles.cardoffers, selected && styles.cardActive]}
-                      onPress={() => setSelected(!selected)}
-                      activeOpacity={0.8}
-                    >
-                      <LinearGradient
-                        colors={[colors.primary, colors.secondary]}
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 1 }}
-                        style={[
-                          {
-                            width: "30%",
-                            marginEnd: 5,
-                            height: "100%",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            borderTopLeftRadius: 10,
-                            borderBottomLeftRadius: 10,
-                          },
-                        ]}
-                      >
-                        {/* Radio Button */}
-                        <View style={[styles.radioOuter]}>
-                          {selected ? <View style={styles.radioInner} /> : null}
-                        </View>
-                      </LinearGradient>
-                      {/* Offer Details */}
-                      <View style={styles.details}>
-                        <Text
-                          style={[styles.offerTitle, { fontStyle: "bold" }]}
-                        >
-                          Buy 3 for £2.01 Off
-                        </Text>
-                        <View
-                          style={{ flexDirection: "row", alignItems: "center" }}
-                        >
-                          <Text style={styles.newPrice}>£3.32 </Text>
-                          <Text style={styles.oldPrice}>£3.99</Text>
-                        </View>
-                        <View
-                          style={{ flexDirection: "row", alignItems: "center" }}
-                        >
-                          <Text style={styles.totalLabel}>Total </Text>
-                          <Text style={styles.totalPrice}>£9.96 </Text>
-                          <Text style={styles.oldPrice}>£11.97</Text>
-                        </View>
-                      </View>
-                    </TouchableOpacity>
-                  )}
-                />
-              </View>
-            </View>
-
-            <View style={[{ height: height * 0.02 }]}></View>
-
-            <View
-              style={[
-                {
-                  backgroundColor: colors.secondary,
-                  height: height * 0.15,
-
-                  flexDirection: "column",
-
-                  marginStart: height * 0.01,
-                  marginEnd: 10,
-                  marginTop: 10,
-
-                  borderRadius: 20,
-                  minWidth: width * 0.88,
-                },
-              ]}
-            >
-              <View
-                style={[
-                  {
-                    backgroundColor: colors.dark + "00",
-                    flexDirection: "row",
-                    borderRadius: 20,
-                    paddingStart: width * 0.02,
-                    alignItems: "center",
-                    paddingTop: width * 0.01,
-                  },
-                ]}
-              >
-                <Text
-                  style={[
-                    {
-                      fontSize: width * 0.04,
-                      color: colors.white,
-                      fontWeight: "700",
-                      marginStart: width * 0.02,
-                      marginVertical: 10,
-                    },
-                  ]}
-                >
-                  More Zeus E liquids
-                </Text>
-              </View>
-              <View
-                style={[
-                  {
-                    borderRadius: 10,
-                    height: height * 0.15,
-                    backgroundColor: "#FFEAEE",
-                    flexDirection: "column",
-                  },
-                ]}
-              >
-                <FlatList
-                  data={cateList}
-                  keyExtractor={(item) => item.id.toString()}
-                  numColumns={1}
-                  horizontal={true}
-                  showsHorizontalScrollIndicator={false}
-                  renderItem={({ item }) => (
-                    <View
-                      style={[
-                        styles.cardProduct,
-                        {
-                          height: height * 0.13,
-                          justifyContent: "center",
-                          alignItems: "center",
-                        },
-                      ]}
-                    >
-                      {/* Product Image */}
-                      <Image
-                        source={require("../../../../assets/offersimg.png")}
-                        style={styles.image}
-                      />
-
-                      {/* Product Details */}
-                      <View style={[{}]}>
-                        <Text
-                          numberOfLines={1}
-                          ellipsizeMode="tail"
-                          style={styles.title}
-                        >
-                          zeus cerberus 20mg e liq
-                        </Text>
-                        <Text style={styles.stock}>(In Stock: 5)</Text>
-                        <Text style={styles.price}>£3.99</Text>
-
-                        {/* Counter */}
-                        <View style={styles.counter}>
-                          <TouchableOpacity
-                            style={[
-                              styles.btn,
-                              qty === 1 && styles.disabledBtn,
-                            ]}
-                            onPress={decreaseQty}
-                            disabled={qty === 1}
-                          >
-                            <Text style={styles.btnText}>-</Text>
-                          </TouchableOpacity>
-
-                          <Text style={styles.qty}>{qty}</Text>
-
-                          <TouchableOpacity
-                            style={styles.btn}
-                            onPress={increaseQty}
-                          >
-                            <Text style={styles.btnText}>+</Text>
-                          </TouchableOpacity>
-                        </View>
-                      </View>
-                    </View>
-                  )}
-                />
-              </View>
-            </View>
-
-            <View style={[{ height: 50 }]}></View>
-            <View
-              style={[
-                styles.detailsContainer,
-                {
-                  padding: 10,
-                  margin: 10,
-                  borderColor: colors.dark,
-                  borderWidth: 1,
-                  borderRadius: 20,
-                  minWidth: width * 0.88,
-                },
-              ]}
-            >
-              <View
-                style={[
-                  { flexDirection: "row", justifyContent: "space-between" },
-                ]}
-              >
-                <Text style={[{ color: colors.dark, fontSize: 20 }]}>
-                  All Details
-                </Text>
-
-                {/* Collapse Button */}
-                <TouchableOpacity
-                  onPress={toggleCollapse}
-                  style={styles.toggleCollapse}
-                >
-                  <Ionicons
-                    style={{ fontWeight: "bold" }}
-                    name={collapsed ? "caret-down" : "caret-up"}
-                    size={width * 0.05}
-                  ></Ionicons>
-                </TouchableOpacity>
-              </View>
-              {/* Header Tabs */}
-              <View style={styles.tabRow}>
-                <TouchableOpacity
-                  style={[
-                    styles.tabButton,
-                    activeTab === "details" && styles.activeTab,
-                  ]}
-                  onPress={() => setActiveTab("details")}
-                >
-                  <Text
-                    style={[
-                      styles.tabText,
-                      activeTab === "details" && styles.activeText,
-                    ]}
-                  >
-                    Product Details
-                  </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={[
-                    styles.tabButton,
-                    activeTab === "spec" && styles.activeTab,
-                  ]}
-                  onPress={() => setActiveTab("spec")}
-                >
-                  <Text
-                    style={[
-                      styles.tabText,
-                      activeTab === "spec" && styles.activeText,
-                    ]}
-                  >
-                    Specification
-                  </Text>
-                </TouchableOpacity>
-              </View>
-
-              {/* Content */}
-              {!collapsed && (
-                <View style={styles.contentBox}>
-                  {activeTab === "details" ? (
-                    <Text style={styles.contentText}>
-                      Dark forest berries picked from the garden of Zeus, with a
-                      subtle fresh mint that will leave your mouth watering.
-                      {"\n\n"}
-                      This product is powered by NS20. The two main benefits of
-                      Nicotine Salts are that it affects the flavour of the
-                      E-Liquid much less than traditional nicotine and has much
-                      less of a throat hit at such high strengths.
-                    </Text>
-                  ) : (
-                    <Text style={styles.contentText}>
-                      - Strength: 20mg {"\n"}- Volume: 10ml {"\n"}- Ingredients:
-                      PG, VG, Flavouring, Nicotine Salt {"\n"}- Made in: UK
-                    </Text>
-                  )}
-                </View>
-              )}
-            </View>
-          </View>
-
-          {/* Bottom buttons add to cart and buy at price part  */}
-          <View
+        <TouchableOpacity
+          style={[
+            {
+              justifyContent: "center",
+              alignItems: "center",
+              flex: 1,
+              margin: height * 0.01,
+              backgroundColor: colors.white + "00",
+              fontWeight: 800,
+              fontSize: height * 0.03,
+              padding: 10,
+              borderColor: colors.primary,
+              borderWidth: 1,
+              borderRadius: 10,
+            },
+          ]}
+        >
+          <Text
             style={[
-              { margin: 15, justifyContent: "center", flexDirection: "row" },
+              {
+                color: colors.dark,
+                fontWeight: 800,
+                fontSize: height * 0.02,
+              },
             ]}
           >
-            <TouchableOpacity
+            Add to Cart
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            {
+              flex: 1,
+              margin: height * 0.01,
+
+              fontWeight: 800,
+              fontSize: height * 0.02,
+
+              borderRadius: 10,
+            },
+          ]}
+        >
+          <LinearGradient
+            colors={[colors.secondary, colors.primary]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={[
+              {
+                justifyContent: "center",
+                alignItems: "center",
+                flex: 1,
+                fontWeight: 800,
+                fontSize: width * 0.02,
+                padding: 10,
+                borderRadius: 10,
+              },
+            ]}
+          >
+            <Text
               style={[
                 {
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flex: 1,
-                  margin: height * 0.01,
-                  backgroundColor: colors.white + "00",
+                  color: colors.white,
                   fontWeight: 800,
-                  fontSize: height * 0.03,
-                  padding: 10,
-                  borderColor: colors.primary,
-                  borderWidth: 1,
-                  borderRadius: 10,
+                  fontSize: height * 0.02,
                 },
               ]}
             >
-              <Text
-                style={[
-                  {
-                    color: colors.dark,
-                    fontWeight: 800,
-                    fontSize: height * 0.04,
-                  },
-                ]}
-              >
-                Add to Cart
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                {
-                  flex: 1,
-                  margin: width * 0.01,
-
-                  fontWeight: 800,
-                  fontSize: width * 0.03,
-
-                  borderRadius: 10,
-                },
-              ]}
-            >
-              <LinearGradient
-                colors={[colors.secondary, colors.primary]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={[
-                  {
-                    justifyContent: "center",
-                    alignItems: "center",
-                    flex: 1,
-                    fontWeight: 800,
-                    fontSize: width * 0.02,
-                    padding: 10,
-                    borderRadius: 10,
-                  },
-                ]}
-              >
-                <Text
-                  style={[
-                    {
-                      color: colors.white,
-                      fontWeight: 800,
-                      fontSize: width * 0.04,
-                    },
-                  ]}
-                >
-                  Buy at £9.96
-                </Text>
-              </LinearGradient>
-            </TouchableOpacity>
-          </View>
-        </SafeAreaView>
+              Buy at £9.96
+            </Text>
+          </LinearGradient>
+        </TouchableOpacity>
       </LinearGradient>
-    </ScrollView>
+    </View>
   );
 };
 const styles = StyleSheet.create({
@@ -916,7 +961,7 @@ const styles = StyleSheet.create({
     paddingStart: 10,
   },
   gradient: {
-    flex: 1,
+    // flex: 1,
   },
   safeArea: {
     flex: 1,
@@ -1072,8 +1117,8 @@ const styles = StyleSheet.create({
   rowBetween: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginEnd: width * 0.1,
-    marginStart: width * 0.1,
+    marginEnd: height * 0.01,
+    marginStart: height * 0.01,
   },
 
   rowAlign: {
@@ -1222,9 +1267,9 @@ const styles = StyleSheet.create({
     // borderColor: "#06C16700", // green highlight
   },
   radioOuter: {
-    height: height * 0.03,
-    width: height * 0.03,
-    borderRadius: 12,
+    height: height * 0.025,
+    width: height * 0.025,
+    borderRadius: 120,
     borderWidth: 2,
     borderColor: "#ffffffff",
     alignItems: "center",
@@ -1232,8 +1277,8 @@ const styles = StyleSheet.create({
     // marginRight: 10,
   },
   radioInner: {
-    height: height * 0.02,
-    width: height * 0.02,
+    height: height * 0.015,
+    width: height * 0.015,
     borderRadius: 20,
     backgroundColor: "#ffffffff",
   },
